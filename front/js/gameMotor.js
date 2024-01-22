@@ -234,15 +234,22 @@ function handleCellClick(cellIndex) {
         return; // Ignorer si le joueur est en train de placer un mur ou si les positions initiales ne sont pas définies
     }
 
-    currentAction = 'move';
     const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
     // Supprimer la classe 'possible-move' de toutes les cellules
     cells.forEach(cell => cell.classList.remove('possible-move'));
     // Ajouter la classe 'possible-move' aux cellules valides
     validMoves.forEach(move => cells[move].classList.add('possible-move'));
 
+    const playerPosition = currentPlayer === 'player1' ? player1Position : player2Position;
+    if (cellIndex === playerPosition) {
+        // Le joueur a été sélectionné mais pas déplacé
+        // Ajoutez ici la logique pour gérer la sélection
+        return;
+    }
+
     if (validMoves.includes(cellIndex)) {
         setPlayerPosition(cellIndex, currentPlayer);
+        currentAction = 'move';
 
         // Vérifier si le joueur a atteint la ligne d'arrivée
         const goalRow = currentPlayer === 'player1' ? 16 : 0;
