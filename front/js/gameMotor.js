@@ -7,7 +7,7 @@ let players = {
 
 let player1Position = null;
 let player2Position = null;
-
+let currentAction = 'none';
 const cells = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function handleInitialCellClick(event) {
+
     const cellIndex = cells.indexOf(event.target);
     if (cellIndex !== -1) {
         const row = Math.floor(cellIndex / 17);
@@ -114,6 +115,7 @@ function getValidMoves(position) {
 
 function togglePlayer(){
     currentPlayer = (currentPlayer === 'player1') ? 'player2' : 'player1';
+    currentAction = 'none'; // Réinitialiser l'action pour le prochain joueur
 
     updateCellVisibility();
     openAntiCheatPage();
@@ -228,6 +230,11 @@ function movePlayerKey(movement){
 }
 
 function handleCellClick(cellIndex) {
+    if (currentAction === 'placeWall' || !player1Position || !player2Position) {
+        return; // Ignorer si le joueur est en train de placer un mur ou si les positions initiales ne sont pas définies
+    }
+
+    currentAction = 'move';
     const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
     // Supprimer la classe 'possible-move' de toutes les cellules
     cells.forEach(cell => cell.classList.remove('possible-move'));
@@ -256,9 +263,14 @@ function handleCellClick(cellIndex) {
 
 
 function handleWallClick(cellIndex, wallType) {
+    if(currentAction === 'move'|| !player1Position || !player2Position){
+        return;
+    }
+
     if (canPlaceWall(cellIndex, wallType)) {
         placeWall(cellIndex, wallType);
-        //togglePlayer();
+        currentAction = 'placeWall';
+        togglePlayer();
     }
 }
 
