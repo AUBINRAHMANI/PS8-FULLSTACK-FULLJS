@@ -103,14 +103,12 @@ function getValidMoves(position) {
     const row = Math.floor(position / 17);
     const col = position % 17;
     const moves = [];
-
+    const otherPlayerPosition = currentPlayer === 'player1' ? player2Position : player1Position;
     // Déplacements horizontaux et verticaux
-    if (row > 1 && !isWallBetweenPositions(position, position - 34)) moves.push(position - 34);
-    if (row < 15 && !isWallBetweenPositions(position, position + 34))moves.push(position + 34);
-    if (col > 1 && !isWallBetweenPositions(position, position - 2))moves.push(position - 2);
-    if (col < 15 && !isWallBetweenPositions(position, position + 2))moves.push(position + 2);
-
-
+    if (row > 1 && !isWallBetweenPositions(position, position - 34) && (position-34!==otherPlayerPosition)) moves.push(position - 34);
+    if (row < 15 && !isWallBetweenPositions(position, position + 34) && (position + 34 !== otherPlayerPosition)) moves.push(position + 34);
+    if (col > 1 && !isWallBetweenPositions(position, position - 2) && (position - 2 !== otherPlayerPosition)) moves.push(position - 2);
+    if (col < 15 && !isWallBetweenPositions(position, position + 2) && (position + 2 !== otherPlayerPosition)) moves.push(position + 2);
     return moves;
 }
 
@@ -209,7 +207,7 @@ function movePlayerKey(movement){
             break;
 
     }
-    if (!isWall(newPosition)) {
+    if (!isWallBetweenPositions(newPosition)) {
         const validMoves = (getValidMoves(position));
         if (validMoves.includes(newPosition)) {
             updateFogOfWar(position, currentPlayer === 'player1' ? 2 : -2);
