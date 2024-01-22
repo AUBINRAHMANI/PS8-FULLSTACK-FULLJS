@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/game-style.css">
+    <title>Quortnite</title>
+</head>
+<body>
+
+
+
+<div class="menu">
+</div>
+
+<!-- Espace pour le titre -->
+<div class="title-container">
+    <h1 class="title">Quortnite</h1>
+</div>
+
+<!-- Trois colonnes : une grande colonne centrale et deux colonnes adjacentes plus fines -->
+<div class="main-container">
+    <div class="left-column">
+        <img src= "../files/Huzog.png" alt="character" class="small-image"> </src>
+        <div class="orange-box">
+            <h3 class="sub-title">Huzog</h3>
+        </div>
+    </div>
+
+    <div class="main-column">
+        <!-- Contenu de la colonne centrale (grille de jeu) -->
+        <div id="board" class="board"></div>
+
+    </div>
+
+    <div class="right-column">
+        <img src= "../files/Wassim.png" alt="character" class="small-image"> </src>
+        <div class="orange-box">
+            <h3 class="sub-title">Wassim</h3>
+        </div>
+    </div>
+</div>
+
+<table id="quortniteGrid"></table>
+
+
+<script src="../js/gameMotor.js"></script>
+
+</body>
+</html>
