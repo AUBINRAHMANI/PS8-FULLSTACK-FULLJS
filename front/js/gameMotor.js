@@ -39,6 +39,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add event listener for cell click
         cell.addEventListener('click', () => handleCellClick(i));
     }
+
+
+    // Appliquer la classe 'first-row' aux cellules de la première ligne du joueur actuel
+    const firstRow = currentPlayer === 'player1' ? 0 : 16;
+    const firstRowCells = cells.filter((_, index) => Math.floor(index / 17) === firstRow);
+    firstRowCells.forEach(firstRowCell => {
+        firstRowCell.classList.add('first-row');
+        // Initialiser les cellules de la première ligne en vert
+        updateCellAppearance(firstRowCell, 1);
+    });
+
+
+    // Appliquer la classe 'first-row' aux cellules de la première ligne du joueur opposé
+    const oppositePlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
+    const oppositeFirstRow = firstRow === 0 ? 16 : 0; // Inverser la rangée pour le joueur opposé
+    const oppositeFirstRowCells = cells.filter((_, index) => Math.floor(index / 17) === oppositeFirstRow);
+    oppositeFirstRowCells.forEach(oppositeFirstRowCell => {
+        oppositeFirstRowCell.classList.add('first-row');
+        // Initialiser les cellules de la première ligne en vert pour le joueur opposé
+        updateCellAppearance(oppositeFirstRowCell, 1);
+    });
+
+
     board.addEventListener('click', handleInitialCellClick);
     startPlayerTimer();
 
@@ -74,19 +97,6 @@ function startPlayerTimer() {
         player2Timer = startTimer('player2Timer');
     }
 }
-
-/*function startPlayerTimer() {
-    if (currentPlayer === 'player1') {
-        player1Timer = setInterval(() => {
-            updateTimer('player1Timer');
-        }, 1000);
-    } else {
-        player2Timer = setInterval(() => {
-            updateTimer('player2Timer');
-        }, 1000);
-    }
-}*/
-
 
 function resetPlayerTimer() {
     clearInterval(player1Timer);
@@ -127,7 +137,8 @@ function handleInitialCellClick(event) {
             setPlayerPosition(cellIndex, currentPlayer);
             togglePlayer();
 
-
+            resetFirstRowBackgroundColor();
+            resetOppositeFirstRowBackgroundColor();
             // Remove the event listener after both players have selected their positions
             if (player1Position !== null && player2Position !== null) {
                 board.removeEventListener('click', handleInitialCellClick);
@@ -141,6 +152,26 @@ function handleInitialCellClick(event) {
 
     }
 }
+
+function resetFirstRowBackgroundColor(oppositeFirstRow) {
+    // Retrouver toutes les cellules de la première ligne et réinitialiser leur couleur de fond
+    for (let i = 0; i < 17; i++) {
+        cells[i].classList.remove('first-row');
+    }
+}
+
+function resetOppositeFirstRowBackgroundColor() {
+    // Déterminer la rangée opposée en fonction du joueur actuel
+    const oppositeFirstRow = currentPlayer === 'player1' ? 16 : 0;
+
+    // Retrouver toutes les cellules de la première ligne du joueur opposé et réinitialiser leur couleur de fond
+    for (let i = 0; i < 17; i++) {
+        cells[oppositeFirstRow * 17 + i].classList.remove('first-row');
+    }
+}
+
+
+
 function resetGame() {
     // Réinitialiser les positions des joueurs
     player1Position = null;

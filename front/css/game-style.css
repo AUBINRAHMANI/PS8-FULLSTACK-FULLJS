@@ -228,3 +228,7 @@ body {
     padding: 5px;
     border-radius: 5px;
 }
+/* Ajoutez le style pour les cellules possibles lors du premier tour */
+.first-row {
+    background-color: green;
+}
