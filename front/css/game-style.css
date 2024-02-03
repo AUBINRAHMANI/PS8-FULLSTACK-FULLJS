@@ -198,3 +198,33 @@ body {
     /*background-image: url('../files/Brouillard.png');*/
 
 }
+.timer {
+    font-family: 'Roboto', sans-serif;
+    font-size: 25px;
+    text-align: center;
+    margin: 10px auto;
+    color: #ffffff;
+    background-color: #282c34; /* Couleur de fond noire */
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid #000000; /* Bordure bleue */
+    width: 60px;
+}
+
+/* Style spécifique pour le minuteur du joueur 1 */
+#player1Timer {
+    border: 2px solid #000; /* Bordure orange pour le joueur 1 */
+}
+
+/* Style spécifique pour le minuteur du joueur 2 */
+#player2Timer {
+    border: 2px solid #000; /* Bordure bleue pour le joueur 2 */
+}
+
+/* Style pour les chiffres du minuteur */
+.timer {
+    background-color: #000000; /* Fond noir */
+    color: #ffffff; /* Texte blanc */
+    padding: 5px;
+    border-radius: 5px;
+}

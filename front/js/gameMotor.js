@@ -1,5 +1,7 @@
 // script.js
 let currentPlayer = 'player1';
+let player1Timer;
+let player2Timer;
 let players = {
     player1: {x :null, y:null, symbol: 'P1'},
     player2: {x: null, y: null, symbol: 'P2'}
@@ -9,6 +11,7 @@ let player1Position = null;
 let player2Position = null;
 let currentAction = 'none';
 const cells = [];
+const turnTimeLimit = 40000;
 
 document.addEventListener('DOMContentLoaded', () => {
     const board = document.getElementById('board');
@@ -37,9 +40,81 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.addEventListener('click', () => handleCellClick(i));
     }
     board.addEventListener('click', handleInitialCellClick);
+    startPlayerTimer();
 
 
 });
+
+/*---------------------------*/
+
+function startTimer(timerId) {
+    let timerElement = document.getElementById(timerId);
+    let duration = turnTimeLimit;
+
+    return setInterval(function () {
+        let seconds = duration % 60;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        timerElement.textContent = "00:" + seconds;
+
+        if (--duration <= 0) {
+            clearInterval(timerInterval);
+            timerElement.textContent = "Temps écoulé!";
+            console.log("Le temps est écoulé! Passer au joueur suivant...");
+            switchPlayerTurn();
+        }
+        
+    }, 1000);
+}
+
+function startPlayerTimer() {
+    if (currentPlayer === 'player1') {
+        player1Timer = startTimer('player1Timer');
+    } else {
+        player2Timer = startTimer('player2Timer');
+    }
+}
+
+/*function startPlayerTimer() {
+    if (currentPlayer === 'player1') {
+        player1Timer = setInterval(() => {
+            updateTimer('player1Timer');
+        }, 1000);
+    } else {
+        player2Timer = setInterval(() => {
+            updateTimer('player2Timer');
+        }, 1000);
+    }
+}*/
+
+
+function resetPlayerTimer() {
+    clearInterval(player1Timer);
+    clearInterval(player2Timer);
+    startPlayerTimer();
+}
+
+function updateTimer(timerId) {
+    const timerElement = document.getElementById(timerId);
+    const remainingTime = parseInt(timerElement.innerText.split(' ')[1]); // Extract remaining time
+    if (remainingTime > 0) {
+        timerElement.innerText = `Timer: ${remainingTime - 1}s`;
+    } else {
+        switchPlayerTurn();
+    }
+}
+
+function switchPlayerTurn() {
+    clearInterval(player1Timer);
+    clearInterval(player2Timer);
+    if (currentPlayer === 'player1') {
+        currentPlayer = 'player2';
+    } else {
+        currentPlayer = 'player1';
+    }
+    resetPlayerTimer();
+    togglePlayer();
+}
 
 function handleInitialCellClick(event) {
 
@@ -119,6 +194,12 @@ function togglePlayer(){
 
     updateCellVisibility();
     openAntiCheatPage();
+
+    clearInterval(player1Timer);
+    clearInterval(player2Timer);
+
+
+    startPlayerTimer();
 
     const playerPosition = currentPlayer === 'player1' ? player1Position : player2Position;
     const visibilityChange = currentPlayer === 'player1' ? 2 : 2;
