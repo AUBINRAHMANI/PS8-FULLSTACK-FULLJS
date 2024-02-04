@@ -159,6 +159,7 @@ body {
     display: inline-block; /* Permet à la boîte de s'ajuster à la largeur du contenu */
     margin: auto; /* Centre la boîte horizontalement */
     text-align: center;
+    border-radius: 5px;
 }
 
 
@@ -223,6 +224,8 @@ body {
 
 /* Style pour les chiffres du minuteur */
 .timer {
+    font-family: 'Burbank','arial';
+    font-size: 30px;
     background-color: #000000; /* Fond noir */
     color: #ffffff; /* Texte blanc */
     padding: 5px;
@@ -232,3 +235,20 @@ body {
 .first-row {
     background-color: green;
 }
+
+#wallsRemainingPlayer1,
+#wallsRemainingPlayer2 {
+    font-family: 'Burbank', 'Arial', sans-serif;
+    font-size: 30px;
+    color: #000; /* Couleur du texte */
+    background-color: #ffffff; /* Couleur de fond */
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: center;
+    margin-right: auto; /* Ajustement de la marge droite à auto pour centrer horizontalement */
+    margin-left: auto; /* Ajustement de la marge gauche à auto pour centrer horizontalement */
+    border-radius: 5px;
+    width: 280px; /* Ajustez la largeur selon vos besoins */
+}
+

@@ -12,6 +12,8 @@ let player2Position = null;
 let currentAction = 'none';
 const cells = [];
 const turnTimeLimit = 40000;
+let player1WallsRemaining = 10;
+let player2WallsRemaining = 10;
 
 document.addEventListener('DOMContentLoaded', () => {
     const board = document.getElementById('board');
@@ -235,6 +237,9 @@ function togglePlayer(){
     const playerPosition = currentPlayer === 'player1' ? player1Position : player2Position;
     const visibilityChange = currentPlayer === 'player1' ? 2 : 2;
     updateFogOfWar(playerPosition, visibilityChange);
+
+    // Mettre à jour le compteur de murs
+    updateWallsRemaining();
 }
 
 
@@ -386,6 +391,13 @@ function handleWallClick(cellIndex, wallType) {
         return;
     }
 
+    // Vérifier si le joueur a des murs disponibles
+    const wallsRemaining = currentPlayer === 'player1' ? player1WallsRemaining : player2WallsRemaining;
+    if (wallsRemaining <= 0) {
+        alert("Max number of walls reached. Please move your player.");
+        return;
+    }
+
     if (canPlaceWall(cellIndex, wallType)) {
         placeWall(cellIndex, wallType);
         currentAction = 'placeWall';
@@ -406,6 +418,11 @@ function canPlaceWall(cellIndex, wallType) {
 }
 
 function placeWall(cellIndex, wallType) {
+    if ((currentPlayer === 'player1' && player1WallsRemaining <= 0) || (currentPlayer === 'player2' && player2WallsRemaining <= 0)) {
+        // Le joueur n'a plus de murs disponibles
+        return;
+    }
+
     cells[cellIndex].classList.add('wall');
     cells[cellIndex].style.backgroundColor = 'orange';
 
@@ -428,7 +445,24 @@ function placeWall(cellIndex, wallType) {
         applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
         updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
     }
+
+    // Décrémenter le nombre de murs disponibles
+    if (currentPlayer === 'player1') {
+        player1WallsRemaining--;
+    } else {
+        player2WallsRemaining--;
+    }
+
+    // Mettre à jour l'affichage du nombre de murs restants
+    updateWallsRemaining();
+
 }
+
+function updateWallsRemaining() {
+    const wallsRemainingElement = document.getElementById(currentPlayer === 'player1' ? 'wallsRemainingPlayer1' : 'wallsRemainingPlayer2');
+    wallsRemainingElement.innerText = `Remaining walls: ${currentPlayer === 'player1' ? player1WallsRemaining : player2WallsRemaining}`;
+}
+
 
 function updateVisibilityAdjacentToWall(wallIndex, visibilityChange) {
     const adjacentIndices = [
