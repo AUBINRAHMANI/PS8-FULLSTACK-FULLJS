@@ -105,11 +105,34 @@ function getValidMoves(position) {
     const moves = [];
     const otherPlayerPosition = currentPlayer === 'player1' ? player2Position : player1Position;
     // Déplacements horizontaux et verticaux
-    if (row > 1 && !isWallBetweenPositions(position, position - 34) && (position-34!==otherPlayerPosition)) moves.push(position - 34);
+
+    if(position === otherPlayerPosition -34 && isWallBetweenPositions(position,otherPlayerPosition)){
+        if(!isWallBetweenPositions(otherPlayerPosition,otherPlayerPosition - 34)){
+            moves.push(otherPlayerPosition - 68); // Saut de deux cases vers le haut
+        }
+
+        else if(position === otherPlayerPosition -2 && !isWallBetweenPositions(position,otherPlayerPosition)){
+            if (!isWallBetweenPositions(otherPlayerPosition, otherPlayerPosition + 34)) {
+                moves.push(otherPlayerPosition + 68);
+        }
+
+    } else if (position === otherPlayerPosition - 2 && !isWallBetweenPositions(position, otherPlayerPosition)) {
+            // Saut vers la gauche
+            if (!isWallBetweenPositions(otherPlayerPosition, otherPlayerPosition - 2)) {
+                moves.push(otherPlayerPosition - 4);
+            }
+
+            else if (position === otherPlayerPosition + 2 && !isWallBetweenPositions(position, otherPlayerPosition)) {
+                // Saut vers la gauche
+                if (!isWallBetweenPositions(otherPlayerPosition, otherPlayerPosition + 2)) {
+                    moves.push(otherPlayerPosition + 4);
+                }
+            }
+  /*  if (row > 1 && !isWallBetweenPositions(position, position - 34) && (position-34!==otherPlayerPosition)) moves.push(position - 34);
     if (row < 15 && !isWallBetweenPositions(position, position + 34) && (position + 34 !== otherPlayerPosition)) moves.push(position + 34);
     if (col > 1 && !isWallBetweenPositions(position, position - 2) && (position - 2 !== otherPlayerPosition)) moves.push(position - 2);
     if (col < 15 && !isWallBetweenPositions(position, position + 2) && (position + 2 !== otherPlayerPosition)) moves.push(position + 2);
-    return moves;
+    return moves; */
 }
 
 function togglePlayer(){
