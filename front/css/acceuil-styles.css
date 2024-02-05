@@ -1,0 +1,121 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+}
+
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../files/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+body {
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../files/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+    background-position: center; /* Centre l'image horizontalement et verticalement */
+    background-repeat: no-repeat; /* Évite la répétition de l'image */
+}
+
+
+
+.container {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(3, 10fr); /* Trois colonnes */
+    grid-gap: 20px; /* Espace entre les boutons */
+}
+
+.title {
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 5rem;
+    margin: 0;
+    padding: 0rem;
+    color:white;
+}
+
+
+.sub-title {
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 3rem;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+
+h1 {
+    font-family:'Burbank','arial';
+    color: white;
+    margin: 0;
+    font-size: 4em;
+}
+
+.btn {
+    font-family:'Burbank','arial';
+    margin: 20px auto;
+    padding: 10px 30px;
+    font-size: 2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    position: relative; /* Position relative pour les icônes absolues */
+    overflow: hidden; /* Pour éviter tout débordement d'icône */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#play {
+    background-color: #ff9000;
+}
+
+#shop, #rules, #stats, #friends, #settings {
+    width: 150px;
+    color: white;
+}
+
+#shop { background-color: #005f99; }
+#rules { background-color: #003366; }
+#stats { background-color: #ff0066; }
+#friends { background-color: #33cc33; }
+#settings { background-color: #cc0066; }
+
+.btn:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+
+
+.btn img {
+    position: absolute;
+    left: 10px;
+    width: 30px;
+    height: auto;
+}
+
+
+.btn span {
+    display: block;
+    margin-left: 40px;
+}
+
+
+@media (max-width: 600px) {
+    .menu {
+        grid-template-columns: 1fr; /* Une colonne pour les petits écrans */
+    }
+}
