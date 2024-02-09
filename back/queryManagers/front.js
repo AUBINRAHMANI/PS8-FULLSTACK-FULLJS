@@ -1,3 +1,4 @@
+
 // url will be used to parse the url (captain obvious at your service).
 const url = require('url');
 // fs stands for FileSystem, it's the module to use to manipulate files on the disk.
@@ -76,5 +77,6 @@ function send404(path, response) {
     response.statusCode = 404;
     response.end(`File ${path} not found!`);
 }
+
 
 exports.manage = manageRequest;
