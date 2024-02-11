@@ -12,6 +12,8 @@ let player2Position = null;
 let currentAction = 'none';
 const cells = [];
 const turnTimeLimit = 40000;
+let placedWallsPlayer1 = [];
+let placedWallsPlayer2 = [];
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
 let currentWallPlacement = null;
@@ -69,30 +71,59 @@ document.addEventListener('DOMContentLoaded', () => {
     board.addEventListener('click', handleInitialCellClick);
     startPlayerTimer();
 
-   // validateButton.addEventListener('click', validateWallPlacement);
 
 
 });
 
 /*---------------------------*/
 
-let validateButton = document.getElementById('validateButton');
-validateButton.addEventListener('click', handleValidateButtonClick);
+//let validateButton = document.getElementById('validateButton');
+//validateButton.addEventListener('click', handleValidateButtonClick);
+// Ajoute ces lignes dans la fonction 'DOMContentLoaded' après la création des éléments HTML
+document.getElementById('validateButtonPlayer1').addEventListener('click', handleValidateButtonClickPlayer1);
+document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
 
-function handleValidateButtonClick() {
-    // Ajoutez le code ici pour traiter le clic sur le bouton "Valider"
-    // Par exemple, vous pouvez appeler une fonction pour finaliser le placement du mur
-    finalizeWallPlacement();
+
+function handleValidateButtonClickPlayer1() {
+    // Logique de validation pour le joueur 1
+    finalizeWallPlacementPlayer1();
 }
 
-function finalizeWallPlacement() {
-    // Ajoutez le code ici pour finaliser le placement du mur
-    // Par exemple, vous pouvez effectuer des validations supplémentaires avant de confirmer le placement
-    // Ensuite, cachez le bouton "Valider" et basculez vers le joueur suivant
+function handleValidateButtonClickPlayer2() {
+    // Logique de validation pour le joueur 2
+    finalizeWallPlacementPlayer2();
+}
+
+function finalizeWallPlacementPlayer1() {
+    // Ajoute ici la logique de finalisation pour le joueur 1
+    // Par exemple, tu peux appeler la fonction 'finalizeWallPlacement' avec des paramètres spécifiques au joueur 1
+    finalizeWallPlacement('player1');
+}
+
+function finalizeWallPlacementPlayer2() {
+    // Ajoute ici la logique de finalisation pour le joueur 2
+    // Par exemple, tu peux appeler la fonction 'finalizeWallPlacement' avec des paramètres spécifiques au joueur 2
+    finalizeWallPlacement('player2');
+}
+
+function finalizeWallPlacement(player) {
+    // Ajoute ici la logique de finalisation en fonction du joueur
+    // Par exemple, tu peux utiliser la variable 'player' pour effectuer des actions spécifiques à chaque joueur
+    currentWallPlacement = null;
+
+    // Accède au bouton de validation spécifique au joueur
+    const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
 
     validateButton.style.display = 'none';
     togglePlayer();
+
+    // Autres actions spécifiques au joueur ici...
+
+    // Exemple : afficher un message spécifique au joueur
+    alert(`Joueur ${player}, le mur a été validé !`);
 }
+
+
 
 
 
@@ -421,6 +452,14 @@ function cancelWallPlacement() {
     if (currentWallPlacement) {
         const { cellIndex, wallType } = currentWallPlacement;
 
+        // Ajoutez l'indice du mur annulé à placedWalls du joueur actuel
+        if (currentPlayer === 'player1') {
+            placedWallsPlayer1.push(cellIndex);
+        } else {
+            placedWallsPlayer2.push(cellIndex);
+        
+        }
+
         // Supprimez le mur actuel
         cells[cellIndex].classList.remove('wall');
         cells[cellIndex].style.backgroundColor = '';
@@ -449,6 +488,7 @@ function cancelWallPlacement() {
         currentWallPlacement = null;
 
         // Cachez le bouton "Valider"
+        const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
         validateButton.style.display = 'none';
     }
 }
@@ -470,6 +510,7 @@ function validateWallPlacement() {
             updateWallsRemaining();
     
             // Cachez le bouton "Valider"
+            const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
             validateButton.style.display = 'none';
         }
     }
@@ -481,6 +522,14 @@ function handleWallClick(cellIndex, wallType) {
     if(currentAction === 'move'|| !player1Position || !player2Position){
         return;
     }
+
+    // Vérifiez si le mur a déjà été validé
+    const currentPlayerWalls = currentPlayer === 'player1' ? placedWallsPlayer1 : placedWallsPlayer2;
+    if (currentPlayerWalls.includes(cellIndex)) {
+        alert("Ce mur a déjà été validé. Choisissez un autre emplacement.");
+        return;
+    }
+
     cancelWallPlacement();
 
     // Sauvegardez l'emplacement du mur en cours de placement
@@ -496,6 +545,7 @@ function handleWallClick(cellIndex, wallType) {
     if (canPlaceWall(cellIndex, wallType)) {
         placeWall(cellIndex, wallType);
         currentAction = 'placeWall';
+        const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
         validateButton.style.display = 'block';
         //togglePlayer();
     }
@@ -571,13 +621,6 @@ function placeWall(cellIndex, wallType) {
 
             applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
-        }
-
-        // Décrémenter le nombre de murs disponibles
-        if (currentPlayer === 'player1') {
-            player1WallsRemaining--;
-        } else {
-            player2WallsRemaining--;
         }
 
         // Mettre à jour l'affichage du nombre de murs restants
