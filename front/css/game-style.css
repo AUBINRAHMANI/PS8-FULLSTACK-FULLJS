@@ -253,3 +253,33 @@ body {
     width: 280px; /* Ajustez la largeur selon vos besoins */
 }
 
+/* Style pour les boutons de validation avec image de coche verte transparente */
+#validateButtonPlayer1,
+#validateButtonPlayer2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Fond transparent */
+    color: transparent; /* Texte transparent pour masquer le texte "Valider" */
+    padding: 30px; /* Espacement interne du bouton */
+    border: none; /* Pas de bordure */
+    border-radius: 50%; /* Coins arrondis pour un aspect de cercle */
+    cursor: pointer; /* Curseur de type pointeur au survol */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230F0" width="48px" height="48px"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 18 21 6l-1.41-1.41L9 16.17z"/></svg>');
+    background-size: contain; /* Ajuster la taille de l'image pour remplir le bouton */
+    background-repeat: no-repeat; /* Pas de répétition de l'image */
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#validateButtonPlayer1:hover,
+#validateButtonPlayer2:hover {
+    /* Vous pouvez ajouter un style de survol si nécessaire */
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Ajustez la hauteur selon vos besoins */
+}

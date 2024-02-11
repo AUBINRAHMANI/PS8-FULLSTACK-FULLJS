@@ -14,8 +14,12 @@ let player2Position = null;
 let currentAction = 'none';
 const cells = [];
 const turnTimeLimit = 40000;
+let placedWallsPlayer1 = [];
+let placedWallsPlayer2 = [];
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
+let currentWallPlacement = null;
+
 
 
 let visibilityChangedCells = new Set();
@@ -120,9 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadGameState();
 
 
+
 });
 
 /*---------------------------*/
+
 
 function saveGameState(){
     const gameState = {
@@ -190,6 +196,62 @@ function formatTime(timeInMillis) {
     let seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
+
+//let validateButton = document.getElementById('validateButton');
+//validateButton.addEventListener('click', handleValidateButtonClick);
+// Ajoute ces lignes dans la fonction 'DOMContentLoaded' après la création des éléments HTML
+document.getElementById('validateButtonPlayer1').addEventListener('click', handleValidateButtonClickPlayer1);
+document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
+
+
+function handleValidateButtonClickPlayer1() {
+    // Logique de validation pour le joueur 1
+    finalizeWallPlacementPlayer1();
+}
+
+function handleValidateButtonClickPlayer2() {
+    // Logique de validation pour le joueur 2
+    finalizeWallPlacementPlayer2();
+}
+
+function finalizeWallPlacementPlayer1() {
+    // Ajoute ici la logique de finalisation pour le joueur 1
+    // Par exemple, tu peux appeler la fonction 'finalizeWallPlacement' avec des paramètres spécifiques au joueur 1
+    finalizeWallPlacement('player1');
+}
+
+function finalizeWallPlacementPlayer2() {
+    // Ajoute ici la logique de finalisation pour le joueur 2
+    // Par exemple, tu peux appeler la fonction 'finalizeWallPlacement' avec des paramètres spécifiques au joueur 2
+    finalizeWallPlacement('player2');
+}
+
+function finalizeWallPlacement(player) {
+    // Ajoute ici la logique de finalisation en fonction du joueur
+    // Par exemple, tu peux utiliser la variable 'player' pour effectuer des actions spécifiques à chaque joueur
+    currentWallPlacement = null;
+
+    // Accède au bouton de validation spécifique au joueur
+    const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
+
+    validateButton.style.display = 'none';
+    togglePlayer();
+
+    // Autres actions spécifiques au joueur ici...
+
+    // Exemple : afficher un message spécifique au joueur
+    alert(`Joueur ${player}, le mur a été validé !`);
+}
+
+
+
+
+
+
+
+
+
+
 
 function startTimer(timerId) {
     let timerElement = document.getElementById(timerId);
@@ -523,13 +585,97 @@ function handleCellClick(cellIndex) {
     }
 
 }
+function cancelCurrentWallPlacement() {
+    if (currentWallPlacement && !currentWallPlacement.placed) {
+        cancelWallPlacement();
+    }
+}
+function cancelWallPlacement() {
+    if (currentWallPlacement) {
+        const { cellIndex, wallType } = currentWallPlacement;
 
+        // Ajoutez l'indice du mur annulé à placedWalls du joueur actuel
+        if (currentPlayer === 'player1') {
+            placedWallsPlayer1.push(cellIndex);
+        } else {
+            placedWallsPlayer2.push(cellIndex);
+        
+        }
+
+        // Supprimez le mur actuel
+        cells[cellIndex].classList.remove('wall');
+        cells[cellIndex].style.backgroundColor = '';
+
+        const currentPlayerVisibilityChange = currentPlayer === 'player1' ? 2 : -2;
+        applyVisibilityChange(cellIndex, -currentPlayerVisibilityChange);
+
+        if (wallType === 'column') {
+            const adjCellIndex = cellIndex + 34;
+            cells[adjCellIndex].classList.remove('wall');
+            cells[adjCellIndex].style.backgroundColor = '';
+
+            applyVisibilityChange(adjCellIndex, -currentPlayerVisibilityChange);
+            updateVisibilityAdjacentToWall(adjCellIndex, -currentPlayerVisibilityChange);
+
+        } else if (wallType === 'row') {
+            const adjCellIndex = cellIndex + 2;
+            cells[adjCellIndex].classList.remove('wall');
+            cells[adjCellIndex].style.backgroundColor = '';
+
+            applyVisibilityChange(adjCellIndex, -currentPlayerVisibilityChange);
+            updateVisibilityAdjacentToWall(adjCellIndex, -currentPlayerVisibilityChange);
+        }
+
+        // Réinitialisez la variable de placement du mur
+        currentWallPlacement = null;
+
+        // Cachez le bouton "Valider"
+        const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        validateButton.style.display = 'none';
+    }
+}
+
+function validateWallPlacement() {
+    function validateWallPlacement() {
+        if (currentWallPlacement && !currentWallPlacement.placed) {
+            // Marquez le mur comme placé
+            currentWallPlacement.placed = true;
+    
+            // Décrémenter le nombre de murs disponibles uniquement lorsque le placement est validé
+            if (currentPlayer === 'player1') {
+                player1WallsRemaining--;
+            } else {
+                player2WallsRemaining--;
+            }
+    
+            // Mettre à jour l'affichage du nombre de murs restants
+            updateWallsRemaining();
+    
+            // Cachez le bouton "Valider"
+            const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+            validateButton.style.display = 'none';
+        }
+    }
+    
+}
 
 
 function handleWallClick(cellIndex, wallType) {
     if(currentAction === 'move'|| !player1Position || !player2Position){
         return;
     }
+
+    // Vérifiez si le mur a déjà été validé
+    const currentPlayerWalls = currentPlayer === 'player1' ? placedWallsPlayer1 : placedWallsPlayer2;
+    if (currentPlayerWalls.includes(cellIndex)) {
+        alert("Ce mur a déjà été validé. Choisissez un autre emplacement.");
+        return;
+    }
+
+    cancelWallPlacement();
+
+    // Sauvegardez l'emplacement du mur en cours de placement
+    currentWallPlacement = { cellIndex, wallType };
 
     // Vérifier si le joueur a des murs disponibles
     const wallsRemaining = currentPlayer === 'player1' ? player1WallsRemaining : player2WallsRemaining;
@@ -541,7 +687,9 @@ function handleWallClick(cellIndex, wallType) {
     if (canPlaceWall(cellIndex, wallType)) {
         placeWall(cellIndex, wallType);
         currentAction = 'placeWall';
-        togglePlayer();
+        const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        validateButton.style.display = 'block';
+        //togglePlayer();
     }
 }
 
@@ -552,12 +700,77 @@ function canPlaceWall(cellIndex, wallType) {
     // et qu'il respecte les règles du jeu Qoridor.
     // Vous pouvez utiliser la position actuelle des joueurs et les indices des murs.
     // Exemple : vérifiez si le mur chevauche d'autres murs ou s'il bloque le chemin d'un joueur.
-
+    if (cells[cellIndex].classList.contains('wall')) {
+        return false;
+    }
     // Placeholder, veuillez mettre en œuvre votre propre logique
     return true;
 }
 
+
+
 function placeWall(cellIndex, wallType) {
+    if ((currentPlayer === 'player1' && player1WallsRemaining <= 0) || (currentPlayer === 'player2' && player2WallsRemaining <= 0)) {
+        // Le joueur n'a plus de murs disponibles
+        return;
+    }
+
+    const wallCell = cells[cellIndex];
+
+    // Vérifiez si un mur existe déjà à l'emplacement spécifié
+    if (wallCell.classList.contains('wall')) {
+        // Mettez à jour la classe du mur existant
+        wallCell.style.backgroundColor = 'orange';
+        const currentPlayerVisibilityChange = currentPlayer === 'player1' ? 2 : -2;
+        applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
+
+        if (wallType === 'column') {
+            const adjCellIndex = cellIndex + 34;
+            const adjWallCell = cells[adjCellIndex];
+            // Mettez à jour la classe du mur adjacent
+            adjWallCell.style.backgroundColor = 'orange';
+            applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
+            updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
+
+        } else if (wallType === 'row') {
+            const adjCellIndex = cellIndex + 2;
+            const adjWallCell = cells[adjCellIndex];
+            // Mettez à jour la classe du mur adjacent
+            adjWallCell.style.backgroundColor = 'orange';
+            applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
+            updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
+        }
+
+    } else {
+        // Créez un nouveau mur
+        wallCell.classList.add('wall');
+        wallCell.style.backgroundColor = 'orange';
+        const currentPlayerVisibilityChange = currentPlayer === 'player1' ? 2 : -2;
+        applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
+
+        if (wallType === 'column') {
+            const adjCellIndex = cellIndex + 34;
+            cells[adjCellIndex].classList.add('wall');
+            cells[adjCellIndex].style.backgroundColor = 'orange';
+
+            applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
+            updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
+
+        } else if (wallType === 'row') {
+            const adjCellIndex = cellIndex + 2;
+            cells[adjCellIndex].classList.add('wall');
+            cells[adjCellIndex].style.backgroundColor = 'orange';
+
+            applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
+            updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
+        }
+
+        // Mettre à jour l'affichage du nombre de murs restants
+        //updateWallsRemaining();
+    }
+}
+
+/*function placeWall(cellIndex, wallType) {
     if ((currentPlayer === 'player1' && player1WallsRemaining <= 0) || (currentPlayer === 'player2' && player2WallsRemaining <= 0)) {
         // Le joueur n'a plus de murs disponibles
         return;
@@ -598,9 +811,13 @@ function placeWall(cellIndex, wallType) {
     // Mettre à jour l'affichage du nombre de murs restants
     updateWallsRemaining();
 
+<<<<<<< HEAD
     saveGameState();
 
 }
+=======
+}*/
+
 
 function updateWallsRemaining() {
     const wallsRemainingElement = document.getElementById(currentPlayer === 'player1' ? 'wallsRemainingPlayer1' : 'wallsRemainingPlayer2');
