@@ -703,6 +703,13 @@ function canPlaceWall(cellIndex, wallType) {
     if (cells[cellIndex].classList.contains('wall')) {
         return false;
     }
+
+    let row = Math.floor(cellIndex / 17);
+    let col = cellIndex % 17;
+    if (row % 2 !== 0 && col % 2 !== 0) {
+        return false;
+    }
+
     // Placeholder, veuillez mettre en œuvre votre propre logique
     return true;
 }

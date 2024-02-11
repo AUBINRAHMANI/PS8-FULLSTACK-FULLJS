@@ -143,8 +143,8 @@ body {
 
 
 .small-image{
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     max-width: 100%; /* La largeur maximale de l'image est égale à la largeur du conteneur */
     height: auto; /* La hauteur s'ajustera automatiquement pour conserver les proportions */
     display: block; /* Pour éviter un léger espace en bas de l'image */
