@@ -130,6 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /*---------------------------*/
 
 
+
 function saveGameState(){
     const gameState = {
         player1Position: player1Position,
@@ -199,6 +200,7 @@ function formatTime(timeInMillis) {
 
 //let validateButton = document.getElementById('validateButton');
 //validateButton.addEventListener('click', handleValidateButtonClick);
+
 // Ajoute ces lignes dans la fonction 'DOMContentLoaded' après la création des éléments HTML
 document.getElementById('validateButtonPlayer1').addEventListener('click', handleValidateButtonClickPlayer1);
 document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
@@ -235,13 +237,20 @@ function finalizeWallPlacement(player) {
     const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
 
     validateButton.style.display = 'none';
+
+     // Décrémenter le nombre de murs disponibles
+     if (currentPlayer === 'player1') {
+        player1WallsRemaining--;
+    } else {
+        player2WallsRemaining--;
+    }
+    // Mettre à jour l'affichage du nombre de murs restants
+    updateWallsRemaining();
+
     togglePlayer();
-
-    // Autres actions spécifiques au joueur ici...
-
-    // Exemple : afficher un message spécifique au joueur
-    alert(`Joueur ${player}, le mur a été validé !`);
 }
+
+
 
 
 
@@ -431,9 +440,11 @@ function togglePlayer(){
     const visibilityChange = currentPlayer === 'player1' ? 2 : 2;
     updateFogOfWar(playerPosition, visibilityChange);
 
+
     // Mettre à jour le compteur de murs
     updateWallsRemaining();
     saveGameState();
+
 }
 
 
@@ -635,31 +646,6 @@ function cancelWallPlacement() {
     }
 }
 
-function validateWallPlacement() {
-    function validateWallPlacement() {
-        if (currentWallPlacement && !currentWallPlacement.placed) {
-            // Marquez le mur comme placé
-            currentWallPlacement.placed = true;
-    
-            // Décrémenter le nombre de murs disponibles uniquement lorsque le placement est validé
-            if (currentPlayer === 'player1') {
-                player1WallsRemaining--;
-            } else {
-                player2WallsRemaining--;
-            }
-    
-            // Mettre à jour l'affichage du nombre de murs restants
-            updateWallsRemaining();
-    
-            // Cachez le bouton "Valider"
-            const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
-            validateButton.style.display = 'none';
-        }
-    }
-    
-}
-
-
 function handleWallClick(cellIndex, wallType) {
     if(currentAction === 'move'|| !player1Position || !player2Position){
         return;
@@ -771,11 +757,9 @@ function placeWall(cellIndex, wallType) {
             applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
         }
-
-        // Mettre à jour l'affichage du nombre de murs restants
-        //updateWallsRemaining();
     }
 }
+
 
 /*function placeWall(cellIndex, wallType) {
     if ((currentPlayer === 'player1' && player1WallsRemaining <= 0) || (currentPlayer === 'player2' && player2WallsRemaining <= 0)) {
@@ -824,6 +808,7 @@ function placeWall(cellIndex, wallType) {
 }
 =======
 }*/
+
 
 
 function updateWallsRemaining() {
