@@ -34,6 +34,8 @@ body {
     display: grid;
     grid-template-columns: repeat(3, 10fr); /* Trois colonnes */
     grid-gap: 20px; /* Espace entre les boutons */
+    padding-right: 200px;
+    padding-left: 200px;
 }
 
 .title {
@@ -59,16 +61,16 @@ h1 {
     font-family:'Burbank','arial';
     color: white;
     margin: 0;
-    font-size: 4em;
+    font-size: 7em;
 }
 
 .btn {
-    font-family:'Burbank','arial';
-    margin: 20px auto;
-    padding: 10px 30px;
-    font-size: 2em;
+    font-family: 'Burbank', 'arial';
+    margin: 30px auto;
+    padding: 20px 40px; /* Agrandi par rapport à l'original */
+    font-size: 2.5em; /* Taille de texte augmentée */
     border: none;
-    border-radius: 5px;
+    border-radius: 10px; /* Bords plus arrondis pour un look plus moderne */
     cursor: pointer;
     transition: background-color 0.3s;
     position: relative; /* Position relative pour les icônes absolues */
@@ -76,41 +78,47 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 200px; /* Largeur augmentée */
+    height: auto; /* Hauteur ajustée automatiquement */
 }
 
-#play {
-    background-color: #ff9000;
-}
+
 
 #shop, #rules, #stats, #friends, #settings {
-    width: 150px;
+    width: 220px;
     color: white;
 }
 
-#shop { background-color: #005f99; }
-#rules { background-color: #003366; }
-#stats { background-color: #ff0066; }
-#friends { background-color: #33cc33; }
-#settings { background-color: #cc0066; }
+#play {background: linear-gradient(45deg, #ff9800, #ff6d00); }
+#shop { background: linear-gradient(45deg, #029be5, #01579b); }
+#rules {background: linear-gradient(45deg, #029be5, #01579b); }
+#stats { background: linear-gradient(45deg,#ec407a, #c2185b); }
+#friends { background: linear-gradient(45deg, #66bb6a, #2e7d32); }
+#settings { background: linear-gradient(45deg, #ab47bc, #6a1b9a); }
 
 .btn:hover {
-    background-color: #ddd;
-    color: black;
+    background: linear-gradient(45deg, #ffd194, #ffab00);
+    /* Légère augmentation de la taille pour un effet de zoom */
+    transform: scale(1.15);
+    /* Transition plus fluide */
+    transition: background-color 0.3s, transform 0.3s, color 0.3s;
+    /* Ajout d'une ombre pour un effet de profondeur */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    /* Changement de la couleur du texte pour une meilleure visibilité */
+    color: #333;
 }
-
 
 
 .btn img {
     position: absolute;
-    left: 10px;
-    width: 30px;
+    left: 20px; /* Ajustement pour plus d'espace */
+    width: 40px; /* Icône plus grande */
     height: auto;
 }
 
-
 .btn span {
     display: block;
-    margin-left: 40px;
+    margin-left: 50px; /* Plus d'espace pour le texte */
 }
 
 

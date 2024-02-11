@@ -1,0 +1,26 @@
+.menu {
+    position: fixed; /* Fixe la position du menu pour le garder en place */
+    bottom: 20px; /* Espacement du bas */
+    right: 20px; /* Espacement de droite */
+    z-index: 1000; /* S'assure que le menu est au-dessus des autres éléments */
+}
+
+#quitButton {
+    font-family:'Burbank','arial';
+    background-color: #ff4d4d; /* Fond rouge clair */
+    color: white; /* Texte en blanc */
+    padding: 10px 20px; /* Espacement intérieur pour agrandir le bouton */
+    border: none; /* Aucune bordure */
+    border-radius: 20px; /* Bords arrondis */
+    text-transform: uppercase; /* Transforme le texte en majuscules */
+    font-weight: bold; /* Texte en gras */
+    cursor: pointer; /* Change le curseur en main pour indiquer qu'il est cliquable */
+    font-size: 2em; /* Taille de la police */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Ombre légère pour un effet 3D */
+    transition: background-color 0.3s, transform 0.2s; /* Animation au survol */
+}
+
+#quitButton:hover {
+    background-color: #ff6666; /* Assombrit le bouton au survol pour un feedback visuel */
+    transform: scale(1.05); /* Agrandit légèrement le bouton au survol */
+}
