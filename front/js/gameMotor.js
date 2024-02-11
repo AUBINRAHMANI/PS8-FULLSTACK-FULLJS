@@ -292,12 +292,19 @@ function resetGame() {
     // Réinitialiser les positions des joueurs
     player1Position = null;
     player2Position = null;
-
+    wallsState = {};
+    player1WallsRemaining = 10;
+    player2WallsRemaining = 10;
+    currentPlayer = 'player1';
     // Réinitialiser les classes des cellules
     cells.forEach(cell => {
-        cell.classList.remove('player1', 'player2');
+        cell.classList.remove('player1', 'player2','wall');
     });
+    saveGameState();
+    updateUIBasedOnGameState();
+    resetPlayerTimer();
 
+    const board = document.getElementById('board');
     // Ajouter à nouveau l'écouteur d'événement pour la sélection initiale
     board.addEventListener('click', handleInitialCellClick);
 }
