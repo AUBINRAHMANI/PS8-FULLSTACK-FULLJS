@@ -7,6 +7,8 @@ let players = {
     player2: {x: null, y: null, symbol: 'P2'}
 };
 
+let wallsState = {};
+
 let player1Position = null;
 let player2Position = null;
 let currentAction = 'none';
@@ -15,7 +17,51 @@ const turnTimeLimit = 40000;
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
 
+
 let visibilityChangedCells = new Set();
+
+
+
+
+function loadGameState() {
+    const savedGameState = localStorage.getItem('gameState');
+    if (savedGameState) {
+        const gameState = JSON.parse(savedGameState);
+        player1Position = gameState.player1Position;
+        player2Position = gameState.player2Position;
+        player1WallsRemaining = gameState.player1WallsRemaining;
+        player2WallsRemaining = gameState.player2WallsRemaining;
+        currentPlayer = gameState.currentPlayer;
+        wallsState = gameState.wallsState || {};
+        player1Timer = gameState.player1TimeRemaining;
+        player2Timer = gameState.player2TimeRemaining;
+
+
+        // On met à jour l'UI
+        updateUIBasedOnGameState();
+
+        updateWallsUI();
+
+        restoreTimers(gameState);
+    }
+}
+
+function updateWallsUI() {
+    Object.keys(wallsState).forEach(cellIndex => {
+        let wallType = wallsState[cellIndex];
+
+        let wallElement = document.querySelector(`.wall[data-index="${cellIndex}"]`);
+        if (wallElement) {
+            wallElement.classList.add('wall', wallType);
+        }
+    });
+}
+
+function restoreTimers(gameState) {
+    let player1TimeRemaining = gameState.player1TimeRemaining || turnTimeLimit;
+    let player2TimeRemaining = gameState.player2TimeRemaining || turnTimeLimit;
+
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -56,6 +102,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+
+
     // Appliquer la classe 'first-row' aux cellules de la première ligne du joueur opposé
     const oppositePlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
     const oppositeFirstRow = firstRow === 0 ? 16 : 0; // Inverser la rangée pour le joueur opposé
@@ -69,11 +117,79 @@ document.addEventListener('DOMContentLoaded', () => {
 
     board.addEventListener('click', handleInitialCellClick);
     startPlayerTimer();
+    loadGameState();
 
 
 });
 
 /*---------------------------*/
+
+function saveGameState(){
+    const gameState = {
+        player1Position: player1Position,
+        player2Position: player2Position,
+        player1WallsRemaining: player1WallsRemaining,
+        player2WallsRemaining: player2WallsRemaining,
+        currentPlayer: currentPlayer,
+        wallsState: wallsState,
+        player1TimeRemaining: player1Timer,
+        player2TimeRemaining: player2Timer,
+    };
+    localStorage.setItem('gameState', JSON.stringify(gameState));
+}
+
+function updateUIBasedOnGameState() {
+    // Mettre à jour la position des joueurs sur le plateau.
+    updatePlayerPositions();
+
+    // Mettre à jour le nombre de murs restants pour chaque joueur
+    document.getElementById('wallsRemainingPlayer1').innerText = `Remaining walls: ${player1WallsRemaining}`;
+    document.getElementById('wallsRemainingPlayer2').innerText = `Remaining walls: ${player2WallsRemaining}`;
+
+    // Mettre à jour les timers pour chaque joueur
+    // Note: Assurez-vous que la logique de timer est bien gérée dans votre jeu pour mettre à jour ces valeurs dynamiquement
+    document.getElementById('player1Timer').innerText = formatTime(turnTimeLimit); // Assurez-vous d'avoir une fonction pour formater le temps
+    document.getElementById('player2Timer').innerText = formatTime(turnTimeLimit); // Assurez-vous d'avoir une fonction pour formater le temps
+
+    // Mettre à jour les murs
+    Object.keys(wallsState).forEach(cellIndex => {
+        const wallType = wallsState[cellIndex];
+        const cell = cells[cellIndex];
+        const adjCellIndex = wallType === 'column' ? parseInt(cellIndex) + 34 : parseInt(cellIndex) + 2;
+
+        cell.classList.add('wall');
+        cells[adjCellIndex].classList.add('wall');
+
+        cell.style.backgroundColor = 'orange';
+        cells[adjCellIndex].style.backgroundColor = 'orange';
+    });
+}
+
+
+function updatePlayerPositions() {
+    // Effacer les positions précédentes des joueurs
+    if(cells.length>0){
+    cells.forEach(cell => {
+        cell.classList.remove('player1', 'player2');
+    });
+    }
+
+    // Mettre à jour la nouvelle position du joueur 1
+    if (player1Position !== null && cells[player1Position]) {
+        cells[player1Position].classList.add('player1');
+    }
+
+    // Mettre à jour la nouvelle position du joueur 2
+    if (player2Position !== null && cells[player2Position]) {
+        cells[player2Position].classList.add('player2');
+    }
+}
+
+function formatTime(timeInMillis) {
+    let minutes = Math.floor(timeInMillis / 60000);
+    let seconds = ((timeInMillis % 60000) / 1000).toFixed(0);
+    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+}
 
 function startTimer(timerId) {
     let timerElement = document.getElementById(timerId);
@@ -86,7 +202,7 @@ function startTimer(timerId) {
         timerElement.textContent = "00:" + seconds;
 
         if (--duration <= 0) {
-            clearInterval(timerInterval);
+            //clearInterval(timerInterval);
             timerElement.textContent = "Temps écoulé!";
             console.log("Le temps est écoulé! Passer au joueur suivant...");
             switchPlayerTurn();
@@ -129,6 +245,7 @@ function switchPlayerTurn() {
     }
     resetPlayerTimer();
     togglePlayer();
+    saveGameState();
 }
 
 function handleInitialCellClick(event) {
@@ -181,12 +298,19 @@ function resetGame() {
     // Réinitialiser les positions des joueurs
     player1Position = null;
     player2Position = null;
-
+    wallsState = {};
+    player1WallsRemaining = 10;
+    player2WallsRemaining = 10;
+    currentPlayer = 'player1';
     // Réinitialiser les classes des cellules
     cells.forEach(cell => {
-        cell.classList.remove('player1', 'player2');
+        cell.classList.remove('player1', 'player2','wall');
     });
+    saveGameState();
+    updateUIBasedOnGameState();
+    resetPlayerTimer();
 
+    const board = document.getElementById('board');
     // Ajouter à nouveau l'écouteur d'événement pour la sélection initiale
     board.addEventListener('click', handleInitialCellClick);
 
@@ -212,6 +336,8 @@ function setPlayerPosition(cellIndex, player) {
     } else {
         player2Position = cellIndex;
     }
+
+    saveGameState();
 }
 function getValidMoves(position) {
     const row = Math.floor(position / 17);
@@ -245,6 +371,7 @@ function togglePlayer(){
 
     // Mettre à jour le compteur de murs
     updateWallsRemaining();
+    saveGameState();
 }
 
 
@@ -314,6 +441,10 @@ function updateCellAppearance(cell, visibility) {
 
 function winner(player){
     alert("Le joueur " + (player === 'player1' ? '1' : '2') + " a gagné !");
+    const playAgain = confirm("Voulez-vous commencer une nouvelle partie ?");
+    if (playAgain) {
+        resetGame();
+    }
 }
 
 function movePlayerKey(movement){
@@ -455,6 +586,8 @@ function placeWall(cellIndex, wallType) {
         updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
     }
 
+    wallsState[cellIndex] = wallType;
+
     // Décrémenter le nombre de murs disponibles
     if (currentPlayer === 'player1') {
         player1WallsRemaining--;
@@ -464,6 +597,8 @@ function placeWall(cellIndex, wallType) {
 
     // Mettre à jour l'affichage du nombre de murs restants
     updateWallsRemaining();
+
+    saveGameState();
 
 }
 
