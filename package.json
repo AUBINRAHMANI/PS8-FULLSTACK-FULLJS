@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/benjaminvella/ps8#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "6.3",
     "socket.io": "^4.7.4"
   }
 }
-

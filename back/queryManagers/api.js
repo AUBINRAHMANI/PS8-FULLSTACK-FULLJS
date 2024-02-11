@@ -3,9 +3,25 @@ const http = require('http');
 const jwt = require('jsonwebtoken'); // Utilisez jsonwebtoken pour créer des JWT
 const fs = require('fs');
 
+const { MongoClient } = require("mongodb");
+const bcrypt = require("bcryptjs");
+const uri = "mongodb://root:example@mongodb:27017";
+const client = new MongoClient(uri);
+const dbName = "DatabaseName";
 
 
-function manageRequest(request, response) {
+async function connectToDb() {
+    await client.connect();
+    console.log("Connected to MongoDB");
+}
+
+function getUsersCollection() {
+    const database = client.db(dbName);
+    return database.collection("users");
+}
+
+
+async function manageRequest(request, response) {
     addCors(response);
 
     if (request.method === 'OPTIONS') {
@@ -21,37 +37,62 @@ function manageRequest(request, response) {
             body += chunk.toString();
         });
 
-        request.on('end', () => {
+        request.on('end',async () => {
             // Parsez le corps de la requête
             const data = JSON.parse(body);
+            const users = getUsersCollection(); // Récupérer la collection des utilisateurs
 
             if (request.url === '/api/inscription') {
                 // Vérifier si l'email existe déjà
-                checkEmailExists(data.email, exists => {
-                    if (exists) {
-                        response.writeHead(400, { 'Content-Type': 'application/json' });
-                        response.end(JSON.stringify({ error: 'Email déjà utilisé' }));
-                    } else {
-                        // Créer un nouveau token et l'enregistrer
-                        const token = jwt.sign({ email: data.email }, 'votre_cle_secrete');
-                        saveToken(data.email, data.username, data.password, token);
+                const existingUser = await users.findOne({ email: data.email });
+                if (existingUser) {
+                    response.writeHead(400, { 'Content-Type': 'application/json' });
+                    response.end(JSON.stringify({ error: 'Email déjà utilisé' }));
+                }
 
-                        response.writeHead(200, { 'Content-Type': 'application/json' });
-                        response.end(JSON.stringify({ message: 'Inscription réussie', token }));
-                    }
-                });
+
+                // checkEmailExists(data.email, exists => {
+                //     if (exists) {
+                //         response.writeHead(400, { 'Content-Type': 'application/json' });
+                //         response.end(JSON.stringify({ error: 'Email déjà utilisé' }));
+                //     } else {
+                        // Créer un nouveau token et l'enregistrer
+
+                else {
+                    const hashedPassword = await bcrypt.hash(data.password, 10);
+                    const result = await users.insertOne({ email: data.email, password: hashedPassword });
+
+                    const token = jwt.sign({ email: data.email }, 'votre_cle_secrete');
+                    //saveToken(data.email, data.username, data.password, token);
+
+                    response.writeHead(200, { 'Content-Type': 'application/json' });
+                    response.end(JSON.stringify({ message: 'Inscription réussie', token }));
+                }
+
 
             } else if (request.url === '/api/login') {
                 // Ici, ajoutez la logique pour vérifier les informations de connexion
                 // Créez et envoyez un JWT en cas de succès
-                const token = jwt.sign({ email: data.email }, 'votre_cle_secrete');
-                response.writeHead(200, { 'Content-Type': 'application/json' });
-                response.end(JSON.stringify({ token }));
-            } else {
+                // const token = jwt.sign({ email: data.email }, 'votre_cle_secrete');
+                // response.writeHead(200, { 'Content-Type': 'application/json' });
+                // response.end(JSON.stringify({ token }));
+
+                const user = await users.findOne({ email: data.email });
+
+                const passwordValid = user && await bcrypt.compare(data.password, user.password);
+                if (passwordValid) {
+                    const token = jwt.sign({ email: data.email }, 'votre_cle_secrete');
+                    response.writeHead(200, { 'Content-Type': 'application/json' });
+                    response.end(JSON.stringify({ token }));
+
+                } else {
                 response.writeHead(403, { 'Content-Type': 'application/json' });
                 response.end(JSON.stringify({ error: 'Email ou mot de passe incorrect' }));
             }
-        });
+        }
+
+    });
+
     } else {
         response.writeHead(404, { 'Content-Type': 'text/plain' });
         response.end('Méthode non supportée');
@@ -162,5 +203,6 @@ function addCors(response) {
 
 
 
+connectToDb().catch(console.error);
 
 exports.manage = manageRequest;
