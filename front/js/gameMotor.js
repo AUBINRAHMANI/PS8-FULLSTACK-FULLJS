@@ -15,6 +15,9 @@ const turnTimeLimit = 40000;
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
 
+let visibilityChangedCells = new Set();
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const board = document.getElementById('board');
     // Create the board cells
@@ -186,6 +189,8 @@ function resetGame() {
 
     // Ajouter à nouveau l'écouteur d'événement pour la sélection initiale
     board.addEventListener('click', handleInitialCellClick);
+
+    visibilityChangedCells.clear();
 }
 
 function setPlayerPosition(cellIndex, player) {
@@ -245,6 +250,8 @@ function togglePlayer(){
 
 function updateCellVisibility() {
     cells.forEach((cell, index) => {
+        if (visibilityChangedCells.has(index)) return;
+
         const row = Math.floor(index / 17);
         const col = index % 17;
         let visibility = (row < 8 && currentPlayer === 'player1') || (row > 8 && currentPlayer === 'player2') ? 1 : (row === 8 ? 0 : -1);
@@ -267,6 +274,8 @@ function updateCellVisibility() {
         if (existingClasses.includes('possible-move') && getValidMoves(index).includes(index)) {
             cell.classList.add('possible-move');
         }
+
+        updateCellAppearance(cell, visibility);
     });
 }
 
@@ -491,6 +500,8 @@ function applyVisibilityChange(cellIndex, visibilityChange) {
 
         cells[cellIndex].setAttribute('data-visibility', newVisibility);
         updateCellAppearance(cells[cellIndex], newVisibility);
+
+        visibilityChangedCells.add(cellIndex);
     }
 }
 
