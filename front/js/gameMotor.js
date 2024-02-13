@@ -8,7 +8,6 @@ let players = {
 };
 
 let wallsState = {};
-
 let player1Position = null;
 let player2Position = null;
 let currentAction = 'none';
@@ -19,13 +18,7 @@ let placedWallsPlayer2 = [];
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
 let currentWallPlacement = null;
-
-
-
 let visibilityChangedCells = new Set();
-
-
-
 
 function loadGameState() {
     const savedGameState = localStorage.getItem('gameState');
@@ -66,7 +59,6 @@ function restoreTimers(gameState) {
     let player2TimeRemaining = gameState.player2TimeRemaining || turnTimeLimit;
 
 }
-
 
 document.addEventListener('DOMContentLoaded', () => {
     const board = document.getElementById('board');
@@ -126,10 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
-
-/*---------------------------*/
-
-
 
 function saveGameState(){
     const gameState = {
@@ -205,7 +193,6 @@ function formatTime(timeInMillis) {
 document.getElementById('validateButtonPlayer1').addEventListener('click', handleValidateButtonClickPlayer1);
 document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
 
-
 function handleValidateButtonClickPlayer1() {
     // Logique de validation pour le joueur 1
     finalizeWallPlacementPlayer1();
@@ -249,18 +236,6 @@ function finalizeWallPlacement(player) {
 
     togglePlayer();
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 function startTimer(timerId) {
     let timerElement = document.getElementById(timerId);
@@ -345,14 +320,12 @@ function handleInitialCellClick(event) {
 
     }
 }
-
 function resetFirstRowBackgroundColor(oppositeFirstRow) {
     // Retrouver toutes les cellules de la première ligne et réinitialiser leur couleur de fond
     for (let i = 0; i < 17; i++) {
         cells[i].classList.remove('first-row');
     }
 }
-
 function resetOppositeFirstRowBackgroundColor() {
     // Déterminer la rangée opposée en fonction du joueur actuel
     const oppositeFirstRow = currentPlayer === 'player1' ? 16 : 0;
@@ -362,8 +335,6 @@ function resetOppositeFirstRowBackgroundColor() {
         cells[oppositeFirstRow * 17 + i].classList.remove('first-row');
     }
 }
-
-
 
 function resetGame() {
     // Réinitialiser les positions des joueurs
@@ -446,8 +417,6 @@ function togglePlayer(){
     saveGameState();
 
 }
-
-
 function updateCellVisibility() {
     cells.forEach((cell, index) => {
         if (visibilityChangedCells.has(index)) return;
@@ -478,8 +447,6 @@ function updateCellVisibility() {
         updateCellAppearance(cell, visibility);
     });
 }
-
-
 function updateFogOfWar(playerPosition, visibilityChange) {
     const adjacentIndices = [
         playerPosition - 2, // gauche
@@ -503,14 +470,11 @@ function updateFogOfWar(playerPosition, visibilityChange) {
         }
     });
 }
-
-
 function updateCellAppearance(cell, visibility) {
     // Mettez à jour l'apparence de la cellule en fonction de la visibilité
     cell.classList.toggle('visible', visibility >= 0);
     cell.classList.toggle('hidden', visibility < 0);
 }
-
 
 function winner(player){
     alert("Le joueur " + (player === 'player1' ? '1' : '2') + " a gagné !");
@@ -692,15 +656,11 @@ function canPlaceWall(cellIndex, wallType) {
 
     let row = Math.floor(cellIndex / 17);
     let col = cellIndex % 17;
-    if (row % 2 !== 0 && col % 2 !== 0) {
-        return false;
-    }
+    if (row % 2 !== 0 && col % 2 !== 0) {return false;}
 
     // Placeholder, veuillez mettre en œuvre votre propre logique
     return true;
 }
-
-
 
 function placeWall(cellIndex, wallType) {
     if ((currentPlayer === 'player1' && player1WallsRemaining <= 0) || (currentPlayer === 'player2' && player2WallsRemaining <= 0)) {
@@ -760,62 +720,10 @@ function placeWall(cellIndex, wallType) {
     }
 }
 
-
-/*function placeWall(cellIndex, wallType) {
-    if ((currentPlayer === 'player1' && player1WallsRemaining <= 0) || (currentPlayer === 'player2' && player2WallsRemaining <= 0)) {
-        // Le joueur n'a plus de murs disponibles
-        return;
-    }
-
-    cells[cellIndex].classList.add('wall');
-    cells[cellIndex].style.backgroundColor = 'orange';
-
-    const currentPlayerVisibilityChange = currentPlayer === 'player1' ? 2 : -2;
-    applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
-
-    if (wallType === 'column') {
-        const adjCellIndex = cellIndex + 34;
-        cells[adjCellIndex].classList.add('wall');
-        cells[adjCellIndex].style.backgroundColor = 'orange';
-
-        applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
-        updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
-
-    } else if (wallType === 'row') {
-        const adjCellIndex = cellIndex + 2;
-        cells[adjCellIndex].classList.add('wall');
-        cells[adjCellIndex].style.backgroundColor = 'orange';
-
-        applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
-        updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
-    }
-
-    wallsState[cellIndex] = wallType;
-
-    // Décrémenter le nombre de murs disponibles
-    if (currentPlayer === 'player1') {
-        player1WallsRemaining--;
-    } else {
-        player2WallsRemaining--;
-    }
-
-    // Mettre à jour l'affichage du nombre de murs restants
-    updateWallsRemaining();
-
-<<<<<<< HEAD
-    saveGameState();
-
-}
-=======
-}*/
-
-
-
 function updateWallsRemaining() {
     const wallsRemainingElement = document.getElementById(currentPlayer === 'player1' ? 'wallsRemainingPlayer1' : 'wallsRemainingPlayer2');
     wallsRemainingElement.innerText = `Remaining walls: ${currentPlayer === 'player1' ? player1WallsRemaining : player2WallsRemaining}`;
 }
-
 
 function updateVisibilityAdjacentToWall(wallIndex, visibilityChange) {
     const adjacentIndices = [
@@ -836,7 +744,6 @@ function updateVisibilityAdjacentToWall(wallIndex, visibilityChange) {
     });
 }
 
-
 function applyVisibilityChange(cellIndex, visibilityChange) {
     if (cells[cellIndex]) {
         const currentVisibility = parseInt(cells[cellIndex].getAttribute('data-visibility')) || 0;
@@ -848,7 +755,6 @@ function applyVisibilityChange(cellIndex, visibilityChange) {
         visibilityChangedCells.add(cellIndex);
     }
 }
-
 
 function isWallBetweenPositions(startIndex, endIndex) {
     const startRow = Math.floor(startIndex / 17);
@@ -884,7 +790,6 @@ function isWallBetweenPositions(startIndex, endIndex) {
 
 }
 
-
 function openAntiCheatPage() {
     const antiCheatUrl = 'anti-cheat-sheet.html';
 
@@ -899,7 +804,6 @@ function openAntiCheatPage() {
         antiCheatWindow.focus();
     }
 }
-
 
 
 document.addEventListener('keydown', function(event) {
@@ -938,5 +842,4 @@ document.addEventListener('keydown', function(event) {
                 break;
         }
     }
-
 });
