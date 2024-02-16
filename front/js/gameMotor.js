@@ -215,7 +215,6 @@ function handleCancelButtonClickPlayer1() {
     // Logique d'annulation pour le joueur 1
     cancelCurrentWallPlacement();
     cancelButtonPlayer1.style.display = 'none';
-    console.log("hello there");
 
 }
 
@@ -223,17 +222,7 @@ function handleCancelButtonClickPlayer2() {
     // Logique d'annulation pour le joueur 2
     cancelCurrentWallPlacement();
     cancelButtonPlayer2.style.display = 'none';
-    console.log("hello there");
-
-
 }
-
-
-
-
-
-
-
 
 function finalizeWallPlacementPlayer1() {
     // Ajoute ici la logique de finalisation pour le joueur 1
@@ -264,16 +253,6 @@ function finalizeWallPlacement(player) {
     alert(`Joueur ${player}, le mur a été validé !`);
 }
 
-
-
-
-
-
-
-
-
-
-
 function startTimer(timerId) {
     let timerElement = document.getElementById(timerId);
     let duration = turnTimeLimit;
@@ -287,7 +266,6 @@ function startTimer(timerId) {
         if (--duration <= 0) {
             //clearInterval(timerInterval);
             timerElement.textContent = "Temps écoulé!";
-            console.log("Le temps est écoulé! Passer au joueur suivant...");
             switchPlayerTurn();
         }
         
@@ -631,7 +609,12 @@ function cancelWallPlacement() {
         applyVisibilityChange(cellIndex, -currentPlayerVisibilityChange);
 
         if (wallType === 'column') {
-            const adjCellIndex = cellIndex + 34;
+            let adjCellIndex;
+            if ([273, 275, 277, 279, 281, 283, 285, 287].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 34;
+            }else{
+                adjCellIndex = cellIndex + 34;
+            }
             cells[adjCellIndex].classList.remove('wall');
             cells[adjCellIndex].style.backgroundColor = '';
 
@@ -639,7 +622,12 @@ function cancelWallPlacement() {
             updateVisibilityAdjacentToWall(adjCellIndex, -currentPlayerVisibilityChange);
 
         } else if (wallType === 'row') {
-            const adjCellIndex = cellIndex + 2;
+            let adjCellIndex;
+            if ([33, 67, 101, 135, 169, 203, 237, 271].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 2;
+            } else {
+                adjCellIndex = cellIndex + 2;
+            }
             cells[adjCellIndex].classList.remove('wall');
             cells[adjCellIndex].style.backgroundColor = '';
 
@@ -749,7 +737,12 @@ function placeWall(cellIndex, wallType) {
         applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
 
         if (wallType === 'column') {
-            const adjCellIndex = cellIndex + 34;
+            let adjCellIndex;
+            if ([273, 275, 277, 279, 281, 283, 285, 287].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 34;
+            }else{
+                adjCellIndex = cellIndex + 34;
+            }
             const adjWallCell = cells[adjCellIndex];
             // Mettez à jour la classe du mur adjacent
             adjWallCell.style.backgroundColor = 'orange';
@@ -757,7 +750,12 @@ function placeWall(cellIndex, wallType) {
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
 
         } else if (wallType === 'row') {
-            const adjCellIndex = cellIndex + 2;
+            let adjCellIndex;
+            if ([33, 67, 101, 135, 169, 203, 237, 271].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 2;
+            } else {
+                adjCellIndex = cellIndex + 2;
+            }
             const adjWallCell = cells[adjCellIndex];
             // Mettez à jour la classe du mur adjacent
             adjWallCell.style.backgroundColor = 'orange';
@@ -773,7 +771,12 @@ function placeWall(cellIndex, wallType) {
         applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
 
         if (wallType === 'column') {
-            const adjCellIndex = cellIndex + 34;
+            let adjCellIndex;
+            if ([273, 275, 277, 279, 281, 283, 285, 287].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 34;
+            }else{
+                adjCellIndex = cellIndex + 34;
+            }
             cells[adjCellIndex].classList.add('wall');
             cells[adjCellIndex].style.backgroundColor = 'orange';
 
@@ -781,7 +784,12 @@ function placeWall(cellIndex, wallType) {
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
 
         } else if (wallType === 'row') {
-            const adjCellIndex = cellIndex + 2;
+            let adjCellIndex;
+            if ([33, 67, 101, 135, 169, 203, 237, 271].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 2;
+            } else {
+                adjCellIndex = cellIndex + 2;
+            }
             cells[adjCellIndex].classList.add('wall');
             cells[adjCellIndex].style.backgroundColor = 'orange';
 
