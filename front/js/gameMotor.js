@@ -260,13 +260,10 @@ function startTimer(timerId) {
         seconds = (seconds < 10) ? "0" + seconds : seconds;
 
         timerElement.textContent = "00:" + seconds;
-
-        if (--duration <= 0) {
-            clearInterval(timerInterval);
-            timerElement.textContent = "Temps écoulé!";
-            switchPlayerTurn();
+        --duration;
+        if (timerElement.textContent === "00:00") {
+            togglePlayer();
         }
-        
     }, 1000);
 }
 
@@ -293,6 +290,7 @@ function updateTimer(timerId) {
         timerElement.innerText = `Timer: ${remainingTime - 1}s`;
     } else {
         switchPlayerTurn();
+        console.log("time heeeeeeere")
     }
 }
 
