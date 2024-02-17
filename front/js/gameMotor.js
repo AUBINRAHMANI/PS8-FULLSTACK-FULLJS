@@ -242,8 +242,10 @@ function finalizeWallPlacement(player) {
 
     // Accède au bouton de validation spécifique au joueur
     const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
+    const cancelButton = document.getElementById(`cancelButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
 
     validateButton.style.display = 'none';
+    cancelButton.style.display = 'none';
     togglePlayer();
 
     // Autres actions spécifiques au joueur ici...
@@ -631,7 +633,10 @@ function cancelWallPlacement() {
 
         // Cachez le bouton "Valider"
         const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        const cancelButton = document.getElementById(`cancelButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
         validateButton.style.display = 'none';
+        cancelButton.style.display = 'none';
+
 
         // Réinitialiser les classes 'possible-move' sur les cellules valides
         currentAction = 'none';
@@ -665,7 +670,9 @@ function validateWallPlacement() {
     
             // Cachez le bouton "Valider"
             const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+            const cancelButton = document.getElementById(`cancelButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
             validateButton.style.display = 'none';
+            cancelButton.style.display = 'none';
         }
     }
     
