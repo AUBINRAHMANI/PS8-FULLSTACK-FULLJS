@@ -716,6 +716,12 @@ function handleWallClick(cellIndex, wallType) {
 
         //togglePlayer();
     }
+
+    const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
+    // Supprimer la classe 'possible-move' de toutes les cellules
+    cells.forEach(cell => cell.classList.remove('possible-move'));
+
+
 }
 
 function canPlaceWall(cellIndex, wallType) {
@@ -820,8 +826,10 @@ function placeWall(cellIndex, wallType) {
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
         }
 
-        // Mettre à jour l'affichage du nombre de murs restants
-        //updateWallsRemaining();
+        const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
+        // Supprimer la classe 'possible-move' de toutes les cellules
+        cells.forEach(cell => cell.classList.remove('possible-move'));
+
     }
 }
 
