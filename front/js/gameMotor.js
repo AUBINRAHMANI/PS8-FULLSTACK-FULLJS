@@ -248,21 +248,20 @@ function startTimer(timerId) {
         seconds = (seconds < 10) ? "0" + seconds : seconds;
 
         timerElement.textContent = "00:" + seconds;
-
-        if (--duration <= 0) {
-            clearInterval(timerInterval);
-            timerElement.textContent = "Temps écoulé!";
-            switchPlayerTurn();
+        --duration;
+        if (timerElement.textContent === "00:00") {
+            togglePlayer();
         }
-        
     }, 1000);
 }
 
 function startPlayerTimer() {
     if (currentPlayer === 'player1') {
         player1Timer = startTimer('player1Timer');
+        document.getElementById('player2Timer').innerText = formatTime(40000); 
     } else {
         player2Timer = startTimer('player2Timer');
+        document.getElementById('player1Timer').innerText = formatTime(40000); 
     }
 }
 
@@ -279,12 +278,11 @@ function updateTimer(timerId) {
         timerElement.innerText = `Timer: ${remainingTime - 1}s`;
     } else {
         switchPlayerTurn();
+        console.log("time heeeeeeere")
     }
 }
 
 function switchPlayerTurn() {
-    clearInterval(player1Timer);
-    clearInterval(player2Timer);
     if (currentPlayer === 'player1') {
         currentPlayer = 'player2';
     } else {
@@ -398,15 +396,10 @@ function getValidMoves(position) {
 function togglePlayer(){
     currentPlayer = (currentPlayer === 'player1') ? 'player2' : 'player1';
     currentAction = 'none'; // Réinitialiser l'action pour le prochain joueur
-
+    
+    resetPlayerTimer();
     updateCellVisibility();
     openAntiCheatPage();
-
-    clearInterval(player1Timer);
-    clearInterval(player2Timer);
-
-
-    startPlayerTimer();
 
     const playerPosition = currentPlayer === 'player1' ? player1Position : player2Position;
     const visibilityChange = currentPlayer === 'player1' ? 2 : 2;
@@ -693,6 +686,12 @@ function handleWallClick(cellIndex, wallType) {
 
         //togglePlayer();
     }
+
+    const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
+    // Supprimer la classe 'possible-move' de toutes les cellules
+    cells.forEach(cell => cell.classList.remove('possible-move'));
+
+
 }
 
 function canPlaceWall(cellIndex, wallType) {
@@ -794,6 +793,11 @@ function placeWall(cellIndex, wallType) {
             applyVisibilityChange(adjCellIndex, currentPlayerVisibilityChange);
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
         }
+
+        const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
+        // Supprimer la classe 'possible-move' de toutes les cellules
+        cells.forEach(cell => cell.classList.remove('possible-move'));
+
     }
 }
 
