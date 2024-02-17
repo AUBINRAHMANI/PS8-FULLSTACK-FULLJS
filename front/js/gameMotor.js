@@ -37,8 +37,8 @@ function loadGameState() {
         player2WallsRemaining = gameState.player2WallsRemaining;
         currentPlayer = gameState.currentPlayer;
         wallsState = gameState.wallsState || {};
-        player1Timer = gameState.player1TimeRemaining;
-        player2Timer = gameState.player2TimeRemaining;
+        player1Timer = gameState.player1Timer;
+        player2Timer = gameState.player2Timer;
 
 
         // On met à jour l'UI
@@ -62,8 +62,8 @@ function updateWallsUI() {
 }
 
 function restoreTimers(gameState) {
-    let player1TimeRemaining = gameState.player1TimeRemaining || turnTimeLimit;
-    let player2TimeRemaining = gameState.player2TimeRemaining || turnTimeLimit;
+    player1Timer = gameState.player1Timer || turnTimeLimit;
+    player2Timer = gameState.player2Timer || turnTimeLimit;
 
 }
 
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     board.addEventListener('click', handleInitialCellClick);
-    startPlayerTimer();
+    //startPlayerTimer(); A remettre si on séparre la sauvgarde de la partie normale 
     loadGameState();
 });
 
@@ -132,8 +132,8 @@ function saveGameState(){
         player2WallsRemaining: player2WallsRemaining,
         currentPlayer: currentPlayer,
         wallsState: wallsState,
-        player1TimeRemaining: player1Timer,
-        player2TimeRemaining: player2Timer,
+        player1Timer: player1Timer,
+        player2Timer: player2Timer,
     };
     localStorage.setItem('gameState', JSON.stringify(gameState));
 }
@@ -264,7 +264,7 @@ function startTimer(timerId) {
         timerElement.textContent = "00:" + seconds;
 
         if (--duration <= 0) {
-            //clearInterval(timerInterval);
+            clearInterval(timerInterval);
             timerElement.textContent = "Temps écoulé!";
             switchPlayerTurn();
         }
