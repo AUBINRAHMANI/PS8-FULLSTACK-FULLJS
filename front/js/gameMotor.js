@@ -273,8 +273,10 @@ function startTimer(timerId) {
 function startPlayerTimer() {
     if (currentPlayer === 'player1') {
         player1Timer = startTimer('player1Timer');
+        document.getElementById('player2Timer').innerText = formatTime(40000); 
     } else {
         player2Timer = startTimer('player2Timer');
+        document.getElementById('player1Timer').innerText = formatTime(40000); 
     }
 }
 
@@ -295,8 +297,6 @@ function updateTimer(timerId) {
 }
 
 function switchPlayerTurn() {
-    clearInterval(player1Timer);
-    clearInterval(player2Timer);
     if (currentPlayer === 'player1') {
         currentPlayer = 'player2';
     } else {
@@ -414,15 +414,10 @@ function getValidMoves(position) {
 function togglePlayer(){
     currentPlayer = (currentPlayer === 'player1') ? 'player2' : 'player1';
     currentAction = 'none'; // Réinitialiser l'action pour le prochain joueur
-
+    
+    resetPlayerTimer();
     updateCellVisibility();
     openAntiCheatPage();
-
-    clearInterval(player1Timer);
-    clearInterval(player2Timer);
-
-
-    startPlayerTimer();
 
     const playerPosition = currentPlayer === 'player1' ? player1Position : player2Position;
     const visibilityChange = currentPlayer === 'player1' ? 2 : 2;
