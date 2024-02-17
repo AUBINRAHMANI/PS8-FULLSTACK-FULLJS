@@ -215,7 +215,6 @@ function handleCancelButtonClickPlayer1() {
     // Logique d'annulation pour le joueur 1
     cancelCurrentWallPlacement();
     cancelButtonPlayer1.style.display = 'none';
-
 }
 
 function handleCancelButtonClickPlayer2() {
@@ -586,21 +585,16 @@ function cancelCurrentWallPlacement() {
         cancelWallPlacement();
     }
 }
+
 function cancelWallPlacement() {
     if (currentWallPlacement) {
         const { cellIndex, wallType } = currentWallPlacement;
 
-        // Ajoutez l'indice du mur annulé à placedWalls du joueur actuel
-        /*if (currentPlayer === 'player1') {
-            placedWallsPlayer1.push(cellIndex);
-        } else {
-            placedWallsPlayer2.push(cellIndex);
-        
-        }*/
-
         // Supprimez le mur actuel
         cells[cellIndex].classList.remove('wall');
         cells[cellIndex].style.backgroundColor = '';
+
+        cells.forEach(cell => cell.classList.remove('possible-move'));
 
         const currentPlayerVisibilityChange = currentPlayer === 'player1' ? 2 : -2;
         applyVisibilityChange(cellIndex, -currentPlayerVisibilityChange);
@@ -638,6 +632,11 @@ function cancelWallPlacement() {
         // Cachez le bouton "Valider"
         const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
         validateButton.style.display = 'none';
+
+        // Réinitialiser les classes 'possible-move' sur les cellules valides
+        currentAction = 'none';
+        const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
+        validMoves.forEach(move => cells[move].classList.add('possible-move'));
     }
 }
 
