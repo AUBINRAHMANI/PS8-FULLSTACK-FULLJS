@@ -203,7 +203,6 @@ function handleCancelButtonClickPlayer1() {
     // Logique d'annulation pour le joueur 1
     cancelCurrentWallPlacement();
     cancelButtonPlayer1.style.display = 'none';
-
 }
 
 function handleCancelButtonClickPlayer2() {
@@ -231,19 +230,13 @@ function finalizeWallPlacement(player) {
 
     // Accède au bouton de validation spécifique au joueur
     const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
+    const cancelButton = document.getElementById(`cancelButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
 
     validateButton.style.display = 'none';
-
-     // Décrémenter le nombre de murs disponibles
-     if (currentPlayer === 'player1') {
-        player1WallsRemaining--;
-    } else {
-        player2WallsRemaining--;
-    }
-    // Mettre à jour l'affichage du nombre de murs restants
-    updateWallsRemaining();
-
+    cancelButton.style.display = 'none';
     togglePlayer();
+
+    // Autres actions spécifiques au joueur ici...
 }
 
 function startTimer(timerId) {
@@ -573,21 +566,16 @@ function cancelCurrentWallPlacement() {
         cancelWallPlacement();
     }
 }
+
 function cancelWallPlacement() {
     if (currentWallPlacement) {
         const { cellIndex, wallType } = currentWallPlacement;
 
-        // Ajoutez l'indice du mur annulé à placedWalls du joueur actuel
-        if (currentPlayer === 'player1') {
-            placedWallsPlayer1.push(cellIndex);
-        } else {
-            placedWallsPlayer2.push(cellIndex);
-        
-        }
-
         // Supprimez le mur actuel
         cells[cellIndex].classList.remove('wall');
         cells[cellIndex].style.backgroundColor = '';
+
+        cells.forEach(cell => cell.classList.remove('possible-move'));
 
         const currentPlayerVisibilityChange = currentPlayer === 'player1' ? 2 : -2;
         applyVisibilityChange(cellIndex, -currentPlayerVisibilityChange);
@@ -624,12 +612,55 @@ function cancelWallPlacement() {
 
         // Cachez le bouton "Valider"
         const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        const cancelButton = document.getElementById(`cancelButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
         validateButton.style.display = 'none';
+        cancelButton.style.display = 'none';
+
+
+        // Réinitialiser les classes 'possible-move' sur les cellules valides
+        currentAction = 'none';
+        const validMoves = getValidMoves(currentPlayer === 'player1' ? player1Position : player2Position);
+        validMoves.forEach(move => cells[move].classList.add('possible-move'));
     }
 }
 
+function validateWallPlacement() {
+    if (currentWallPlacement && !currentWallPlacement.placed) {
+        // Marquez le mur comme placé
+        currentWallPlacement.placed = true;
+
+        if (currentPlayer === 'player1') {
+            placedWallsPlayer1.push(cellIndex);
+        } else {
+            placedWallsPlayer2.push(cellIndex);
+        
+        }
+    
+        // Décrémenter le nombre de murs disponibles uniquement lorsque le placement est validé
+        if (currentPlayer === 'player1') {
+            player1WallsRemaining--;
+        } else {
+            player2WallsRemaining--;
+        }
+    
+        // Mettre à jour l'affichage du nombre de murs restants
+        updateWallsRemaining();
+
+        // Cachez le bouton "Valider"
+        const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        const cancelButton = document.getElementById(`cancelButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        validateButton.style.display = 'none';
+        cancelButton.style.display = 'none';
+    }
+    
+}
+
+
 function handleWallClick(cellIndex, wallType) {
     if(currentAction === 'move'|| !player1Position || !player2Position){
+        return;
+    }
+    if (cells[cellIndex].classList.contains('wall')) {
         return;
     }
 
@@ -671,16 +702,21 @@ function canPlaceWall(cellIndex, wallType) {
     // et qu'il respecte les règles du jeu Qoridor.
     // Vous pouvez utiliser la position actuelle des joueurs et les indices des murs.
     // Exemple : vérifiez si le mur chevauche d'autres murs ou s'il bloque le chemin d'un joueur.
+    let row = Math.floor(cellIndex / 17);
+    let col = cellIndex % 17;
+    if (row % 2 !== 0 && col % 2 !== 0) {
+        return false;
+    }
+    if (row % 2 !== 0 && col % 2 !== 0) {return false;}
     if (cells[cellIndex].classList.contains('wall')) {
         return false;
     }
-
-    let row = Math.floor(cellIndex / 17);
-    let col = cellIndex % 17;
-    if (row % 2 !== 0 && col % 2 !== 0) {return false;}
-
+    if (placedWallsPlayer1.includes(cellIndex) || placedWallsPlayer2.includes(cellIndex)) {
+        return false;
+    }
     // Placeholder, veuillez mettre en œuvre votre propre logique
     return true;
+    
 }
 
 function placeWall(cellIndex, wallType) {

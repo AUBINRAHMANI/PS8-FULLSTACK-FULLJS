@@ -268,13 +268,35 @@ body {
     background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230F0" width="48px" height="48px"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 18 21 6l-1.41-1.41L9 16.17z"/></svg>');
     background-size: contain; /* Ajuster la taille de l'image pour remplir le bouton */
     background-repeat: no-repeat; /* Pas de répétition de l'image */
-    margin-right: auto;
-    margin-left: auto;
+    margin-left: 100px;
+}
+
+#cancelButtonPlayer1,
+#cancelButtonPlayer2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Fond transparent */
+    color: transparent; /* Texte transparent pour masquer le texte "Annuler" */
+    padding: 30px; /* Espacement interne du bouton */
+    border: none; /* Pas de bordure */
+    border-radius: 50%; /* Coins arrondis pour un aspect de cercle */
+    cursor: pointer; /* Curseur de type pointeur au survol */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23F00" width="48px" height="48px"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+    background-size: contain; /* Ajuster la taille de l'image pour remplir le bouton */
+    background-repeat: no-repeat; /* Pas de répétition de l'image */
+    margin-right: 60px;
 }
 
 #validateButtonPlayer1:hover,
 #validateButtonPlayer2:hover {
     /* Vous pouvez ajouter un style de survol si nécessaire */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Marge supérieure pour séparer les boutons du reste du contenu */
 }
 
 .main-container {
