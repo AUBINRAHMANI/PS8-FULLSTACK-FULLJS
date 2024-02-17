@@ -97,9 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCellAppearance(firstRowCell, 1);
     });
 
-
-
-
     // Appliquer la classe 'first-row' aux cellules de la première ligne du joueur opposé
     const oppositePlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
     const oppositeFirstRow = firstRow === 0 ? 16 : 0; // Inverser la rangée pour le joueur opposé
@@ -114,9 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
     board.addEventListener('click', handleInitialCellClick);
     startPlayerTimer();
     loadGameState();
-
-
-
 });
 
 function saveGameState(){
@@ -186,12 +180,12 @@ function formatTime(timeInMillis) {
     return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
 }
 
-//let validateButton = document.getElementById('validateButton');
-//validateButton.addEventListener('click', handleValidateButtonClick);
 
 // Ajoute ces lignes dans la fonction 'DOMContentLoaded' après la création des éléments HTML
 document.getElementById('validateButtonPlayer1').addEventListener('click', handleValidateButtonClickPlayer1);
 document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
+document.getElementById('cancelButtonPlayer1').addEventListener('click', handleCancelButtonClickPlayer1);
+document.getElementById('cancelButtonPlayer2').addEventListener('click', handleCancelButtonClickPlayer2);
 
 function handleValidateButtonClickPlayer1() {
     // Logique de validation pour le joueur 1
@@ -201,6 +195,21 @@ function handleValidateButtonClickPlayer1() {
 function handleValidateButtonClickPlayer2() {
     // Logique de validation pour le joueur 2
     finalizeWallPlacementPlayer2();
+}
+
+
+
+function handleCancelButtonClickPlayer1() {
+    // Logique d'annulation pour le joueur 1
+    cancelCurrentWallPlacement();
+    cancelButtonPlayer1.style.display = 'none';
+
+}
+
+function handleCancelButtonClickPlayer2() {
+    // Logique d'annulation pour le joueur 2
+    cancelCurrentWallPlacement();
+    cancelButtonPlayer2.style.display = 'none';
 }
 
 function finalizeWallPlacementPlayer1() {
@@ -250,7 +259,6 @@ function startTimer(timerId) {
         if (--duration <= 0) {
             //clearInterval(timerInterval);
             timerElement.textContent = "Temps écoulé!";
-            console.log("Le temps est écoulé! Passer au joueur suivant...");
             switchPlayerTurn();
         }
         
@@ -585,7 +593,12 @@ function cancelWallPlacement() {
         applyVisibilityChange(cellIndex, -currentPlayerVisibilityChange);
 
         if (wallType === 'column') {
-            const adjCellIndex = cellIndex + 34;
+            let adjCellIndex;
+            if ([273, 275, 277, 279, 281, 283, 285, 287].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 34;
+            }else{
+                adjCellIndex = cellIndex + 34;
+            }
             cells[adjCellIndex].classList.remove('wall');
             cells[adjCellIndex].style.backgroundColor = '';
 
@@ -593,7 +606,12 @@ function cancelWallPlacement() {
             updateVisibilityAdjacentToWall(adjCellIndex, -currentPlayerVisibilityChange);
 
         } else if (wallType === 'row') {
-            const adjCellIndex = cellIndex + 2;
+            let adjCellIndex;
+            if ([33, 67, 101, 135, 169, 203, 237, 271].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 2;
+            } else {
+                adjCellIndex = cellIndex + 2;
+            }
             cells[adjCellIndex].classList.remove('wall');
             cells[adjCellIndex].style.backgroundColor = '';
 
@@ -638,7 +656,10 @@ function handleWallClick(cellIndex, wallType) {
         placeWall(cellIndex, wallType);
         currentAction = 'placeWall';
         const validateButton = document.getElementById(`validateButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
+        const cancelButton = document.getElementById(`cancelButton${currentPlayer.charAt(0).toUpperCase() + currentPlayer.slice(1)}`);
         validateButton.style.display = 'block';
+        cancelButton.style.display = 'block';
+
         //togglePlayer();
     }
 }
@@ -678,7 +699,12 @@ function placeWall(cellIndex, wallType) {
         applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
 
         if (wallType === 'column') {
-            const adjCellIndex = cellIndex + 34;
+            let adjCellIndex;
+            if ([273, 275, 277, 279, 281, 283, 285, 287].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 34;
+            }else{
+                adjCellIndex = cellIndex + 34;
+            }
             const adjWallCell = cells[adjCellIndex];
             // Mettez à jour la classe du mur adjacent
             adjWallCell.style.backgroundColor = 'orange';
@@ -686,7 +712,12 @@ function placeWall(cellIndex, wallType) {
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
 
         } else if (wallType === 'row') {
-            const adjCellIndex = cellIndex + 2;
+            let adjCellIndex;
+            if ([33, 67, 101, 135, 169, 203, 237, 271].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 2;
+            } else {
+                adjCellIndex = cellIndex + 2;
+            }
             const adjWallCell = cells[adjCellIndex];
             // Mettez à jour la classe du mur adjacent
             adjWallCell.style.backgroundColor = 'orange';
@@ -702,7 +733,12 @@ function placeWall(cellIndex, wallType) {
         applyVisibilityChange(cellIndex, currentPlayerVisibilityChange);
 
         if (wallType === 'column') {
-            const adjCellIndex = cellIndex + 34;
+            let adjCellIndex;
+            if ([273, 275, 277, 279, 281, 283, 285, 287].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 34;
+            }else{
+                adjCellIndex = cellIndex + 34;
+            }
             cells[adjCellIndex].classList.add('wall');
             cells[adjCellIndex].style.backgroundColor = 'orange';
 
@@ -710,7 +746,12 @@ function placeWall(cellIndex, wallType) {
             updateVisibilityAdjacentToWall(adjCellIndex, currentPlayerVisibilityChange);
 
         } else if (wallType === 'row') {
-            const adjCellIndex = cellIndex + 2;
+            let adjCellIndex;
+            if ([33, 67, 101, 135, 169, 203, 237, 271].includes(cellIndex)) {
+                adjCellIndex = cellIndex - 2;
+            } else {
+                adjCellIndex = cellIndex + 2;
+            }
             cells[adjCellIndex].classList.add('wall');
             cells[adjCellIndex].style.backgroundColor = 'orange';
 
