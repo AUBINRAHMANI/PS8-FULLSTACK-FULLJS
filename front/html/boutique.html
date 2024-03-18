@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique - Quortnite</title>
+    <link rel="stylesheet" href="../css/boutique-style.css">
+</head>
+<body>
+<div class="container">
+    <h1>Boutique Quortnite</h1>
+
+    <!-- Barre de navigation pour les catégories -->
+    <div class="nav-bar">
+        <button class="nav-btn" id="avatars">Skins</button>
+        <button class="nav-btn" id="tables">Tables</button>
+        <button class="nav-btn" id="weapons">Armes</button>
+    </div>
+
+    <!-- Conteneurs pour afficher les produits -->
+    <div class="product-container" id="avatar-products">
+        <!-- Contenu des avatars à acheter -->
+        <!-- Ajoutez vos produits d'avatars ici -->
+        <div class="product">
+            <img class="product-img" src="../files/Skin1.jpg" alt="Avatar 1">
+            <div class="product-info">
+                <div class="product-name">Tarik</div>
+                <div class="product-price">500 <img class="currency" src="../files/bucks.jpeg" alt="bucks" style="width: 30px; height: 30px;"></div>
+            </div>
+        </div>
+
+        <div class="product">
+            <img class="product-img" src="../files/Skin2.jpg" alt="Avatar 2">
+            <div class="product-info">
+                <div class="product-name">PJ</div>
+                <div class="product-price">850 <img class="currency" src="../files/bucks.jpeg" alt="bucks" style="width: 30px; height: 30px;"></div>
+            </div>
+        </div>
+
+
+        <div class="product">
+            <img class="product-img" src="../files/Skin3.jpeg" alt="Avatar 3">
+            <div class="product-info">
+                <div class="product-name">Odyssé</div>
+                <div class="product-price">1.000 <img class="currency" src="../files/bucks.jpeg" alt="bucks" style="width: 30px; height: 30px;"></div>
+            </div>
+        </div>
+
+
+        <div class="product">
+            <img class="product-img" src="../files/Skin4.jpg" alt="Avatar 4">
+            <div class="product-info">
+                <div class="product-name">Rufus</div>
+                <div class="product-price">1.500 <img class="currency" src="../files/bucks.jpeg" alt="bucks" style="width: 30px; height: 30px;"></div>
+            </div>
+        </div>
+
+
+        <div class="product">
+            <img class="product-img" src="../files/Skin5.jpg" alt="Avatar 5">
+            <div class="product-info">
+                <div class="product-name">Soignant</div>
+                <div class="product-price">4.800 <img class="currency" src="../files/bucks.jpeg" alt="bucks" style="width: 30px; height: 30px;"></div>
+            </div>
+        </div>
+
+        
+        
+    
+        <div class="product">
+            <h2>Skin 2</h2>
+            <img src="../files/Skin2.jpg" alt="Avatar 2" style="width: 200px; height: 200px;">
+            <p>Description de l'avatar 2.</p>
+            <p>Prix: 800 bucks</p>
+
+        </div>
+    </div>
+
+    <div class="product-container" id="table-products">
+        <!-- Contenu des plateaux à acheter -->
+        <!-- Ajoutez vos produits de plateaux ici -->
+    </div>
+
+    <div class="product-container" id="weapon-products">
+        <!-- Contenu des armes à acheter -->
+        <!-- Ajoutez vos produits d'armes ici -->
+    </div>
+
+</div>
+
+<script>
+    const avatarsBtn = document.getElementById('avatars');
+    const tablesBtn = document.getElementById('tables');
+    const weaponsBtn = document.getElementById('weapons');
+
+    const avatarProducts = document.getElementById('avatar-products');
+    const tableProducts = document.getElementById('table-products');
+    const weaponProducts = document.getElementById('weapon-products');
+
+    avatarsBtn.addEventListener('click', () => {
+        avatarProducts.style.display = 'block';
+        tableProducts.style.display = 'none';
+        weaponProducts.style.display = 'none';
+    });
+
+    tablesBtn.addEventListener('click', () => {
+        avatarProducts.style.display = 'none';
+        tableProducts.style.display = 'block';
+        weaponProducts.style.display = 'none';
+    });
+
+    weaponsBtn.addEventListener('click', () => {
+        avatarProducts.style.display = 'none';
+        tableProducts.style.display = 'none';
+        weaponProducts.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
