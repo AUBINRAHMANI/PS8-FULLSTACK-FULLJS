@@ -17,6 +17,7 @@
         <button class="nav-btn" id="weapons">Armes</button>
     </div>
 
+
     <!-- Conteneurs pour afficher les produits -->
     <div class="product-container" id="avatar-products">
         <!-- Contenu des avatars à acheter -->
@@ -65,7 +66,13 @@
         </div>
 
         
-        
+        <div class="product">
+            <img class="product-img" src="../files/Skin6.jpg" alt="Avatar 6">
+            <div class="product-info">
+                <div class="product-name">Soignant</div>
+                <div class="product-price">4.800 <img class="currency" src="../files/bucks.jpeg" alt="bucks" style="width: 30px; height: 30px;"></div>
+            </div>
+        </div>
     
         <div class="product">
             <h2>Skin 2</h2>
@@ -75,6 +82,7 @@
 
         </div>
     </div>
+    
 
     <div class="product-container" id="table-products">
         <!-- Contenu des plateaux à acheter -->
@@ -88,33 +96,7 @@
 
 </div>
 
-<script>
-    const avatarsBtn = document.getElementById('avatars');
-    const tablesBtn = document.getElementById('tables');
-    const weaponsBtn = document.getElementById('weapons');
-
-    const avatarProducts = document.getElementById('avatar-products');
-    const tableProducts = document.getElementById('table-products');
-    const weaponProducts = document.getElementById('weapon-products');
-
-    avatarsBtn.addEventListener('click', () => {
-        avatarProducts.style.display = 'block';
-        tableProducts.style.display = 'none';
-        weaponProducts.style.display = 'none';
-    });
-
-    tablesBtn.addEventListener('click', () => {
-        avatarProducts.style.display = 'none';
-        tableProducts.style.display = 'block';
-        weaponProducts.style.display = 'none';
-    });
-
-    weaponsBtn.addEventListener('click', () => {
-        avatarProducts.style.display = 'none';
-        tableProducts.style.display = 'none';
-        weaponProducts.style.display = 'block';
-    });
-</script>
+<script src="/front/js/boutique.js"></script>
 
 </body>
 </html>

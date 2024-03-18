@@ -1,20 +1,29 @@
-const avatarProducts = document.getElementById('avatar-products');
+// boutique-script.js
 
-window.addEventListener('resize', () => {
-    adjustProductContainer();
+document.addEventListener("DOMContentLoaded", function () {
+    const avatarsBtn = document.getElementById('avatars');
+    const tablesBtn = document.getElementById('tables');
+    const weaponsBtn = document.getElementById('weapons');
+
+    const avatarProducts = document.getElementById('avatar-products');
+    const tableProducts = document.getElementById('table-products');
+    const weaponProducts = document.getElementById('weapon-products');
+
+    avatarsBtn.addEventListener('click', () => {
+        avatarProducts.style.display = 'block';
+        tableProducts.style.display = 'none';
+        weaponProducts.style.display = 'none';
+    });
+
+    tablesBtn.addEventListener('click', () => {
+        avatarProducts.style.display = 'none';
+        tableProducts.style.display = 'block';
+        weaponProducts.style.display = 'none';
+    });
+
+    weaponsBtn.addEventListener('click', () => {
+        avatarProducts.style.display = 'none';
+        tableProducts.style.display = 'none';
+        weaponProducts.style.display = 'block';
+    });
 });
-
-function adjustProductContainer() {
-    const containerWidth = avatarProducts.clientWidth;
-    const productCount = avatarProducts.children.length;
-    const productWidth = avatarProducts.children[0].offsetWidth;
-    const totalProductWidth = productWidth * productCount;
-
-    if (totalProductWidth > containerWidth) {
-        avatarProducts.style.justifyContent = 'flex-start';
-    } else {
-        avatarProducts.style.justifyContent = 'center';
-    }
-}
-
-window.onload = adjustProductContainer; // Appeler la fonction lors du chargement initial

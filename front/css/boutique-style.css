@@ -55,6 +55,7 @@ h1 {
 
 .nav-bar {
     display: flex;
+    font-size: 20px;
     justify-content: space-around; /* Espacement égal entre les éléments */
     background-color: #029be5; /* Couleur de fond bleue */
     padding: 10px 0; /* Espace de remplissage intérieur */
