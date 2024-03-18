@@ -1,14 +1,161 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
+
+
 const http = require('http');
 const jwt = require('jsonwebtoken'); // Utilisez jsonwebtoken pour créer des JWT
 const fs = require('fs');
 
 const { MongoClient } = require("mongodb");
 const bcrypt = require("bcryptjs");
+
+const {sendResponse, urlNotFound,BODY, PARAMS} = require("./utilsApi");
+const {SIGNUP_API,LOGIN_API,CHATS_API,USERS_API} = require("../../front/utils/path");
+const {userSignUpOrLogin} = require("./user/accountApi");
+const {messagesApiGet} = require("./chat/apiChats.js");
+
+
 const uri = "mongodb://root:example@mongodb:27017";
 const client = new MongoClient(uri);
 const dbName = "DatabaseName";
 
+
+
+
+
+function manageRequest(request, response) {
+    addCors(response)
+
+    let url = request.url.split("?")
+    let urlPathArray = url[0].split("/")
+
+    removeUselessInformationsUrlPathArray(urlPathArray)
+
+    retrieveParamsQuery(request)
+
+    switch (request.method) {
+        case "OPTIONS":
+            sendResponse(response, 200, "OK");
+            break;
+        case "POST":
+            let body = "";
+            request.on('data', function (data) {
+                body += data;
+            });
+
+            request.on('end', function () {
+                putBodyInRequest(request, body)
+
+                switch (urlPathArray[0] + "/") {
+                    case SIGNUP_API:
+                        userSignUpOrLogin(request, response);
+                        break;
+                    case LOGIN_API:
+                        userSignUpOrLogin(request, response);
+                        break;
+                    default:
+                        urlNotFound(request, response)
+                }
+            });
+            break;
+        case "GET":
+            switch (urlPathArray[0] + "/") {
+                case CHATS_API:
+                    urlPathArray.shift()
+                    messagesApiGet(request, response, urlPathArray);
+                    break;
+
+                default:
+                    urlNotFound(request, response)
+            }
+            break;
+        case "DELETE":
+            switch (urlPathArray[0] + "/") {
+                default:
+                    urlNotFound(request, response)
+            }
+            break;
+        default:
+            urlNotFound(request, response);
+    }
+}
+
+
+
+
+function removeUselessInformationsUrlPathArray(urlPathArray) {
+    if (urlPathArray[0] === "") {
+        urlPathArray.shift();
+    }
+
+    if (urlPathArray[0] === "api") {
+        urlPathArray.shift();
+    }
+
+    if (urlPathArray[urlPathArray.length - 1] === "") {
+        urlPathArray.pop();
+    }
+}
+
+
+function putBodyInRequest(request, body) {
+    try {
+        request[BODY] = JSON.parse(body);
+    } catch (err) {
+        request[BODY] = {};
+    }
+}
+
+function retrieveParamsQuery(request) {
+    let url = request.url.split("?")
+
+    let paramsObject = {}
+    if (url.length === 2) {
+        let urlParams = url[1].split("&");
+        urlParams.forEach(param => {
+            const [key, value] = param.split("=")
+            if (value !== undefined) {
+                paramsObject[key] = value
+            }
+        })
+    }
+
+    request[PARAMS] = paramsObject;
+}
+
+
+
+/* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
+** Access-Control-Allow-Methods should only contain the authorized method for the url that has been targeted
+** (for instance, some of your api urls may accept GET and POST request whereas some others will only accept PUT).
+** Access-Control-Allow-Headers is an example of how to authorize some headers, the ones given in this example
+** are probably not the ones you will need. */
+function addCors(response) {
+    // Website you wish to allow to connect to your server.
+    response.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow.
+    response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow.
+    response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Set to true if you need the website to include cookies in the requests sent to the API.
+    response.setHeader('Access-Control-Allow-Credentials', true);
+}
+
+
+export {addCors};
+
+
+
+exports.manage = manageRequest;
+
+
+
+
+
+
+
+
+
+/*
 
 async function connectToDb() {
     await client.connect();
@@ -19,6 +166,7 @@ function getUsersCollection() {
     const database = client.db(dbName);
     return database.collection("users");
 }
+
 
 
 async function manageRequest(request, response) {
@@ -99,110 +247,12 @@ async function manageRequest(request, response) {
     }
 }
 
-
-
-function saveToken(email,username, password, token) {
-    const filePath = './back/queryManagers/tokens.json';
-    fs.readFile(filePath, (err, data) => {
-        let tokens = {};
-        let users = {};
-
-        if (err && err.code !== 'ENOENT') {
-            console.error("Erreur lors de la lecture du fichier tokens.json", err);
-            return;
-        }
-
-        if (data && data.length > 0) {
-            try {
-                users = JSON.parse(data.toString());
-            } catch (parseErr) {
-                console.error("Erreur lors de l'analyse des tokens", parseErr);
-                return;
-            }
-        }
-
-        users[username] = {
-            email: email,
-            username: username,
-            password: password, // Attention: il faut hacher le mot de passe avec bcrypt par exemple
-            token: token
-        };
-
-        fs.writeFile(filePath, JSON.stringify(users, null, 2), (writeErr) => {
-            if (writeErr) {
-                console.error("Erreur lors de l'écriture dans tokens.json", writeErr);
-            }
-        });
-    });
-}
-
-function checkEmailExists(email, callback) {
-    fs.readFile('./back/queryManagers/tokens.json', (err, data) => {
-        if (err) {
-            console.error("Erreur lors de la lecture du fichier tokens.json", err);
-            callback(false);
-            return;
-        }
-        let tokens;
-        try {
-            tokens = JSON.parse(data.toString());
-        } catch (parseErr) {
-            console.error("Erreur lors de l'analyse des tokens", parseErr);
-            callback(false);
-            return;
-        }
-        callback(tokens.hasOwnProperty(email));
-    });
-}
-
-
-
-function authenticateUser(email, password, callback) {
-    fs.readFile('./back/queryManagers/tokens.json', (err, data) => {
-        if (err) {
-            console.error("Erreur lors de la lecture du fichier tokens.json", err);
-            callback(false);
-            return;
-        }
-
-        let users;
-        try {
-            users = JSON.parse(data.toString());
-        } catch (parseErr) {
-            console.error("Erreur lors de l'analyse des utilisateurs", parseErr);
-            callback(false);
-            return;
-        }
-
-        // Comparez les mots de passe en clair
-        if (users[email] && users[email].password === password) {
-            callback(true, users[email].username); // Connexion réussie
-        } else {
-            callback(false); // Échec de la connexion
-        }
-    });
-}
-
-
-
-/* This method is a helper in case you stumble upon CORS problems. It shouldn't be used as-is:
-** Access-Control-Allow-Methods should only contain the authorized method for the url that has been targeted
-** (for instance, some of your api urls may accept GET and POST request whereas some others will only accept PUT).
-** Access-Control-Allow-Headers is an example of how to authorize some headers, the ones given in this example
-** are probably not the ones you will need. */
-function addCors(response) {
-    // Website you wish to allow to connect to your server.
-    response.setHeader('Access-Control-Allow-Origin', '*');
-    // Request methods you wish to allow.
-    response.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    // Request headers you wish to allow.
-    response.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    // Set to true if you need the website to include cookies in the requests sent to the API.
-    response.setHeader('Access-Control-Allow-Credentials', true);
-}
-
-
-
 connectToDb().catch(console.error);
+*/
 
-exports.manage = manageRequest;
+
+
+
+
+
+

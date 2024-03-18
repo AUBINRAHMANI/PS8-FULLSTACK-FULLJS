@@ -12,7 +12,7 @@ const path = require('path');
 const baseFrontPath = '/front';
 
 // If the user requests a directory, a file can be returned by default.
-const defaultFileIfFolder = "index.html";
+const defaultFileIfFolder = "index.acceuil";
 
 /* Dict associating files' extension to a MIME type browsers understand. The reason why this is needed is that only
 ** the file's content is sent to the browser, so it cannot know for sure what kind of file it was to begin with,
@@ -20,7 +20,7 @@ const defaultFileIfFolder = "index.html";
 ** Note that the list is not exhaustive, you may need it to add some other MIME types (google is your friend). */
 const mimeTypes = {
     '.ico': 'image/x-icon',
-    '.html': 'text/html',
+    '.html': 'text/acceuil',
     '.js': 'text/javascript',
     '.json': 'application/json',
     '.css': 'text/css',
@@ -74,7 +74,7 @@ function manageRequest(request, response) {
 }
 
 function send404(path, response) {
-    // Note that you can create a beautiful html page and return that page instead of the simple message below.
+    // Note that you can create a beautiful acceuil page and return that page instead of the simple message below.
     response.statusCode = 404;
     response.end(`File ${path} not found!`);
 }

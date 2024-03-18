@@ -1,4 +1,4 @@
-// script.js
+// script.sockets
 let currentPlayer = 'player1';
 let player1Timer;
 let player2Timer;
@@ -765,7 +765,7 @@ function isWallBetweenPositions(startIndex, endIndex) {
 }
 
 function openAntiCheatPage() {
-    const antiCheatUrl = 'anti-cheat-sheet.html';
+    const antiCheatUrl = 'anti-cheat-sheet.acceuil';
 
     const width = 850;
     const height = 600;

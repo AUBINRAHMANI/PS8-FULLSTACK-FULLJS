@@ -3,6 +3,9 @@ const http = require('http')
 // Let's import our logic.
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
+const AuthRoutes = require('./routes/AuthRoutes.js');
+const UserModel = require('./models/userModel.js');
+
 
 const { MongoClient } = require("mongodb");
 
@@ -14,7 +17,7 @@ const host = '0.0.0.0';
 const port = 8000;
 
 
-async function run() {
+/*async function run() {
     try {
         const database = client.db('sample_mflix');
         const movies = database.collection('movies');
@@ -27,7 +30,9 @@ async function run() {
         await client.close();
     }
 }
-run().catch(console.dir);
+run().catch(console.dir);*/
+
+
 
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
@@ -52,10 +57,16 @@ http.createServer(function (request, response) {
         response.statusCode = 400;
         response.end(`Something in your request (${request.url}) is strange...`);
     }
+
+
+
 // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
 }).listen(port, host, () => {
     console.log(`Server is running on http://${host}:${port}`);
 });
+
+
+
 
 
 

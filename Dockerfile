@@ -1,4 +1,4 @@
-# Utilisation de l'image officielle Node.js version slim
+# Utilisation de l'image officielle Node.sockets version slim
 
 FROM node:18-slim
 
@@ -17,7 +17,7 @@ RUN npm install
 # Copie du reste des fichiers de l'application
 COPY . .
 
-# Exposition du port sur lequel le serveur Node.js écoutera
+# Exposition du port sur lequel le serveur Node.sockets écoutera
 EXPOSE 8000
 
 # Commande pour démarrer l'application

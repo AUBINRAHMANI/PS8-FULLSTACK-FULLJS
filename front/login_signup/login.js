@@ -63,7 +63,7 @@ function submitForm(form, url,type) {
                 if (data.token) {
                     console.log('Connexion réussie:', data);
                     alert("Connexion réussie:");
-                    window.location.href = '../html/acceuil.html';
+                    window.location.href = '../acceuil/acceuil.html';
                 } else {
                     alert("Échec de la connexion. Veuillez réessayer.");
                 }
