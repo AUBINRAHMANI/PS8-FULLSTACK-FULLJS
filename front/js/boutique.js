@@ -1,7 +1,8 @@
-// boutique-script.js
+// boutique.js
 
 document.addEventListener("DOMContentLoaded", function () {
     const avatarsBtn = document.getElementById('avatars');
+    console.log("Hello");
     const tablesBtn = document.getElementById('tables');
     const weaponsBtn = document.getElementById('weapons');
 
