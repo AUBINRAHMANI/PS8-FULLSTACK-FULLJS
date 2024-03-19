@@ -11,10 +11,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const weaponProducts = document.getElementById('weapon-products');
 
     avatarsBtn.addEventListener('click', () => {
-        avatarProducts.style.display = 'block';
+        avatarProducts.style.display = 'flex';
+        avatarProducts.style.whiteSpace = nowrap;
         tableProducts.style.display = 'none';
         weaponProducts.style.display = 'none';
     });
+    
 
     tablesBtn.addEventListener('click', () => {
         avatarProducts.style.display = 'none';
@@ -28,3 +30,4 @@ document.addEventListener("DOMContentLoaded", function () {
         weaponProducts.style.display = 'block';
     });
 });
+
