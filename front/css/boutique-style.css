@@ -91,6 +91,7 @@ h1 {
     margin-right: 40px; /* Ajouter de l'espace entre les produits */
     margin-top: 40px; /* Ajouter de l'espace entre les produits et la barre de navigation */
     overflow: hidden;
+    min-height: 370px; /* Définir une hauteur minimale pour chaque produit */
     transition: transform 0.3s;
 }
 
