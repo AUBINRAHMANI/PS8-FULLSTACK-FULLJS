@@ -19,9 +19,9 @@
 <!-- Trois colonnes : une grande colonne centrale et deux colonnes adjacentes plus fines -->
 <div class="main-container">
     <div class="left-column">
-        <img src="../files/Huzog.png" alt="character" class="small-image">
+        <img id="characterImage" src="../files/Huzog.png" alt="character" class="small-image">
         <div class="orange-box">
-            <h3 class="sub-title"></h3>
+            <h3 class="sub-title">Huzog</h3>
         </div>
         <div id="wallsRemainingPlayer1" class="walls-remaining">Remaining walls: 10</div>
         <div class="timer" id="player1Timer">00:40</div>
@@ -42,7 +42,7 @@
     <div class="right-column">
         <img src="../files/Wassim.png" alt="character" class="small-image">
         <div class="orange-box">
-            <h3 class="sub-title"></h3>
+            <h3 class="sub-title">Wassim</h3>
         </div>
         <div id="wallsRemainingPlayer2" class="walls-remaining">Remaining walls: 10</div>
         <div class="timer" id="player2Timer">00:40</div>
@@ -63,6 +63,30 @@
 
 <script src="../js/gameMotor.js"></script>
 <script src="../js/quitGame.js"></script>
+<script>
+    // Fonction pour obtenir les paramètres de l'URL
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    // Vérifier si le paramètre "imported" est présent dans l'URL
+    var imported = getParameterByName('imported');
+    if (imported === 'true') {
+        // Vérifier s'il existe une URL d'image dans le stockage local
+        var imageUrl = localStorage.getItem("imageUrl");
+        if (imageUrl) {
+            // Mettre à jour l'image dans la colonne gauche avec l'URL stockée
+            document.getElementById('characterImage').src = imageUrl;
+        }
+    }
+</script>
+
 
 </body>
 </html>

@@ -44,3 +44,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
 });
+
+function importerImage(){
+     // Récupérer l'URL de l'image
+     var imageUrl = "../files/GameAvat1.png";
+     // Stocker l'URL dans le stockage local pour la récupérer dans gameMotor.html
+     localStorage.setItem("imageUrl", imageUrl);
+     // Rediriger vers la page B.html
+     window.location.href = "../html/game.html?imported=true";
+     
+};
+
