@@ -1,5 +1,5 @@
 body, html {
-    height: 90%;
+    height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #4a90e2;
@@ -11,15 +11,18 @@ body, html {
 }
 body {
     justify-content: center;
-    height: 100vh;
+    height: 170vh;
     margin: 0;
     background-image: url('../files/BlueBackground.png'); /* Remplacez par le chemin de votre image */
     background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
     background-position: center; /* Centre l'image horizontalement et verticalement */
-    background-repeat: no-repeat; /* Évite la répétition de l'image */
 }
 
 h1 {
+    position: relative;
+    top: 10%;
+    transform: translateY(-45%);
+
     text-align: center;
     font-family:'Burbank','arial';
     font-size: 5rem;
@@ -32,21 +35,25 @@ h1 {
 h2 {
     color: white;
     font-family:'Burbank','arial';
-    font-size: 30px;
+    font-size: 35px;
     margin-top: 30px;
     margin-bottom: 10px;
 }
 
-p {
-    font-size: 17px; /* Taille de police du texte */
+p, 
+p1 {
+    font-size: 20px; /* Taille de police du texte */
     line-height: 1.5; /* Hauteur de ligne */
     font-family: 'fantasy';
+}
+p1 {
+    margin-right: 120px;
 }
 
 .container {
     display: flex;
     flex-wrap: wrap;
-    width: 95%; /* Largeur du conteneur principal */
+    width: 85%; /* Largeur du conteneur principal */
     margin: 0 auto; /* Centrage horizontal */
 }
 
@@ -55,7 +62,9 @@ p {
 }
 .content2 {
     flex: 1;
-    margin-left: 49px;
+    margin-left: 147px;
+    margin-top: -105px; /* Réduire l'espace au-dessus de content2 */
+
 }
 
 /* Styles pour les liens */
@@ -70,8 +79,8 @@ a:hover {
 
 .image {
     flex: 1;
-    margin-left: 300px; /* Marge entre l'image et le contenu */
-    height: 80px;
+    margin-left: 250px; /* Marge entre l'image et le contenu */
+    height: 100px;
 }
 
 /* Pour que les éléments soient placés verticalement sur des écrans étroits */
@@ -86,3 +95,16 @@ a:hover {
         margin: 0; /* Réinitialisation des marges pour les éléments empilés verticalement */
     }
 }
+
+h2,
+p,
+p1,
+.container,
+.image,
+.content1,
+.content2 {
+    position: relative;
+    top: 30%; /* Ajustez la valeur selon vos besoins */
+    transform: translateY(-30%);
+}
+
