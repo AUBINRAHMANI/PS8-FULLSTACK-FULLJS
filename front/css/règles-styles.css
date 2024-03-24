@@ -1,3 +1,14 @@
+body, html {
+    height: 90%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+}
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../files/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
 body {
     justify-content: center;
     height: 100vh;
@@ -8,13 +19,20 @@ body {
     background-repeat: no-repeat; /* Évite la répétition de l'image */
 }
 
-h1, h2 {
+h1 {
+    margin-top: 100px;
     text-align: center;
     font-family:'Burbank','arial';
     font-size: 5rem;
     margin: 0;
     padding: 0rem;
-    color:white;}
+    color: white;
+}
+
+h2 {
+    color: white;
+    font-family:'Burbank','arial';
+}
 
 p {
     font-size: 16px; /* Taille de police du texte */
@@ -22,16 +40,21 @@ p {
 }
 
 .container {
-    width: 80%; /* Largeur du conteneur principal */
+    display: flex;
+    flex-wrap: wrap;
+    width: 95%; /* Largeur du conteneur principal */
     margin: 0 auto; /* Centrage horizontal */
     padding: 20px;
 }
 
-/* Styles pour les titres */
-h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+.content1 {
+    flex: 1;
 }
+.content2 {
+    flex: 1;
+    margin-left: 49px;
+}
+
 
 h2 {
     font-size: 24px;
@@ -49,3 +72,21 @@ a:hover {
     color: #ffcc00; /* Couleur au survol */
 }
 
+.image {
+    flex: 1;
+    margin-left: 300px; /* Marge entre l'image et le contenu */
+    height: 80px;
+}
+
+/* Pour que les éléments soient placés verticalement sur des écrans étroits */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .content1,
+    .content2,
+    .image {
+        width: 100%;
+        margin: 0; /* Réinitialisation des marges pour les éléments empilés verticalement */
+    }
+}
