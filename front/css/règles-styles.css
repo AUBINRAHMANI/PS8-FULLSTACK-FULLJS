@@ -11,7 +11,7 @@ body, html {
 }
 body {
     justify-content: center;
-    height: 170vh;
+    height: 210vh;
     margin: 0;
     background-image: url('../files/BlueBackground.png'); /* Remplacez par le chemin de votre image */
     background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
@@ -46,6 +46,7 @@ p1 {
     line-height: 1.5; /* Hauteur de ligne */
     font-family: 'fantasy';
 }
+
 p1 {
     margin-right: 120px;
 }
@@ -62,8 +63,8 @@ p1 {
 }
 .content2 {
     flex: 1;
-    margin-left: 147px;
-    margin-top: -105px; /* Réduire l'espace au-dessus de content2 */
+    margin-left: 108px;
+    margin-top: -170px; /* Réduire l'espace au-dessus de content2 */
 
 }
 
