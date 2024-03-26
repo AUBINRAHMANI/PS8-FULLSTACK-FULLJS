@@ -7,55 +7,59 @@
     <link rel="stylesheet" href="../css/acceuil-styles.css">
 </head>
 <body>
-<div class="container">
-    <h1>QUORTNITE</h1>
+    <div class="container">
+        <h1>QUORTNITE</h1>
 
-    <div class="menu">
+        <div class="menu">
 
-        <button class="btn" id="shop">
-            <img src="../files/boutique.png" alt="Icone Boutique">
-            <span>BOUTIQUE</span>
-            <script>
-                document.getElementById('shop').addEventListener('click', function() {
-                    window.location.href = 'boutique.html'; // Redirige vers la page de la boutique
-                });
-            </script>
-        </button>
+            <button class="btn" id="shop">
+                <img src="../files/boutique.png" alt="Icone Boutique">
+                <span>BOUTIQUE</span>
+                <script>
+                    document.getElementById('shop').addEventListener('click', function() {
+                        window.location.href = 'boutique.html'; // Redirige vers la page de la boutique
+                    });
+                </script>
+            </button>
 
-        <button class="btn" id="play">
-            <span>JOUER</span>
-            <script>
-                document.getElementById('play').addEventListener('click', function() {
-                    window.location.href = 'game.html';
-                });
-            </script>
-        </button>
+            <button class="btn" id="play">
+                <span>JOUER</span>
+                <script>
+                    document.getElementById('play').addEventListener('click', function() {
+                        window.location.href = 'game.html';
+                    });
+                </script>
+            </button>
 
-        <button class="btn" id="rules">
-            <img src="../files/regles.png" alt="Icone Regles">
-            <span>RÈGLES</span>
-            <script>
-                document.getElementById('rules').addEventListener('click', function() {
-                    window.location.href = 'règles.html';
-                });
-            </script>
-        </button>
+            <button class="btn" id="rules">
+                <img src="../files/regles.png" alt="Icone Regles">
+                <span>RÈGLES</span>
+                <script>
+                    document.getElementById('rules').addEventListener('click', function() {
+                        window.location.href = 'règles.html';
+                    });
+                </script>
+            </button>
 
-        <button class="btn" id="stats">
-            <img src="../files/stats.png" alt="Icone Stats">
-            <span>STATS</span>
-        </button>
+            <button class="btn" id="stats">
+                <img src="../files/stats.png" alt="Icone Stats">
+                <span>STATS</span>
+            </button>
 
-        <button class="btn" id="friends">
-            <img src="../files/amis.png" alt="Icone Amis">
-            <span>FRIENDS</span>
-        </button>
+            <button class="btn" id="friends">
+                <img src="../files/amis.png" alt="Icone Amis">
+                <span>FRIENDS</span>
+            </button>
 
-        <button class="btn" id="settings">
-            <img src="../files/reglages.png" alt="Icone Reglages">
-            <span>RÉGLAGES</span>
+            <button class="btn" id="settings">
+                <img src="../files/reglages.png" alt="Icone Reglages">
+                <span>RÉGLAGES</span>
 
+        </div>
     </div>
-</div>
+    
+    <iframe src="template.html" style="display: none;"></iframe>
+
+
 </body>
 </html>
