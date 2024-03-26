@@ -1,9 +1,10 @@
 // The http module contains methods to handle http queries.
 const http = require('http')
+
 // Let's import our logic.
 const fileQuery = require('./queryManagers/front.js')
 const apiQuery = require('./queryManagers/api.js')
-const AuthRoutes = require('./routes/AuthRoutes.js');
+//const AuthRoutes = require('./routes/AuthRoutes.js');
 const UserModel = require('./models/userModel.js');
 
 

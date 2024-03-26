@@ -1,14 +1,23 @@
-import UserValidator from "../../object/UserValidator.sockets";
-import userdb from "../../database/userdb.js";
-import jwt from "jsonwebtoken";
-import {BODY, sendResponse} from "../utilsApi.js";
-import {JWTSecretCode} from "../../credentials/credentials.sockets";
-import bcrypt from "bcryptjs";
+//import UserValidator from "../../object/UserValidator.sockets";
+//import userdb from "../../database/userdb.js";
+//import jwt from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
+const {sendResponse, BODY} = require("../utilsApi.js");
 
-import {addCors} from "../api.js";
+//import {BODY, sendResponse} from "../utilsApi.js";
 
+const {JWTSecretCode} = require("../../credentials/credentials.sockets.js");
+//import {JWTSecretCode} from "../../credentials/credentials.sockets";
 
-import {MongoClient} from "mongodb";
+const {bcrypt} = require("bcryptjs");
+//import bcrypt from "bcryptjs";
+
+const {addCors} = require("../api.js");
+//import {addCors} from "../api.js";
+
+const{MongoClient} = require("mongodb");
+//import {MongoClient} from "mongodb";
+
 const client = new MongoClient("mongodb://root:example@mongodb:27017");
 const dbName = "DatabaseName";
 
@@ -53,6 +62,11 @@ function userSignUpOrLogin(request, response) {
                     response.writeHead(400, { 'Content-Type': 'application/json' });
                     response.end(JSON.stringify({ error: 'Email déjà utilisé' }));
                 }
+                // const existingUserName = await users.findOne({ username: data.username });
+                // if (existingUserName) {
+                //     response.writeHead(400, { 'Content-Type': 'application/json' });
+                //     response.end(JSON.stringify({ error: 'Username déjà utilisé' }));
+                // }
 
 
                     // checkEmailExists(data.email, exists => {
@@ -106,4 +120,4 @@ function userSignUpOrLogin(request, response) {
 
 connectToDb().catch(console.error);
 
-export {userSignUpOrLogin};
+module.exports= {userSignUpOrLogin};

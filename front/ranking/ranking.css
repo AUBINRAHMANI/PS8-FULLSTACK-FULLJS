@@ -1,0 +1,39 @@
+/* table */
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    padding: 15px 8vw;
+    border: 1px solid black;
+    background-color: var(--dark-accentuation-color);
+}
+
+
+td {
+    padding: 10px 4vw;
+    border: 1px solid black;
+    text-align: center;
+}
+
+@media (width <= 480px) and (orientation: portrait) {
+    th {
+        padding: 20px 1vw;
+    }
+
+
+    table {
+        width: 74vw;
+    }
+}
+
+@media (height <= 480px) and (orientation: landscape) {
+    main {
+        padding-top: 30px;
+    }
+
+    th {
+        padding: 20px 1vw;
+    }
+}

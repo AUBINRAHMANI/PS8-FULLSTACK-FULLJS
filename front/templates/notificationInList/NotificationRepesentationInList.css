@@ -1,0 +1,61 @@
+.message-container {
+    padding: 10px;
+    width: 24em;
+    background-color: var(--dark-accentuation-color);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 5px;
+}
+
+.notification-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#notifications-container {
+    padding: 20px;
+}
+
+.message-container > p {
+    font-size: 0.96em;
+}
+
+.message-container > img {
+    margin: 10px;
+}
+
+.notification-container > img {
+    height: 25px;
+    width: 25px;
+    margin: 5px;
+}
+
+.notification-container > img:hover {
+    filter: opacity(40%);
+}
+
+@media (width <= 600px) and (orientation: portrait) {
+    main {
+        margin: 0;
+    }
+
+    .message-container {
+        width: 18em;
+        height: auto;
+    }
+}
+
+@media (width <= 495px) and (orientation: portrait) {
+    main {
+        margin: 0;
+    }
+
+    .message-container {
+        width: 12em;
+        height: auto;
+    }
+}

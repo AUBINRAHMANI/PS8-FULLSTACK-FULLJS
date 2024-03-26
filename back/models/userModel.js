@@ -6,13 +6,12 @@ class UserModel {
     }
 
 
-
     async findUserByEmail(email) {
         return await this.collection.findOne({ email });
     }
 
-    async createUser(email, hashedPassword) {
-        return await this.collection.insertOne({ email, password: hashedPassword });
+    async createUser(username,email, hashedPassword) {
+        return await this.collection.insertOne({ username,email, password: hashedPassword });
     }
 
 

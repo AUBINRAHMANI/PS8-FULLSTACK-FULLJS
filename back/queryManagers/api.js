@@ -9,9 +9,12 @@ const { MongoClient } = require("mongodb");
 const bcrypt = require("bcryptjs");
 
 const {sendResponse, urlNotFound,BODY, PARAMS} = require("./utilsApi");
-const {SIGNUP_API,LOGIN_API,CHATS_API,USERS_API} = require("../../front/utils/path");
-const {userSignUpOrLogin} = require("./user/accountApi");
-const {messagesApiGet} = require("./chat/apiChats.js");
+const {SIGNUP_API,LOGIN_API,CHATS_API,USERS_API,FRIENDS_API, NOTIFICATIONS_API} = require("../../front/util/path");
+
+const {userSignUpOrLogin} = require("./user/userApi");
+const {messagesApiGet} = require("./chat/apiChats");
+const {friendsApiDelete, friendsApiGet, friendsApiPost}=require("./friends/apiFriends.js");
+const {notificationsApiDelete} = require("./notification/apiNotifications");
 
 
 const uri = "mongodb://root:example@mongodb:27017";
@@ -52,6 +55,10 @@ function manageRequest(request, response) {
                     case LOGIN_API:
                         userSignUpOrLogin(request, response);
                         break;
+                    case FRIENDS_API:
+                        urlPathArray.shift();
+                        friendsApiPost(request, response, urlPathArray);
+                        break;
                     default:
                         urlNotFound(request, response)
                 }
@@ -59,10 +66,19 @@ function manageRequest(request, response) {
             break;
         case "GET":
             switch (urlPathArray[0] + "/") {
+                case USERS_API:
+                    urlPathArray.shift()
+                    userSignUpOrLogin(request, response);
+                    break;
+                case FRIENDS_API:
+                    urlPathArray.shift()
+                    friendsApiGet(request, response, urlPathArray);
+                    break;
                 case CHATS_API:
                     urlPathArray.shift()
                     messagesApiGet(request, response, urlPathArray);
                     break;
+
 
                 default:
                     urlNotFound(request, response)
@@ -70,6 +86,14 @@ function manageRequest(request, response) {
             break;
         case "DELETE":
             switch (urlPathArray[0] + "/") {
+                case FRIENDS_API:
+                    urlPathArray.shift()
+                    friendsApiDelete(request, response, urlPathArray);
+                    break;
+                case NOTIFICATIONS_API:
+                    urlPathArray.shift()
+                    notificationsApiDelete(request, response, urlPathArray);
+                    break;
                 default:
                     urlNotFound(request, response)
             }
@@ -141,7 +165,8 @@ function addCors(response) {
 }
 
 
-export {addCors};
+//export {addCors};
+module.exports = { addCors };
 
 
 

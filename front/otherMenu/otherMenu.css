@@ -1,0 +1,52 @@
+@import "../commonCSS/CSSvariables.css";
+
+main img {
+    width: var(--icon-width);
+    aspect-ratio: 1/1;
+}
+
+
+.nav-link.menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-link.menu > button {
+    border: none;
+    border-radius: 1000px;
+    width: 180px;
+    height: 40px;
+    padding: 10px;
+}
+
+main {
+    margin: 5%;
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin: 0;
+    }
+
+    main > * {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin-top: 15px;
+    }
+
+}
+
+@media (orientation: portrait) {
+    main {
+        margin: 25%;
+    }
+}
