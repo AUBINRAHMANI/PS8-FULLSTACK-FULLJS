@@ -14,4 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('beforeunload', function() {
         localStorage.setItem('audioPosition', audio.currentTime);
     });
+
+    // Écouter les messages des autres pages pour arrêter l'audio
+    window.addEventListener('message', function(event) {
+        if (event.origin !== window.location.origin) return; // Vérifier l'origine du message
+        if (event.data === 'stopAudio') {
+            audio.pause();
+        }
+    });
+
 });
