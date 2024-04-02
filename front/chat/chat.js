@@ -1,12 +1,13 @@
 "use strict";
 
-import {API_URL, CHATS_API, FRIENDS_API} from "../util/path.js";
+//import {API_URL, CHATS_API, FRIENDS_API} from "../util/path.js";
 //import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
 
 
-//const { API_URL, CHATS_API, FRIENDS_API } = require("../util/path.js");
-//const { BASE_URL_API, BASE_URL_PAGE } = require("../util/frontPath.js");
-import {BASE_URL_API,BASE_URL_PAGE} from "../util/frontPath.js";
+const { API_URL, CHATS_API, FRIENDS_API } = require("../util/path.js");
+const { BASE_URL_API, BASE_URL_PAGE } = require("../util/frontPath.js");
+//import {BASE_URL_API,BASE_URL_PAGE} from "../util/frontPath.js";
+
 
 
 
