@@ -1,3 +1,4 @@
+import {parseJwt} from "../util/jwtParser";
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -54,6 +55,11 @@ function submitForm(form, url,type) {
         .then(data => {
             if (type === 'inscription') {
                 let form = document.querySelector(".Form-box");
+
+                let parsedJwt = parseJwt(jwtToken);
+
+                let email=parsedJwt.email;
+
 
                 console.log('Inscription réussie:', data);
                 alert("Inscription réussie. Vous allez être redirigé vers la page de connexion.");

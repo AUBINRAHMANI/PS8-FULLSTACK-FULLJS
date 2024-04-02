@@ -15,8 +15,8 @@
         <h1>Login</h1>
         <div class="input-box">
             <input type="text" name="email" required>
-            <label>Email</label>
-            <ion-icon name="mail-outline"></ion-icon>
+            <label>Username</label>
+            <ion-icon name="person-outline"></ion-icon>
         </div>
         <div class="input-box">
             <input type="password" name="password" required>
@@ -36,14 +36,14 @@
     <form class="Register-form" action="http://localhost:8000/api/inscription" method="post">
         <h1>Register</h1>
         <div class="input-box">
-            <input type="text" name="username" required>
-            <label>Username</label>
-            <ion-icon name="person-outline"></ion-icon>
+            <input type="text" name="username" required>      <!-- Ici j'ai interchangé email et username, on demande au user l'username pour se connecter mais dans le code ça s'appelle email -->
+            <label>Email</label>
+            <ion-icon name="mail-outline"></ion-icon>
         </div>
         <div class="input-box">
             <input type="text" name="email" required>
-            <label>Email</label>
-            <ion-icon name="mail-outline"></ion-icon>
+            <label>Username</label>
+            <ion-icon name="person-outline"></ion-icon>
         </div>
         <div class="input-box">
             <input type="password" name="password" required>

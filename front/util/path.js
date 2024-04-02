@@ -1,7 +1,7 @@
 "use strict";
 
-const SIGNUP_URL = 'login_signup/login.html';
-const LOGIN_URL = 'login_signup/login.html';
+const SIGNUP_URL = 'signup/signup.html';
+const LOGIN_URL = 'login/login.html';
 
 
 const HOME_URL = 'acceuil/acceuil.html';
@@ -29,9 +29,9 @@ const PLAY_CHALLENGE_URL = 'play/challenge/index.html';
 
 const API_URL = 'api/';
 const ACHIEVEMENTS_API = "achievements/";
-const USERS_API = "users/";
+const USERS_API = "user/";
 const NOTIFICATIONS_API = "notifications/";
-const CHATS_API = "chats/";
+const CHATS_API = "chat/";
 
 const STATS_API = "stats/";
 
@@ -39,7 +39,7 @@ const FRIENDS_API = "friends/";
 
 const LOGIN_API = "login/"
 
-const SIGNUP_API = "inscription/"
+const SIGNUP_API = "signup/"
 
 // export all the constants --------------------------------------------------------------------------------------------
 export {
