@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/settings.css">
     <title>Paramètres - Mon Site Web</title>
 </head>
 <body>
     <h1>Paramètres</h1>
-    <button id="pauseButton">Mettre en pause le son</button>
-
-    <script>
-        document.getElementById('pauseButton').addEventListener('click', function() {
-            // Envoyer un message à la fenêtre modale pour arrêter l'audio
-            var audioFrame = document.getElementById('audioFrame').contentWindow;
-            audioFrame.postMessage('stopAudio', '*');
-        });
+    <a href="acceuil.html"><button>Back</button></a>
+    <p>Son </p>
 
 
-    </script>
-    
+    <label class="switch">
+        <input type="checkbox" checked>
+        <span class="slider round"></span>
+      </label>
+    <label for="soundToggle" class="toggle-button"></label>
+
+
+    <script src="../js/audioSettings.js"></script>
     <iframe id="audioFrame" src="template.html" style="display: none;"></iframe>
 
 </body>
