@@ -5,7 +5,7 @@ const { sha256 } = require("js-sha256");
 const { jsonValidator } = require("../util/jsonValidator.js");
 
 
-export default class UserValidator {
+class UserValidator {
     static schema = {
         username: 'string', mail: 'string', password: 'string'
     }
@@ -42,3 +42,7 @@ export default class UserValidator {
         }
     }
 }
+
+
+
+module.exports = UserValidator;

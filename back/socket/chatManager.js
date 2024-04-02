@@ -1,7 +1,7 @@
 const chatdb = require("../database/chatdb.js");
 //import chatdb from "../database/chatdb.js";
 
-export default class chatManager {
+class chatManager {
     #user1;
     #user2;
 
@@ -38,5 +38,7 @@ export default class chatManager {
             });
     }
 }
+
+
 
 module.exports= new chatManager();

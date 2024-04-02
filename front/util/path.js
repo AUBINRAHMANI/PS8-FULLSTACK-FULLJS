@@ -42,7 +42,7 @@ const LOGIN_API = "login/"
 const SIGNUP_API = "signup/"
 
 // export all the constants --------------------------------------------------------------------------------------------
-export {
+module.exports= {
     SIGNUP_URL,
     LOGIN_URL,
     HOME_URL,

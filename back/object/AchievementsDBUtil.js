@@ -49,4 +49,6 @@ function eloAchievement(userId, achievementId, goal, actual) {
     }
 }
 
-export default {updateAchievements};
+//export default {updateAchievements};
+
+module.exports = {updateAchievements};

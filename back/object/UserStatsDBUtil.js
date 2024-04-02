@@ -9,7 +9,7 @@ const userstatsdb = require("../database/userstatsdb.js");
 const { updateElo } = require("./UserEloDBUtil.js");
 
 
-export function STATSaddGamePlayed(userId) {
+function STATSaddGamePlayed(userId) {
     userstatsdb.getStatsForUser(userId).then(function (result) {
         let gamesPlayed = result.gamesPlayed;
 
@@ -29,6 +29,10 @@ export function STATSaddGamePlayed(userId) {
     });
 }
 
-export function STATSupdateElo(winnerId, loserId) {
+function STATSupdateElo(winnerId, loserId) {
     updateElo(winnerId, loserId);
 }
+
+
+module.exports.STATSaddGamePlayed = STATSaddGamePlayed;
+module.exports.STATSupdateElo = STATSupdateElo;

@@ -67,4 +67,6 @@ async function getAllUsersByElo() {
     return usersNames;
 }
 
-export {updateElo, getAllUsersByElo};
+
+
+module.exports = {updateElo, getAllUsersByElo};

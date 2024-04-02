@@ -1,8 +1,10 @@
 "use strict";
 
-import {MongoClient} from "mongodb";
 
-import DB_CONF from "../conf/mongodb.conf.js";
+
+const {MongoClient, ObjectId} = require("mongodb");
+const DB_CONF = require("../conf/mongodb.conf.js");
+
 
 class UserStatsDb {
     constructor() {

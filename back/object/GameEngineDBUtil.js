@@ -1,7 +1,7 @@
 const {gamedb } = require("../database/gamedb");
 //import gamedb from "../database/gamedb.js";
 
-export default class GameEngineDBUtil {
+class GameEngineDBUtil {
     static saveGameEngineDB(gameEngineToSave) {
         // save the object to the database
 
@@ -36,3 +36,6 @@ export default class GameEngineDBUtil {
         });
     }
 }
+
+
+module.exports = { GameEngineDBUtil };

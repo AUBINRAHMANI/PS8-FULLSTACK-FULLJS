@@ -9,9 +9,10 @@ const UserModel = require('./models/userModel.js');
 
 
 
-
 const { Server } = require("socket.io");
-const { setup } = require("./logic/minMaxAi.js");
+
+
+
 const jwt = require("jsonwebtoken");
 const { displayACaughtError } = require("./util/util.js");
 const { JWTSecretCode } = require("./credentials/credentials.js");
@@ -56,7 +57,7 @@ run().catch(console.dir);*/
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
  */
-http.createServer(function (request, response) {
+let httpServer = http.createServer(function (request, response) {
     // First, let's check the URL to see if it's a REST request or a file request.
     // We will remove all cases of "../" in the url for security purposes.
     let filePath = request.url.split("/").filter(function(elem) {
