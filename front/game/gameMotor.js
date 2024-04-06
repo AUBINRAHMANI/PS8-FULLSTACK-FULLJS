@@ -1,3 +1,4 @@
+const socket = io("/api/games",{auth: {token: localStorage.getItem("token")}});
 // script.sockets
 let currentPlayer = 'player1';
 let player1Timer;
@@ -68,8 +69,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     board.addEventListener('click', handleInitialCellClick);
-    //startPlayerTimer(); A remettre si on séparre la sauvgarde de la partie normale 
-    loadGameState();
+    startPlayerTimer(); //A remettre si on séparre la sauvgarde de la partie normale
+    //loadGameState();
+
+    emitGameState();
+    const gameId = localStorage.getItem('gameId');
+    if (gameId) {
+        socket.emit('requestGameState', gameId);
+    }
 });
 
 function formatTime(timeInMillis) {
@@ -84,6 +91,50 @@ document.getElementById('validateButtonPlayer1').addEventListener('click', handl
 document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
 document.getElementById('cancelButtonPlayer1').addEventListener('click', handleCancelButtonClickPlayer1);
 document.getElementById('cancelButtonPlayer2').addEventListener('click', handleCancelButtonClickPlayer2);
+function emitGameState() {
+
+    const gameState = {
+        currentPlayer,
+        player1Timer: player1Timer ? turnTimeLimit - parseInt(document.getElementById('player1Timer').textContent.split(':')[1]) : turnTimeLimit,
+        player2Timer: player2Timer ? turnTimeLimit - parseInt(document.getElementById('player2Timer').textContent.split(':')[1]) : turnTimeLimit,
+        player1Position,
+        player2Position,
+        player1WallsRemaining,
+        player2WallsRemaining,
+        placedWallsPlayer1,
+        placedWallsPlayer2,
+        //
+
+    };
+
+    socket.emit('saveGameState', gameState);
+}
+
+socket.on('gameStateSaved', function(data) {
+    const { gameId } = data;
+    localStorage.setItem('gameId', gameId);
+});
+
+socket.on('gameState', function(gameState) {
+    // Mettre à jour l'état du jeu côté client avec les données reçues
+
+    if (gameState.player1Position !== null) {
+        setPlayerPosition(gameState.player1Position, 'player1');
+    }
+    if (gameState.player2Position !== null) {
+        setPlayerPosition(gameState.player2Position, 'player2');
+    }
+    currentPlayer = gameState.currentPlayer;
+    player1Position = gameState.player1Position;
+    player2Position = gameState.player2Position;
+    player1WallsRemaining= gameState.player1WallsRemaining;
+    player2WallsRemaining = gameState.player2WallsRemaining;
+    placedWallsPlayer1 =  gameState.placedWallsPlayer1;
+    placedWallsPlayer2 = gameState.placedWallsPlayer2;
+    player1Timer = gameState.player1Timer;
+    player2Timer = gameState.player2Timer;
+    updateUIBasedOnGameState(); // Assurez-vous que cette fonction met à jour l'interface utilisateur en fonction du nouvel état
+});
 
 function handleValidateButtonClickPlayer1() {
     // Logique de validation pour le joueur 1
@@ -150,7 +201,10 @@ function startTimer(timerId) {
         if (timerElement.textContent === "00:00") {
             togglePlayer();
         }
+        emitGameState();
     }, 1000);
+
+
 }
 
 function startPlayerTimer() {
@@ -161,6 +215,7 @@ function startPlayerTimer() {
         player2Timer = startTimer('player2Timer');
         document.getElementById('player1Timer').innerText = formatTime(40000); 
     }
+    emitGameState();
 }
 
 function resetPlayerTimer() {
@@ -444,7 +499,9 @@ function handleCellClick(cellIndex) {
             // Basculer vers l'autre joueur
             togglePlayer();
         }
+
     }
+    emitGameState();
 
 }
 function cancelCurrentWallPlacement() {
