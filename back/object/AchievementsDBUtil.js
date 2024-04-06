@@ -1,8 +1,7 @@
-// import userstatsdb from "../database/userstatsdb.js";
-// import achievementdb from "../database/achievementdb.js";
+ import userstatsdb from "../database/userstatsdb.js";
+ import achievementdb from "../database/achievementdb.js";
 
-const userstatsdb = require("../database/userstatsdb.js");
-const achievementdb = require("../database/achievementdb.js");
+
 
 
 function updateAchievements(userId) {
@@ -49,6 +48,6 @@ function eloAchievement(userId, achievementId, goal, actual) {
     }
 }
 
-//export default {updateAchievements};
+export default {updateAchievements};
 
-module.exports = {updateAchievements};
+

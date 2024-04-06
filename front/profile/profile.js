@@ -1,10 +1,10 @@
 "use strict";
 
 
-const { ACHIEVEMENTS_API, API_URL, FRIENDS_API, STATS_API, USERS_API } = require("../util/path.js");
-const { BASE_URL_API, BASE_URL_PAGE } = require("../util/frontPath.js");
-const { achievementRepresentation } = require("../templates/achievement/achievementRepresentation.js");
-const { validationPopUp } = require("../templates/popUp/validationPopUp/validationPopUp.js");
+import {ACHIEVEMENTS_API, API_URL, FRIENDS_API, STATS_API, USERS_API} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {achievementRepresentation} from "../templates/achievement/achievementRepresentation.js";
+import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
 
 let myUserId = localStorage.getItem("userId");

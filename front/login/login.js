@@ -1,13 +1,9 @@
-//import {parseJwt} from "../util/jwtParser.js";
-//import {API_URL, HOME_URL, LOGIN_API, SIGNUP_URL} from "../util/path.js";
-//import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
-//import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
+import {parseJwt} from "../util/jwtParser.js";
+import {API_URL, HOME_URL, LOGIN_API, SIGNUP_URL} from "../util/path.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {informativePopUp} from "../templates/popUp/informativePopUp/informativePopUp.js";
 
 
-const { parseJwt } = require("../util/jwtParser.js");
-const { API_URL, HOME_URL, LOGIN_API, SIGNUP_URL } = require("../util/path.js");
-const { BASE_URL_API, BASE_URL_PAGE } = require("../util/frontPath.js");
-const { informativePopUp } = require("../templates/popUp/informativePopUp/informativePopUp.js");
 
 document.getElementById("signup").addEventListener("click", function () {
     window.location.replace(BASE_URL_PAGE + SIGNUP_URL);

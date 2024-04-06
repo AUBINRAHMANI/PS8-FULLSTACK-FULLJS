@@ -43,4 +43,4 @@ class SchemaValidator {
     }
 }
 
-module.exports= SchemaValidator;
+export default SchemaValidator;

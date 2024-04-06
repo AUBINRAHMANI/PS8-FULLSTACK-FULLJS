@@ -1,5 +1,4 @@
-
-const{validateJwt} = require("../auth/jwtParserBack.js");
+import {validateJwt} from "../auth/jwtParserBack.js";
 
 const PARAMS = "params";
 const BODY = "body";
@@ -42,8 +41,7 @@ function authorizeRequest(request, response) {
     return true;
 }
 
-//export {sendResponse, checkAuthorization, authorizeRequest, urlNotFound, PARAMS, BODY, USER_ID, USERNAME};
-module.exports = {sendResponse, checkAuthorization, authorizeRequest, urlNotFound, PARAMS, BODY, USER_ID, USERNAME};
+export {sendResponse, checkAuthorization, authorizeRequest, urlNotFound, PARAMS, BODY, USER_ID, USERNAME};
 
 
 

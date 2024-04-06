@@ -1,6 +1,6 @@
-//import {MongoClient} from "mongodb";
+import {MongoClient} from "mongodb";
 
-const {MongoClient} = require('mongodb');
+
 
 
 class FriendDb {
@@ -266,4 +266,4 @@ class FriendDb {
     }
 }
 
-module.exports= new FriendDb();
+export default new FriendDb();

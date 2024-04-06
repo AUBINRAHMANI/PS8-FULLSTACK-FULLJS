@@ -13,7 +13,7 @@ const {
     NOTIFICATION_COLLECTION,
 } = process.env;
 
-module.exports= {
+export default{
     mongodbUri: "mongodb://root:example@mongodb:27017",
     dbName: DB_NAME,
     userCollection: USER_COLLECTION,

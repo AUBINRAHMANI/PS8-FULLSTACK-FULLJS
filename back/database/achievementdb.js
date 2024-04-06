@@ -1,10 +1,9 @@
 "use strict";
 
-const {MongoClient, ObjectId} = require("mongodb");
-const DB_CONF = require("../conf/mongodb.conf.js");
 
-//import {MongoClient} from "mongodb";
-//import DB_CONF from "../conf/mongodb.conf.js";
+
+import {MongoClient} from "mongodb";
+import DB_CONF from "../conf/mongodb.conf.js";
 
 class AchievementDb {
     constructor() {
@@ -117,4 +116,4 @@ class AchievementDb {
     }
 }
 
-module.exports= new AchievementDb();
+export default new AchievementDb();

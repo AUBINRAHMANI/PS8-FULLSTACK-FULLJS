@@ -1,9 +1,8 @@
 "use strict";
 
 
-const { PROFILE_URL } = require("../../util/path.js");
-const { BASE_URL_PAGE } = require("../../util/frontPath.js");
-
+import {PROFILE_URL} from "../../util/path.js";
+import {BASE_URL_PAGE} from "../../util/frontPath.js";
 
 function createUserPreviewDiv(userObj) {
     const container = document.createElement('div');

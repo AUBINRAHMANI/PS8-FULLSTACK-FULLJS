@@ -1,8 +1,7 @@
-// import userstatsdb from "../database/userstatsdb.js";
-// import userdb from "../database/userdb.js";
+ import userstatsdb from "../database/userstatsdb.js";
+ import userdb from "../database/userdb.js";
 
-const userstatsdb = require("../database/userstatsdb.js");
-const userdb = require("../database/userdb.js");
+
 
 async function updateElo(winnerId, loserId) {
     let winnerElo = 0;
@@ -69,4 +68,4 @@ async function getAllUsersByElo() {
 
 
 
-module.exports = {updateElo, getAllUsersByElo};
+export default {updateElo, getAllUsersByElo};

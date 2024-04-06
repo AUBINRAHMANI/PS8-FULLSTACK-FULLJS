@@ -28,4 +28,5 @@ class ConnectedPlayers {
     }
 }
 
-module.exports= ConnectedPlayers;
+
+export default ConnectedPlayers;

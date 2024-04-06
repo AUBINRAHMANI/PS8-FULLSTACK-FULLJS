@@ -86,8 +86,11 @@ burgerMenuTemplate.innerHTML = `
         </a>
         <a class="nav-link" id="ranking-button" href="${BASE_URL_PAGE}${RANKING_URL}">
             <button>Classement</button>
+        </a>       
         
-        </a>        
+        <a class="nav-link" id="logout-button" href="${BASE_URL_PAGE}${LOGIN_URL}">
+            <button>Se déconnecter</button>
+        </a>   
     </div>
 </nav>
 `;

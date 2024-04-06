@@ -1,9 +1,9 @@
 "use strict";
 
 
+import {MongoClient} from "mongodb";
 
-const {MongoClient, ObjectId} = require("mongodb");
-const DB_CONF = require("../conf/mongodb.conf.js");
+import DB_CONF from "../conf/mongodb.conf.js";
 
 
 class UserStatsDb {
@@ -99,4 +99,5 @@ class UserStatsDb {
     }
 }
 
-module.exports= new UserStatsDb();
+
+export default new UserStatsDb();

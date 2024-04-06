@@ -1,7 +1,7 @@
-const {gamedb } = require("../database/gamedb");
-//import gamedb from "../database/gamedb.js";
 
-class GameEngineDBUtil {
+import gamedb from "../database/gamedb.js";
+
+export class GameEngineDBUtil {
     static saveGameEngineDB(gameEngineToSave) {
         // save the object to the database
 
@@ -38,4 +38,3 @@ class GameEngineDBUtil {
 }
 
 
-module.exports = { GameEngineDBUtil };

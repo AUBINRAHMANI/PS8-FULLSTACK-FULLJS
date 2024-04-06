@@ -1,11 +1,7 @@
-const chatdb = require("../../database/chatdb");
-//import chatdb from "../../database/chatdb.js";
 
-const {sendResponse, checkAuthorization, PARAMS, USER_ID, urlNotFound} = require("../utilsApi.js");
-//import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
-
-const SchemaValidator = require("../../util/SchemaValidator.js");
-//import SchemaValidator from "../../util/SchemaValidator.js";
+import chatdb from "../../database/chatdb.js";
+import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
+import SchemaValidator from "../../util/SchemaValidator.js";
 
 function messagesApiGet(request, response, urlPathArray) {
     if (!checkAuthorization(request, response)) {
@@ -66,5 +62,5 @@ function checkStringIsPositiveInteger(string) {
     return !isNaN(number) && number >= 0;
 }
 
-module.exports= {messagesApiGet};
 
+export {messagesApiGet};

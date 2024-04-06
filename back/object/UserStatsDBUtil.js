@@ -1,15 +1,13 @@
 "use strict";
 
-// import AchievementsDBUtil from "./AchievementsDBUtil.js";
-// import userstatsdb from "../database/userstatsdb.js";
-// import {updateElo} from "./UserEloDBUtil.js";
-
-const AchievementsDBUtil = require("./AchievementsDBUtil.js");
-const userstatsdb = require("../database/userstatsdb.js");
-const { updateElo } = require("./UserEloDBUtil.js");
+ import AchievementsDBUtil from "./AchievementsDBUtil.js";
+ import userstatsdb from "../database/userstatsdb.js";
+ import {updateElo} from "./UserEloDBUtil.js";
 
 
-function STATSaddGamePlayed(userId) {
+
+
+export function STATSaddGamePlayed(userId) {
     userstatsdb.getStatsForUser(userId).then(function (result) {
         let gamesPlayed = result.gamesPlayed;
 
@@ -29,10 +27,8 @@ function STATSaddGamePlayed(userId) {
     });
 }
 
-function STATSupdateElo(winnerId, loserId) {
+export function STATSupdateElo(winnerId, loserId) {
     updateElo(winnerId, loserId);
 }
 
 
-module.exports.STATSaddGamePlayed = STATSaddGamePlayed;
-module.exports.STATSupdateElo = STATSupdateElo;

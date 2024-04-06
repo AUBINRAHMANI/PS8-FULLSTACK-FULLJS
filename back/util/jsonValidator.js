@@ -21,4 +21,4 @@ let jsonValidator = (data, schema) => {
     return newObject;
 }
 
-module.exports= {jsonValidator};
+export {jsonValidator};

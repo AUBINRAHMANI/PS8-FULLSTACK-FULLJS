@@ -1,7 +1,7 @@
 "use strict";
 
-const { JWTSecretCode } = require("../credentials/credentials.js");
-const crypto = require("crypto");
+import {JWTSecretCode} from "../credentials/credentials.js";
+import crypto from "crypto"
 
 
 function validateJwt(token) {
@@ -41,6 +41,5 @@ function isTokenValid(token) {
     return currentTime < expirationTime;
 }
 
-//export {validateJwt, isTokenValid};
+export {validateJwt, isTokenValid};
 
-module.exports = { validateJwt, isTokenValid };

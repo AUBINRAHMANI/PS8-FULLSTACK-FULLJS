@@ -1,7 +1,6 @@
-const chatdb = require("../database/chatdb.js");
-//import chatdb from "../database/chatdb.js";
+import chatdb from "../database/chatdb.js";
 
-class chatManager {
+export default class chatManager {
     #user1;
     #user2;
 
@@ -41,4 +40,4 @@ class chatManager {
 
 
 
-module.exports= new chatManager();
+//export default new chatManager();

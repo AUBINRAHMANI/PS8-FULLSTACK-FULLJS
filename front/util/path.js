@@ -1,6 +1,6 @@
 "use strict";
 
-const SIGNUP_URL = 'signup/signup.html';
+const SIGNUP_URL = 'signup/index.html';
 const LOGIN_URL = 'login/login.html';
 
 

@@ -1,32 +1,59 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
-"use strict";
-
-const http = require('http');
-const jwt = require('jsonwebtoken'); // Utilisez jsonwebtoken pour créer des JWT
-const fs = require('fs');
-
-const { MongoClient } = require("mongodb");
-const bcrypt = require("bcryptjs");
-
-const {sendResponse, urlNotFound,BODY, PARAMS} = require("./utilsApi");
-const {SIGNUP_API,LOGIN_API,CHATS_API,USERS_API,FRIENDS_API, NOTIFICATIONS_API} = require("../../front/util/path");
-
-const {userSignUpOrLogin, usersApiGet} = require("./user/userApi");
-const {messagesApiGet} = require("./chat/apiChats");
-const {friendsApiDelete, friendsApiGet, friendsApiPost}=require("./friends/apiFriends.js");
-const {notificationsApiDelete,notificationsApiGet} = require("./notification/apiNotifications");
-const {userLogin, userSignUp, userLogIn} = require("./user/accountApi");
 
 
-const uri = "mongodb://root:example@mongodb:27017";
-const client = new MongoClient(uri);
-const dbName = "DatabaseName";
+
+
+
+import {BODY, PARAMS, sendResponse, urlNotFound} from "./utilsApi.js";
+import {userLogIn, userSignUp} from "./user/accountApi.js";;
+import {friendsApiDelete, friendsApiGet, friendsApiPost} from "./friends/apiFriends.js";
+import {usersApiGet} from "./user/usersApi.js";
+import {notificationsApiDelete, notificationsApiGet} from "./notification/apiNotifications.js";
+import {messagesApiGet} from "./chat/apiChats.js";
+import {
+    ACHIEVEMENTS_API,
+    CHATS_API,
+    FRIENDS_API,
+    LOGIN_API,
+    NOTIFICATIONS_API,
+    SIGNUP_API,
+    STATS_API,
+    USERS_API
+} from "../../front/util/path.js";
+
+
+
+
+
+
+// const http = require('http');
+// const jwt = require('jsonwebtoken'); // Utilisez jsonwebtoken pour créer des JWT
+// const fs = require('fs');
+//
+// const { MongoClient } = require("mongodb");
+// const bcrypt = require("bcryptjs");
+//
+// const {sendResponse, urlNotFound,BODY, PARAMS} = require("./utilsApi");
+// const {SIGNUP_API,LOGIN_API,CHATS_API,USERS_API,FRIENDS_API, NOTIFICATIONS_API} = require("../../front/util/path");
+//
+// const {userSignUpOrLogin, usersApiGet} = require("./user/userApi");
+// const {messagesApiGet} = require("./chat/apiChats");
+// const {friendsApiDelete, friendsApiGet, friendsApiPost}=require("./friends/apiFriends.js");
+// const {notificationsApiDelete,notificationsApiGet} = require("./notification/apiNotifications");
+// const {userLogin, userSignUp, userLogIn} = require("./user/accountApi");
+//
+//
+// const uri = "mongodb://root:example@mongodb:27017";
+// const client = new MongoClient(uri);
+// const dbName = "DatabaseName";
 
 
 
 
 
 function manageRequest(request, response) {
+    sendResponse(response, 201, "OK");
+
     addCors(response)
 
     let url = request.url.split("?")
@@ -52,7 +79,9 @@ function manageRequest(request, response) {
                 switch (urlPathArray[0] + "/") {
                     case SIGNUP_API:
                         //userSignUpOrLogin(request, response);
+                        sendResponse(response, 201, "OK");
                         userSignUp(request, response);
+
                         break;
                     case LOGIN_API:
                         userLogIn(request, response);
@@ -165,12 +194,11 @@ function addCors(response) {
 
 
 //export {addCors};
-module.exports = { addCors };
+//module.exports = { addCors };
 
 
+export {manageRequest as manage};
 
-
-exports.manage = manageRequest;
 
 
 

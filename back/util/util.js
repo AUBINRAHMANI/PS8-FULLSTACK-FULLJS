@@ -1,4 +1,4 @@
-"use strict";
+
 
 function displayACaughtError(error, customTitle = "") {
     console.log("--- Caught an error ---")
@@ -7,4 +7,5 @@ function displayACaughtError(error, customTitle = "") {
     console.log("------------------------")
 }
 
-module.exports.displayACaughtError = displayACaughtError;
+
+export { displayACaughtError };

@@ -1,14 +1,10 @@
-// import {authorizeRequest, sendResponse, urlNotFound, USER_ID, USERNAME} from "../utilsApi.js";
-// import frienddb from "../../database/frienddb.js";
-// import userdb from "../../database/userdb.js";
-// import sendNotifications from "../../socket/SendNotifications.js";
-// import SendNotifications from "../../socket/SendNotifications.js";
 
-const { authorizeRequest, sendResponse, urlNotFound, USER_ID, USERNAME } = require("../utilsApi.js");
-const frienddb = require("../../database/frienddb.js");
-const userdb = require("../../database/userdb.js");
-const sendNotifications = require("../../socket/SendNotifications.js");
-const SendNotifications = require("../../socket/SendNotifications.js");
+import {authorizeRequest, sendResponse, urlNotFound, USER_ID, USERNAME} from "../utilsApi.js";
+import frienddb from "../../database/frienddb.js";
+import userdb from "../../database/userdb.js";
+import sendNotifications from "../../socket/SendNotifications.js";
+import SendNotifications from "../../socket/SendNotifications.js";
+
 
 
 
@@ -239,4 +235,4 @@ function friendshipStatus(request, response, friendId) {
     });
 }
 
-module.exports=  {friendsApiGet, friendsApiPost, friendsApiDelete};
+export {friendsApiGet, friendsApiPost, friendsApiDelete};

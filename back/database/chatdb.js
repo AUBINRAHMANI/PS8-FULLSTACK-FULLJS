@@ -1,5 +1,5 @@
-//import {MongoClient} from "mongodb";
-const {MongoClient} = require('mongodb');
+import {MongoClient} from "mongodb";
+
 
 
 class ChatDb {
@@ -98,4 +98,4 @@ class ChatDb {
 
 }
 
-module.exports=  new ChatDb();
+export default new ChatDb();

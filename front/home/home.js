@@ -4,7 +4,6 @@ import {BASE_URL_PAGE} from "../util/frontPath.js";
 
 
 
-
 document.getElementById("play-ai").addEventListener("click", () => {
     window.location.href = BASE_URL_PAGE + PLAY_AI_ORDER_URL;
 });

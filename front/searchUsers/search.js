@@ -1,8 +1,7 @@
 
-
-const { API_URL, USERS_API } = require("../util/path.js");
-const { createUserPreviewDiv } = require("../templates/userInList/UserRepresentationInList.js");
-const { BASE_URL_API } = require("../util/frontPath.js");
+import {API_URL, USERS_API} from "../util/path.js";
+import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
+import {BASE_URL_API} from "../util/frontPath.js";
 
 
 const usersListContainer = document.getElementById("search-result");

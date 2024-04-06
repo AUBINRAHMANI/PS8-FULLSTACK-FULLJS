@@ -1,14 +1,8 @@
-// import connectedPlayer from "./PermanentSocketPlayers.js";
-// import notificationdb from "../database/notificationdb.js";
-// import Action from "../entities/Action.js";
-// import Notification from "../entities/Notification.js";
-// import {IS_NEW_CHALLENGE, OPPONENT_ID} from "../../cordova/www/play/challenge/constantsChallenge.js";
+import connectedPlayer from "./PermanentSocketPlayers.js";
+import notificationdb from "../database/notificationdb.js";
+import Action from "../entities/Action.js";
+import Notification from "../entities/Notification.js";
 
-const connectedPlayer = require("./PermanentSocketPlayers.js");
-const notificationdb = require("../database/notificationdb.js");
-const Action = require("../entities/Action.js");
-const Notification = require("../entities/Notification.js");
-//const { IS_NEW_CHALLENGE, OPPONENT_ID } = require("../../cordova/www/play/challenge/constantsChallenge.js");
 
 
 class SendNotifications {
@@ -52,14 +46,7 @@ class SendNotifications {
         SendNotifications.#sendNotification(receiverId, notification);
     }
 
-    // ----------------------------------------- CHALLENGE REQUEST ----------------------------------------------
-    // static sendNotificationChallengeRequest(receiverId, userId, username) {
-    //     // Those are the same as in the challenge.js file in the front
-    //
-    //     let url = `play/challenge/?${OPPONENT_ID}=${userId}&${IS_NEW_CHALLENGE}=false`;
-    //     let notification = new Notification(`Demande de défi reçu par ${username}`, null, url);
-    //     SendNotifications.#sendNotification(receiverId, notification);
-    // }
+
 }
 
-module.exports= SendNotifications;
+export default SendNotifications;

@@ -1,11 +1,8 @@
-// import notificationdb from "../../database/notificationdb.js";
-// import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
-// import SchemaValidator from "../../util/SchemaValidator.js";
 
 
-const notificationdb = require("../../database/notificationdb.js");
-const { checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID } = require("../utilsApi.js");
-const SchemaValidator = require("../../util/SchemaValidator.js");
+import notificationdb from "../../database/notificationdb.js";
+import {checkAuthorization, PARAMS, sendResponse, urlNotFound, USER_ID} from "../utilsApi.js";
+import SchemaValidator from "../../util/SchemaValidator.js";
 
 
 function notificationsApiGet(request, response, urlPathArray) {
@@ -101,4 +98,5 @@ function checkStringIsPositiveInteger(string) {
     return !isNaN(number) && number >= 0;
 }
 
-module.exports=  {notificationsApiGet, notificationsApiPost, notificationsApiPut, notificationsApiDelete};
+
+export {notificationsApiGet, notificationsApiPost, notificationsApiPut, notificationsApiDelete};

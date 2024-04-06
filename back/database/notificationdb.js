@@ -1,9 +1,7 @@
-const {MongoClient, ObjectId} = require("mongodb");
-const DB_CONF = require("../conf/mongodb.conf.js");
 
 
-// import {MongoClient, ObjectId} from "mongodb";
-// import DB_CONF from "../conf/mongodb.conf.js";
+ import {MongoClient, ObjectId} from "mongodb";
+ import DB_CONF from "../conf/mongodb.conf.js";
 
 
 class GameDb {
@@ -64,4 +62,5 @@ class GameDb {
 
 }
 
-module.exports= new GameDb();
+ export default new GameDb();
+

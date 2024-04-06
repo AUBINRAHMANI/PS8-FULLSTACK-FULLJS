@@ -1,14 +1,9 @@
-// import {API_URL, FRIENDS_API, PLAY_CHALLENGE_URL} from "../util/path.js";
-// import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
-// import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
-// import {IS_NEW_CHALLENGE, OPPONENT_ID} from "../play/challenge/constantsChallenge.js";
-// import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
+import {API_URL, FRIENDS_API, PLAY_CHALLENGE_URL} from "../util/path.js";
+import {createUserPreviewDiv} from "../templates/userInList/UserRepresentationInList.js";
+import {BASE_URL_API, BASE_URL_PAGE} from "../util/frontPath.js";
+import {IS_NEW_CHALLENGE, OPPONENT_ID} from "../play/challenge/constantsChallenge.js";
+import {validationPopUp} from "../templates/popUp/validationPopUp/validationPopUp.js";
 
-const { API_URL, FRIENDS_API, PLAY_CHALLENGE_URL } = require("../util/path.js");
-const { createUserPreviewDiv } = require("../templates/userInList/UserRepresentationInList.js");
-const { BASE_URL_API, BASE_URL_PAGE } = require("../util/frontPath.js");
-const { IS_NEW_CHALLENGE, OPPONENT_ID } = require("../play/challenge/constantsChallenge.js");
-const { validationPopUp } = require("../templates/popUp/validationPopUp/validationPopUp.js");
 
 
 const friendsListContainer = document.getElementById("users-friends");

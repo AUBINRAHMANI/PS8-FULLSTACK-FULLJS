@@ -1,5 +1,5 @@
-const {MongoClient, ObjectId} = require("mongodb");
-//import {MongoClient, ObjectId} from "mongodb";
+
+import {MongoClient, ObjectId} from "mongodb";
 
 
 
@@ -147,4 +147,4 @@ class UserDb {
 
 }
 
-module.exports= new UserDb();
+export default new UserDb();

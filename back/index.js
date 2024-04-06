@@ -1,40 +1,51 @@
 // The http module contains methods to handle http queries.
-const http = require('http')
+//const http = require('http')
+import * as http from 'http';
 
-// Let's import our logic.
-const fileQuery = require('./queryManagers/front.js')
-const apiQuery = require('./queryManagers/api.js')
-//const AuthRoutes = require('./routes/AuthRoutes.js');
-const UserModel = require('./models/userModel.js');
-
-
-
-const { Server } = require("socket.io");
-
-
-
-const jwt = require("jsonwebtoken");
-const { displayACaughtError } = require("./util/util.js");
-const { JWTSecretCode } = require("./credentials/credentials.js");
-const { jsonValidator } = require("./util/jsonValidator.js");
-const connectedPlayer = require("./socket/PermanentSocketPlayers.js");
-const ConnectedPlayers = require("./socket/ConnectedPlayers.js");
-const chatManager = require("./socket/chatManager.js");
-const achievementdb = require("./database/achievementdb.js");
-const userstatsdb = require("./database/userstatsdb.js");
-
-
-
-
-
-const { MongoClient } = require("mongodb");
-
-const uri = "mongodb://root:example@mongodb:27017";
-const client = new MongoClient(uri);
+// // Let's import our logic.
+// const fileQuery = require('./queryManagers/front.js')
+// const apiQuery = require('./queryManagers/api.js')
+// //const AuthRoutes = require('./routes/AuthRoutes.js');
+// const UserModel = require('./models/userModel.js');
+// const { Server } = require("socket.io");
+//
+// const jwt = require("jsonwebtoken");
+// const { displayACaughtError } = require("./util/util.js");
+// const { JWTSecretCode } = require("./credentials/credentials.js");
+// const { jsonValidator } = require("./util/jsonValidator.js");
+// const connectedPlayer = require("./socket/PermanentSocketPlayers.js");
+// const ConnectedPlayers = require("./socket/ConnectedPlayers.js");
+// const chatManager = require("./socket/chatManager.js");
+// const achievementdb = require("./database/achievementdb.js");
+// const userstatsdb = require("./database/userstatsdb.js");
+//
+//
+// const { MongoClient } = require("mongodb");
+//
+// const uri = "mongodb://root:example@mongodb:27017";
+// const client = new MongoClient(uri);
+//
+//
+ const host = '0.0.0.0';
+ const port = 8000;
 
 
-const host = '0.0.0.0';
-const port = 8000;
+
+
+
+import * as fileQuery from './queryManagers/front.js'
+import * as apiQuery from './queryManagers/api.js'
+import {Server} from "socket.io";
+import jwt from "jsonwebtoken";
+import {displayACaughtError} from "./util/util.js";
+import {JWTSecretCode} from "./credentials/credentials.js";
+import {jsonValidator} from "./util/jsonValidator.js";
+import connectedPlayer from "./socket/PermanentSocketPlayers.js";
+import ConnectedPlayers from "./socket/ConnectedPlayers.js";
+import chatManager from "./socket/chatManager.js";
+
+
+
 
 
 /*async function run() {
@@ -54,6 +65,7 @@ run().catch(console.dir);*/
 
 
 
+
 /* The http module contains a createServer function, which takes one argument, which is the function that
 ** will be called whenever a new request arrives to the server.
  */
@@ -68,9 +80,13 @@ let httpServer = http.createServer(function (request, response) {
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
         if (filePath[1] === "api") {
             apiQuery.manage(request, response);
+            response.statusCode = 200;
+            console.log(`api request`)
             // If it doesn't start by /api, then it's a request for a file.
         } else {
             fileQuery.manage(request, response);
+            console.log(`error while processing ${request.url}: ${error}`)
+
         }
     } catch(error) {
         console.log(`error while processing ${request.url}: ${error}`)
@@ -78,14 +94,13 @@ let httpServer = http.createServer(function (request, response) {
         response.end(`Something in your request (${request.url}) is strange...`);
     }
 
+}).listen(8000);
 
 
-// For the server to be listening to request, it needs a port, which is set thanks to the listen function.
-}).listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
-});
-
-
+// // For the server to be listening to request, it needs a port, which is set thanks to the listen function.
+// }).listen(port, host, () => {
+//     console.log(`Server is running on http://${host}:${port}`);
+// });
 
 
 
@@ -110,13 +125,13 @@ const permanentSocket = io.of("/api/permanent")
 // let wipeDBOnServerStart = false;
 // if (wipeDBOnServerStart) {
 //     gamedb.removeAllGames().then(() => {
-//         console.log("Server started, all the games                 have been removed from the database, look for /back/index.js to change this behaviour");
+//         console.log("Server started, all the games                 have been removed from the database, look for /back/signup.js to change this behaviour");
 //     });
 //     achievementdb.removeAllAchievements().then(() => {
-//         console.log("Server started, all the user achievements have been removed from the database, look for /back/index.js to change this behaviour");
+//         console.log("Server started, all the user achievements have been removed from the database, look for /back/signup.js to change this behaviour");
 //     });
 //     userstatsdb.removeAllStats().then(() => {
-//         console.log("Server started, all the user stats        have been removed from the database, look for /back/index.js to change this behaviour");
+//         console.log("Server started, all the user stats        have been removed from the database, look for /back/signup.js to change this behaviour");
 //     });
 // }
 
@@ -152,16 +167,16 @@ chatSocket.use((socket, next) => {
 
 
 
-let verifyObjectSetup = (setupObject) => {
-    let schema = {AIplays: 'number'}
-    let newObject = jsonValidator(setupObject, schema);
-
-    if (newObject.AIplays !== 1 && newObject.AIplays !== 2) {
-        throw new Error("AIPlays must be 1 or 2 not " + newObject.AIplays);
-    }
-
-    return newObject;
-}
+// let verifyObjectSetup = (setupObject) => {
+//     let schema = {AIplays: 'number'}
+//     let newObject = jsonValidator(setupObject, schema);
+//
+//     if (newObject.AIplays !== 1 && newObject.AIplays !== 2) {
+//         throw new Error("AIPlays must be 1 or 2 not " + newObject.AIplays);
+//     }
+//
+//     return newObject;
+// }
 
 //let connectedPlayers = new ConnectedPlayers();
 //let matchmakingController = new MatchmakingController(gameSocket, connectedPlayers);

@@ -1,10 +1,16 @@
 
 // url will be used to parse the url (captain obvious at your service).
-const url = require('url');
+//const url = require('url');
+import * as url from 'url';
+
 // fs stands for FileSystem, it's the module to use to manipulate files on the disk.
-const fs = require('fs');
+//const fs = require('fs');
+import * as fs from 'fs';
+
 // path is used only for its parse method, which creates an object containing useful information about the path.
-const path = require('path');
+//const path = require('path');
+import * as path from 'path';
+import {sendResponse} from "./utilsApi.js";
 
 // We will limit the search of files in the front folder (../../front from here).
 // Note that fs methods consider the current folder to be the one where the app is run, that's why we don't need the "../.." before front.
@@ -12,7 +18,7 @@ const path = require('path');
 const baseFrontPath = '/front';
 
 // If the user requests a directory, a file can be returned by default.
-const defaultFileIfFolder = "index.acceuil";
+const defaultFileIfFolder = "acceuil.html";
 
 /* Dict associating files' extension to a MIME type browsers understand. The reason why this is needed is that only
 ** the file's content is sent to the browser, so it cannot know for sure what kind of file it was to begin with,
@@ -80,4 +86,4 @@ function send404(path, response) {
 }
 
 
-exports.manage = manageRequest;
+export {manageRequest as manage};

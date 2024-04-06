@@ -1,8 +1,6 @@
-// import {BASE_URL_API} from "../util/frontPath.js";
-// import {API_URL, STATS_API} from "../util/path.js";
+ import {BASE_URL_API} from "../util/frontPath.js";
+ import {API_URL, STATS_API} from "../util/path.js";
 
-const { BASE_URL_API } = require("../util/frontPath.js");
-const { API_URL, STATS_API } = require("../util/path.js");
 
 
 let ranking = document.getElementById("ranking-table-body");

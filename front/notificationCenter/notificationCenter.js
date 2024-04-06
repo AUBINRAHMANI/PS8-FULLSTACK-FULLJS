@@ -1,10 +1,8 @@
-// import {createNotificationRepresentation} from "../templates/notificationInList/NotificationRepresentationInList.js";
-// import {API_URL, NOTIFICATIONS_API} from "../util/path.js";
-// import {BASE_URL_API} from "../util/frontPath.js";
+import {createNotificationRepresentation} from "../templates/notificationInList/NotificationRepresentationInList.js";
+import {API_URL, NOTIFICATIONS_API} from "../util/path.js";
+import {BASE_URL_API} from "../util/frontPath.js";
 
-const { createNotificationRepresentation } = require("../templates/notificationInList/NotificationRepresentationInList.js");
-const { API_URL, NOTIFICATIONS_API } = require("../util/path.js");
-const { BASE_URL_API } = require("../util/frontPath.js");
+
 
 
 let container = document.getElementById("notifications-container")

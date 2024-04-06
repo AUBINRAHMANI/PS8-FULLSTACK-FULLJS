@@ -1,4 +1,4 @@
-const ConnectedPlayers = require("./ConnectedPlayers");
-//import ConnectedPlayers from "./ConnectedPlayers.js";
 
-module.exports = new ConnectedPlayers();
+import ConnectedPlayers from "./ConnectedPlayers.js";
+
+export default new ConnectedPlayers();

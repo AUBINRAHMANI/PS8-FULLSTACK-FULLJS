@@ -1,14 +1,9 @@
-// import UserValidator from "../../object/UserValidator.js";
-// import userdb from "../../database/userdb.js";
-// import jwt from "jsonwebtoken";
-// import {BODY, sendResponse} from "../utilsApi.js";
-// import {JWTSecretCode} from "../../credentials/credentials.js";
 
-const UserValidator = require("../../object/UserValidator.js");
-const userdb = require("../../database/userdb.js");
-const jwt = require("jsonwebtoken");
-const { BODY, sendResponse } = require("../utilsApi.js");
-const { JWTSecretCode } = require("../../credentials/credentials.js");
+import UserValidator from "../../object/UserValidator.js";
+import userdb from "../../database/userdb.js";
+import jwt from "jsonwebtoken";
+import {BODY, sendResponse} from "../utilsApi.js";
+import {JWTSecretCode} from "../../credentials/credentials.js";
 
 function userSignUp(request, response) {
     let user;
@@ -55,4 +50,4 @@ function userLogIn(request, response) {
     });
 }
 
-module.exports= {userSignUp, userLogIn};
+export {userSignUp, userLogIn};
