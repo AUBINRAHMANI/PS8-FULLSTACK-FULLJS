@@ -1,15 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
     var soundToggle = document.querySelector(".switch input[type='checkbox']");
-    soundToggle.addEventListener('change', function() {
+    //var audioFrame = document.getElementById('audioFrame').contentWindow;
+    var audioFrame = document.getElementById('audioFrame');
+
+
+    function updateSound(){
+        audioFrame.contentWindow.postMessage({ soundOn: soundToggle.checked}, "*");
+    }
+
+    soundToggle.addEventListener("change", updateSound);
+    updateSound();
+    
+
+    /*soundToggle.addEventListener('change', function() {
         var audioCommand = soundToggle.checked ? 'startAudio' : 'stopAudio';
         if (audioCommand === 'stopAudio') {
-            var audioFrame = document.getElementById('audioFrame').contentWindow;
             audioFrame.postMessage('stopAudio', '*');
+            console.log("Pause1");
         }
         else if ( audioCommand === 'startAudio') {
-            var audioFrame = document.getElementById('audioFrame').contentWindow;
             audioFrame.postMessage('startAudio', '*');
         }
+
+        console.log("Envoi du message à la page principale :", audioCommand);
+        localStorage.setItem('audioEnabled', soundToggle.checked);
         window.parent.postMessage(audioCommand, '*');
-    });
+
+
+
+    });*/
 });
