@@ -132,12 +132,10 @@ module.exports= {userSignUpOrLogin};
 
 
 
-//import userdb from "../../database/userdb.js";
-//import {authorizeRequest, PARAMS, sendResponse, USER_ID} from "../utilsApi.js";
-//import gamedb from "../../database/gamedb.js";
 
-const userdb = require("../../database/userdb.js");
-const { authorizeRequest, PARAMS, sendResponse, USER_ID } = require("../utilsApi.js");
+import userdb from "../../database/userdb.js";
+import {authorizeRequest, PARAMS, sendResponse, USER_ID} from "../utilsApi.js";
+import gamedb from "../../database/gamedb.js";
 
 
 function usersApiGet(request, response, urlPathArray) {
@@ -197,4 +195,4 @@ function getUserById(response, userId) {
 //     });
 // }
 
-module.exports ={usersApiGet};
+export {usersApiGet};
