@@ -80,18 +80,24 @@ let httpServer = http.createServer(function (request, response) {
         // If the URL starts by /api, then it's a REST request (you can change that if you want).
         if (filePath[1] === "api") {
             apiQuery.manage(request, response);
-            response.statusCode = 200;
             console.log(`api request`)
             // If it doesn't start by /api, then it's a request for a file.
         } else {
             fileQuery.manage(request, response);
-            console.log(`error while processing ${request.url}: ${error}`)
 
         }
     } catch(error) {
-        console.log(`error while processing ${request.url}: ${error}`)
-        response.statusCode = 400;
-        response.end(`Something in your request (${request.url}) is strange...`);
+        console.error(`Error while processing ${request.url}`);
+        console.error(error.stack); // This will log the stack trace
+        console.log(`error while processing ${request.url}: ${error}`);
+        if (!response.headersSent) {
+            response.statusCode = 500;
+            response.end(`Internal Server Error`);
+        }
+
+        //console.log(`error while processing ${request.url}: ${error}`)
+        //response.statusCode = 400;
+        //response.end(`Something in your request (${request.url}) is strange...`);
     }
 
 }).listen(8000);

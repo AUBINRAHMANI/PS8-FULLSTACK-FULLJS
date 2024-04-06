@@ -18,7 +18,7 @@ import {sendResponse} from "./utilsApi.js";
 const baseFrontPath = '/front';
 
 // If the user requests a directory, a file can be returned by default.
-const defaultFileIfFolder = "acceuil.html";
+const defaultFileIfFolder = "index.html";
 
 /* Dict associating files' extension to a MIME type browsers understand. The reason why this is needed is that only
 ** the file's content is sent to the browser, so it cannot know for sure what kind of file it was to begin with,
@@ -26,7 +26,7 @@ const defaultFileIfFolder = "acceuil.html";
 ** Note that the list is not exhaustive, you may need it to add some other MIME types (google is your friend). */
 const mimeTypes = {
     '.ico': 'image/x-icon',
-    '.html': 'text/acceuil',
+    '.html': 'text/html',
     '.js': 'text/javascript',
     '.json': 'application/json',
     '.css': 'text/css',

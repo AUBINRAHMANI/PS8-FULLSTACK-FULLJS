@@ -52,7 +52,7 @@ import {
 
 
 function manageRequest(request, response) {
-    sendResponse(response, 201, "OK");
+
 
     addCors(response)
 
@@ -79,7 +79,6 @@ function manageRequest(request, response) {
                 switch (urlPathArray[0] + "/") {
                     case SIGNUP_API:
                         //userSignUpOrLogin(request, response);
-                        sendResponse(response, 201, "OK");
                         userSignUp(request, response);
 
                         break;
