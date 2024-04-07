@@ -43,7 +43,7 @@ import {jsonValidator} from "./util/jsonValidator.js";
 import connectedPlayer from "./socket/PermanentSocketPlayers.js";
 import ConnectedPlayers from "./socket/ConnectedPlayers.js";
 import chatManager from "./socket/chatManager.js";
-
+import GameDb from './database/gamedb.js';
 
 
 
@@ -124,7 +124,7 @@ const io = new Server(httpServer, {
 
 
 
-const gameSocket = io.of("/api/game");
+const gameSocket = io.of("/api/games");
 const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
@@ -229,6 +229,38 @@ permanentSocket.on('connection', (socket) => {
         connectedPlayer.removePlayer(socket);
     });
 });
+
+
+gameSocket.on('connection', (socket) => {
+    console.log('Un client est connecté au namespace /api/games');
+    socket.on('saveGameState', async (gameState) => {
+        console.log("Je communique bien pour sauvegarder");
+        try{
+            const gameId = await GameDb.saveGameState(gameState);
+            socket.emit('gameStateSaved', { gameId }); // Informer le client que l'état du jeu a été sauvegardé avec succès
+            gameSocket.emit('updateGameState', gameState); // Mettre à jour tous les clients avec le nouvel état du jeu
+        } catch (error) {
+            console.error('Erreur lors de la sauvegarde de l\'état du jeu:', error);
+            socket.emit('error', 'Erreur lors de la sauvegarde de l\'état du jeu');
+        }
+    });
+
+    socket.on('requestGameState', async (gameId) => {
+        try {
+            const gameState = await GameDb.getGameState(gameId);
+            if (gameState) {
+                    socket.emit('gameState', gameState);
+            } else {
+                socket.emit('error', 'Jeu introuvable');
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération de l\'état du jeu:', error);
+            socket.emit('error', 'Erreur lors de la récupération de l\'état du jeu');
+        }
+    });
+});
+
+
 
 
 let chatRooms = [];

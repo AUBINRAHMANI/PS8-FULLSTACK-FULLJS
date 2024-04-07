@@ -1,3 +1,4 @@
+const socket = io("/api/games",{auth: {token: localStorage.getItem("token")}});
 // script.sockets
 let currentPlayer = 'player1';
 let player1Timer;
@@ -17,6 +18,8 @@ let placedWallsPlayer2 = [];
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
 let currentWallPlacement = null;
+let wallPlayer1 = [];
+let wallPlayer2 = [];
 let visibilityChangedCells = new Set();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -68,8 +71,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     board.addEventListener('click', handleInitialCellClick);
-    //startPlayerTimer(); A remettre si on séparre la sauvgarde de la partie normale 
-    loadGameState();
+    startPlayerTimer(); //A remettre si on séparre la sauvgarde de la partie normale
+    //loadGameState();
+
+    emitGameState();
+    const gameId = localStorage.getItem('gameId');
+    if (gameId) {
+        socket.emit('requestGameState', gameId);
+    }
 });
 
 function formatTime(timeInMillis) {
@@ -84,6 +93,97 @@ document.getElementById('validateButtonPlayer1').addEventListener('click', handl
 document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
 document.getElementById('cancelButtonPlayer1').addEventListener('click', handleCancelButtonClickPlayer1);
 document.getElementById('cancelButtonPlayer2').addEventListener('click', handleCancelButtonClickPlayer2);
+document.getElementById('quitButton').addEventListener('click', handleQuitButtonClick);
+function emitGameState() {
+
+    const gameState = {
+        currentPlayer,
+        player1Timer: player1Timer ? turnTimeLimit - parseInt(document.getElementById('player1Timer').textContent.split(':')[1]) : turnTimeLimit,
+        player2Timer: player2Timer ? turnTimeLimit - parseInt(document.getElementById('player2Timer').textContent.split(':')[1]) : turnTimeLimit,
+        player1Position,
+        player2Position,
+        player1WallsRemaining,
+        player2WallsRemaining,
+        placedWallsPlayer1,
+        placedWallsPlayer2,
+        currentWallPlacement
+        //
+
+    };
+
+    socket.emit('saveGameState', gameState);
+}
+
+socket.on('gameStateSaved', function(data) {
+    const { gameId } = data;
+    localStorage.setItem('gameId', gameId);
+});
+
+socket.on('gameState', function(gameState) {
+    // Mettre à jour l'état du jeu côté client avec les données reçues
+
+    if (gameState.player1Position !== null) {
+        setPlayerPosition(gameState.player1Position, 'player1');
+    }
+    if (gameState.player2Position !== null) {
+        setPlayerPosition(gameState.player2Position, 'player2');
+    }
+    currentPlayer = gameState.currentPlayer;
+    player1Position = gameState.player1Position;
+    player2Position = gameState.player2Position;
+    currentWallPlacement = gameState.currentWallPlacement;
+    player1WallsRemaining= gameState.player1WallsRemaining;
+    player2WallsRemaining = gameState.player2WallsRemaining;
+    placedWallsPlayer1 =  gameState.placedWallsPlayer1;
+    placedWallsPlayer2 = gameState.placedWallsPlayer2;
+    player1Timer = gameState.player1Timer;
+    player2Timer = gameState.player2Timer;
+    //updateUIBasedOnGameState();
+    displayWalls();
+});
+
+function displayWalls() {
+    // Nettoyer tous les murs précédents
+    cells.forEach(cell => {
+        cell.classList.remove('wall');
+        cell.style.backgroundColor = '';
+    });
+
+    // Afficher les murs horizontaux et verticaux
+    placedWallsPlayer1.forEach(wall => displaySingleWall(wall));
+    placedWallsPlayer2.forEach(wall => displaySingleWall(wall));
+}
+
+function displaySingleWall(wall) {
+    const cellIndex = wall.cellIndex;
+    const cell = cells[cellIndex];
+    if (cell) {
+        cell.classList.add('wall');
+        cell.style.backgroundColor = 'orange';
+
+        // Pour les murs verticaux, colorier aussi la cellule en dessous
+        // Ici, on suppose que l'index donné est celui du haut du mur vertical
+        if (wall.wallType === 'column') {
+            const cellBelowIndex = cellIndex + 34; // Ajoutez 17 si vous comptez par "ligne" pour décaler vers le bas
+            if (cellBelowIndex < cells.length) {
+                const cellBelow = cells[cellBelowIndex];
+                cellBelow.classList.add('wall');
+                cellBelow.style.backgroundColor = 'orange';
+            }
+        }
+
+        // Pour les murs horizontaux, colorier aussi la cellule à droite
+        // Ici, on suppose que l'index donné est celui de la gauche du mur horizontal
+        if (wall.wallType === 'row') {
+            const cellRightIndex = cellIndex + 2;
+            if ((cellRightIndex % 17) !== 0) { // Vérifier que le mur n'est pas sur le bord droit du plateau
+                const cellRight = cells[cellRightIndex]; // S'assurer que l'index est correct
+                cellRight.classList.add('wall');
+                cellRight.style.backgroundColor = 'orange';
+            }
+        }
+    }
+}
 
 function handleValidateButtonClickPlayer1() {
     // Logique de validation pour le joueur 1
@@ -122,19 +222,49 @@ function finalizeWallPlacementPlayer2() {
 }
 
 function finalizeWallPlacement(player) {
-    // Ajoute ici la logique de finalisation en fonction du joueur
+    // Ajou(te ici la logique de finalisation en fonction du joueur
     // Par exemple, tu peux utiliser la variable 'player' pour effectuer des actions spécifiques à chaque joueur
-    currentWallPlacement = null;
+   if(currentWallPlacement){
+       const wallData = { cellIndex: currentWallPlacement.cellIndex, wallType: currentWallPlacement.wallType };
+       if (player === 'player1') {
+           player1WallsRemaining--;
+           placedWallsPlayer1.push(wallData);
+       } else if (player === 'player2') {
+           player2WallsRemaining--;
+           placedWallsPlayer2.push(wallData);
+       }
+       console.log("Finalizewall P1 : "+ placedWallsPlayer2 + "P2 " + placedWallsPlayer2);
+       currentWallPlacement = null;
+   }
+
 
     // Accède au bouton de validation spécifique au joueur
     const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
     const cancelButton = document.getElementById(`cancelButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
+    document.getElementById('quitButton').addEventListener('click', handleQuitButtonClick);
 
     validateButton.style.display = 'none';
     cancelButton.style.display = 'none';
-    togglePlayer();
 
-    // Autres actions spécifiques au joueur ici...
+    togglePlayer();
+    emitGameState();
+
+}
+
+function handleQuitButtonClick() {
+    // Première confirmation pour quitter.
+    const saveGame = confirm("Voulez-vous sauvegarder la partie avant de quitter ?");
+    if (saveGame) {
+        // Appeler la fonction pour sauvegarder l'état du jeu.
+        emitGameState();
+        // Ajoutez ici le code nécessaire pour gérer la navigation après la sauvegarde
+        // Peut-être revenir à l'écran d'accueil ou fermer la session de jeu.
+    } else {
+        // Si l'utilisateur choisit de ne pas sauvegarder, alors réinitialisez le jeu.
+        resetGame();
+        // Ajoutez ici le code nécessaire pour gérer la navigation après la réinitialisation
+        // Peut-être revenir à l'écran d'accueil ou fermer la session de jeu.
+    }
 }
 
 function startTimer(timerId) {
@@ -150,17 +280,22 @@ function startTimer(timerId) {
         if (timerElement.textContent === "00:00") {
             togglePlayer();
         }
+        emitGameState();
     }, 1000);
+
+
 }
 
 function startPlayerTimer() {
     if (currentPlayer === 'player1') {
+        clearInterval(player1Timer)
         player1Timer = startTimer('player1Timer');
         document.getElementById('player2Timer').innerText = formatTime(40000); 
     } else {
         player2Timer = startTimer('player2Timer');
         document.getElementById('player1Timer').innerText = formatTime(40000); 
     }
+    emitGameState();
 }
 
 function resetPlayerTimer() {
@@ -239,11 +374,12 @@ function resetGame() {
     player1WallsRemaining = 10;
     player2WallsRemaining = 10;
     currentPlayer = 'player1';
+    placedWallsPlayer1=[];
+    placedWallsPlayer2=[];
     // Réinitialiser les classes des cellules
     cells.forEach(cell => {
         cell.classList.remove('player1', 'player2','wall');
     });
-    updateUIBasedOnGameState();
     resetPlayerTimer();
 
     const board = document.getElementById('board');
@@ -251,6 +387,7 @@ function resetGame() {
     board.addEventListener('click', handleInitialCellClick);
 
     visibilityChangedCells.clear();
+    emitGameState();
 }
 
 function setPlayerPosition(cellIndex, player) {
@@ -444,7 +581,9 @@ function handleCellClick(cellIndex) {
             // Basculer vers l'autre joueur
             togglePlayer();
         }
+
     }
+    emitGameState();
 
 }
 function cancelCurrentWallPlacement() {
@@ -552,6 +691,7 @@ function handleWallClick(cellIndex, wallType) {
 
     // Vérifiez si le mur a déjà été validé
     const currentPlayerWalls = currentPlayer === 'player1' ? placedWallsPlayer1 : placedWallsPlayer2;
+    console.log("murs PA : " + placedWallsPlayer1 + "murs P2 " +placedWallsPlayer2);
     if (currentPlayerWalls.includes(cellIndex)) {
         alert("Ce mur a déjà été validé. Choisissez un autre emplacement.");
         return;
@@ -561,6 +701,14 @@ function handleWallClick(cellIndex, wallType) {
 
     // Sauvegardez l'emplacement du mur en cours de placement
     currentWallPlacement = { cellIndex, wallType };
+    if(currentPlayer==='player1'){
+        wallPlayer1 = {cellIndex,wallType};
+    }
+    else if(currentPlayer==='player2'){
+        wallPlayer2 = {cellIndex,wallType};
+    }
+    console.log(currentPlayerWalls);
+
 
     // Vérifier si le joueur a des murs disponibles
     const wallsRemaining = currentPlayer === 'player1' ? player1WallsRemaining : player2WallsRemaining;
