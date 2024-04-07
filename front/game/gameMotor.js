@@ -18,6 +18,8 @@ let placedWallsPlayer2 = [];
 let player1WallsRemaining = 10;
 let player2WallsRemaining = 10;
 let currentWallPlacement = null;
+let wallPlayer1 = [];
+let wallPlayer2 = [];
 let visibilityChangedCells = new Set();
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -103,6 +105,7 @@ function emitGameState() {
         player2WallsRemaining,
         placedWallsPlayer1,
         placedWallsPlayer2,
+        currentWallPlacement
         //
 
     };
@@ -127,14 +130,59 @@ socket.on('gameState', function(gameState) {
     currentPlayer = gameState.currentPlayer;
     player1Position = gameState.player1Position;
     player2Position = gameState.player2Position;
+    currentWallPlacement = gameState.currentWallPlacement;
     player1WallsRemaining= gameState.player1WallsRemaining;
     player2WallsRemaining = gameState.player2WallsRemaining;
     placedWallsPlayer1 =  gameState.placedWallsPlayer1;
     placedWallsPlayer2 = gameState.placedWallsPlayer2;
     player1Timer = gameState.player1Timer;
     player2Timer = gameState.player2Timer;
-    updateUIBasedOnGameState(); // Assurez-vous que cette fonction met à jour l'interface utilisateur en fonction du nouvel état
+    //updateUIBasedOnGameState();
+    displayWalls();
 });
+
+function displayWalls() {
+    // Nettoyer tous les murs précédents
+    cells.forEach(cell => {
+        cell.classList.remove('wall');
+        cell.style.backgroundColor = '';
+    });
+
+    // Afficher les murs horizontaux et verticaux
+    placedWallsPlayer1.forEach(wall => displaySingleWall(wall));
+    placedWallsPlayer2.forEach(wall => displaySingleWall(wall));
+}
+
+function displaySingleWall(wall) {
+    const cellIndex = wall.cellIndex;
+    const cell = cells[cellIndex];
+    if (cell) {
+        cell.classList.add('wall');
+        cell.style.backgroundColor = 'orange';
+
+        // Pour les murs verticaux, colorier aussi la cellule en dessous
+        // Ici, on suppose que l'index donné est celui du haut du mur vertical
+        if (wall.wallType === 'column') {
+            const cellBelowIndex = cellIndex + 17;
+            if (cellBelowIndex < cells.length) {
+                const cellBelow = cells[cellBelowIndex];
+                cellBelow.classList.add('wall');
+                cellBelow.style.backgroundColor = 'orange';
+            }
+        }
+
+        // Pour les murs horizontaux, colorier aussi la cellule à droite
+        // Ici, on suppose que l'index donné est celui de la gauche du mur horizontal
+        if (wall.wallType === 'row') {
+            const cellRightIndex = cellIndex + 1;
+            if ((cellRightIndex + 1) % 17 !== 0) { // Vérifier que le mur n'est pas sur le bord droit du plateau
+                const cellRight = cells[cellRightIndex + 1]; // On saute un indice pour le mur horizontal
+                cellRight.classList.add('wall');
+                cellRight.style.backgroundColor = 'orange';
+            }
+        }
+    }
+}
 
 function handleValidateButtonClickPlayer1() {
     // Logique de validation pour le joueur 1
@@ -173,9 +221,19 @@ function finalizeWallPlacementPlayer2() {
 }
 
 function finalizeWallPlacement(player) {
-    // Ajoute ici la logique de finalisation en fonction du joueur
+    // Ajou(te ici la logique de finalisation en fonction du joueur
     // Par exemple, tu peux utiliser la variable 'player' pour effectuer des actions spécifiques à chaque joueur
-    currentWallPlacement = null;
+   if(currentWallPlacement){
+       const wallData = { cellIndex: currentWallPlacement.cellIndex, wallType: currentWallPlacement.wallType };
+       if (player === 'player1') {
+           placedWallsPlayer1.push(wallData);
+       } else if (player === 'player2') {
+           placedWallsPlayer2.push(wallData);
+       }
+       console.log("Finalizewall P1 : "+ placedWallsPlayer2 + "P2 " + placedWallsPlayer2);
+       currentWallPlacement = null;
+   }
+
 
     // Accède au bouton de validation spécifique au joueur
     const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
@@ -183,9 +241,10 @@ function finalizeWallPlacement(player) {
 
     validateButton.style.display = 'none';
     cancelButton.style.display = 'none';
-    togglePlayer();
 
-    // Autres actions spécifiques au joueur ici...
+    togglePlayer();
+    emitGameState();
+
 }
 
 function startTimer(timerId) {
@@ -609,6 +668,7 @@ function handleWallClick(cellIndex, wallType) {
 
     // Vérifiez si le mur a déjà été validé
     const currentPlayerWalls = currentPlayer === 'player1' ? placedWallsPlayer1 : placedWallsPlayer2;
+    console.log("murs PA : " + placedWallsPlayer1 + "murs P2 " +placedWallsPlayer2);
     if (currentPlayerWalls.includes(cellIndex)) {
         alert("Ce mur a déjà été validé. Choisissez un autre emplacement.");
         return;
@@ -618,6 +678,14 @@ function handleWallClick(cellIndex, wallType) {
 
     // Sauvegardez l'emplacement du mur en cours de placement
     currentWallPlacement = { cellIndex, wallType };
+    if(currentPlayer==='player1'){
+        wallPlayer1 = {cellIndex,wallType};
+    }
+    else if(currentPlayer==='player2'){
+        wallPlayer2 = {cellIndex,wallType};
+    }
+    console.log(currentPlayerWalls);
+
 
     // Vérifier si le joueur a des murs disponibles
     const wallsRemaining = currentPlayer === 'player1' ? player1WallsRemaining : player2WallsRemaining;
