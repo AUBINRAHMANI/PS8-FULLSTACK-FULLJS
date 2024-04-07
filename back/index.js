@@ -370,6 +370,38 @@ onlineSocket.on('connection', (socket) => {
         }
     });
 
+    socket.on('playerMove', (data) => {
+        const roomId = socketRoomMap[socket.id];
+        // Valider le déplacement et mettre à jour l'état du jeu
+        const validMove = validatePlayerMove(data); // Cette fonction doit être définie
+        if (validMove) {
+            // Mettre à jour l'état du jeu
+            const updatedGameState = updateGameState(data);
+            // Envoyer la mise à jour à tous les joueurs dans la room
+            onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
+        } else {
+            // Envoyer un message d'erreur au joueur qui a effectué le mouvement
+            socket.emit('invalidMove', 'Déplacement invalide.');
+        }
+
+    });
+
+
+    socket.on('playerPlaceWall', (data) => {
+        const roomId = socketRoomMap[socket.id];
+        // Valider le placement du mur et mettre à jour l'état du jeu
+        const validWallPlacement = validateWallPlacement(data); // Cette fonction doit être définie
+        if (validWallPlacement) {
+            // Mettre à jour l'état du jeu
+            const updatedGameState = updateGameState(data);
+            // Envoyer la mise à jour à tous les joueurs dans la room
+            onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
+        } else {
+            // Envoyer un message d'erreur au joueur qui a tenté de placer le mur
+            socket.emit('invalidWallPlacement', 'Placement de mur invalide.');
+        }
+    });
+
 });
 
 
