@@ -62,7 +62,7 @@ burgerMenuTemplate.innerHTML = `
         
         </a>
         <a class="nav-link" id="logout-button" href="${BASE_URL_PAGE}${LOGIN_URL}">
-            <button>Se déconnecter</button>
+            <img alt="se deconnecter" src="${logout}">
         </a>   
     </div>
     <div id="menu-buttons">
