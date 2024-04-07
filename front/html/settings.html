@@ -7,20 +7,25 @@
     <title>Paramètres - Mon Site Web</title>
 </head>
 <body>
-    <h1>Paramètres</h1>
-    <a href="acceuil.html"><button>Back</button></a>
-    <p>Son </p>
+    <div class="container">
+        <h1>Paramètres</h1>
+        <div class="toggle-container">
+            <p>Sound</p>
+
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <label for="soundToggle" class="toggle-button"></label>
+
+        </div>
+        
 
 
-    <label class="switch">
-        <input type="checkbox" checked>
-        <span class="slider round"></span>
-      </label>
-    <label for="soundToggle" class="toggle-button"></label>
-
+    </div>
+    
 
     <script src="../js/audioSettings.js"></script>
     <iframe id="audioFrame" src="template.html" style="display: none;"></iframe>
-
 </body>
 </html>
