@@ -1,0 +1,64 @@
+main {
+    padding: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* gap between elements */
+    gap: 2%;
+    height: 100%;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* gap between elements */
+    gap: 2%;
+}
+
+form > input {
+    height: 100%;
+    /* remove default browser suggestion */
+    -webkit-appearance: none;
+    text-align: center;
+    font-size: 25px;
+}
+
+form > button {
+    height: 100%;
+    aspect-ratio: 1/1;
+}
+
+form > button > img {
+    height: 70.7%; /* max ratio square inside a circle */
+    aspect-ratio: 1/1;
+}
+
+button {
+    font-size: unset;
+}
+
+#search-result {
+    margin-top: 40px;
+    max-width: 400px;
+    width: 65vw;
+    min-width: 240px;
+
+}
+
+@media (width <= 480px) and (orientation: portrait) {
+    form > input {
+        width: 60vw;
+    }
+
+    main {
+        padding: 20px;
+    }
+}
+
+@media (width <= 560px) and (orientation: portrait) {
+    #search-result > div > p {
+        font-size: 1em;
+    }
+}

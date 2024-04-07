@@ -1,0 +1,135 @@
+@import "../menu/burgermenu.css";
+@import "header.css";
+@import "../templates/userInList/UserRepesentationInList.css";
+@import "../templates/notificationInList/NotificationRepesentationInList.css";
+@import "../templates/popUp/popUp.css";
+@import "CSSvariables.css";
+@import "../templates/achievement/achievement.css";
+@import "../chat/chat.css";
+
+* {
+    font-family: 'Burbank',sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* header see header.css */
+
+/* main depends on every page, check each page css */
+h1 {
+    text-align: center;
+}
+
+/* buttons */
+button {
+    background-color: var(--dark-accentuation-color);
+    margin: 0.5em;
+    padding: 1em;
+    border: none;
+    border-radius: 1000px;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+button a {
+    text-align: center;
+
+    width: 100%;
+    height: 100%;
+
+    text-decoration: none;
+    color: black;
+}
+
+button:hover {
+    background-color: var(--very-dark-accentuation-color);
+}
+
+/* input */
+.text-input {
+    background-color: var(--light-accentuation-grey);
+    border: none;
+    border-radius: 1em;
+    padding: 0.5em;
+    font-size: 1rem;
+    text-align: center;
+    width: 90%;
+}
+
+#bottom-content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+/* classes */
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-background {
+    background-color: #FFFFFF;
+}
+
+.with-background {
+    background-color: var(--light-accentuation-color);
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+/* table */
+
+th {
+    background-color: var(--dark-accentuation-color);
+}
+
+td, th {
+    padding: 25px 50px;
+    border: 1px solid black;
+}
+
+@media (orientation: portrait) and (width <= 480px) {
+    td, th {
+        padding: 20px 1vw;
+    }
+}
+
+table {
+    border-collapse: collapse;
+}
+
+/* colors */
+
+.grey {
+    background-color: var(--light-accentuation-grey);
+}
+
+.grey:hover {
+    background-color: var(--dark-accentuation-grey);
+}
+
+.not-scrolling {
+    overflow: hidden;
+    height: 100vh;
+}

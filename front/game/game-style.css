@@ -1,0 +1,307 @@
+.grid-cell {
+    width: 50px; /* Ajustez selon les besoins */
+    height: 50px; /* Ajustez selon les besoins */
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+}
+/* Autres styles nécessaires */
+
+
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+
+.big-title {
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 15vw;
+    margin: 0;
+    padding-top: 10vw;
+    color:white;
+}
+
+.title {
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 5rem;
+    margin: 0;
+    padding: 0rem;
+    color:white;
+}
+
+
+.sub-title {
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 3rem;
+    margin: 0;
+    padding: 0.5rem;
+}
+
+
+body {
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+    background-position: center; /* Centre l'image horizontalement et verticalement */
+    background-repeat: no-repeat; /* Évite la répétition de l'image */
+}
+
+
+.menu {
+    background-color: #333; /* Couleur du menu */
+    padding: 10px;
+}
+
+.title-container {
+    text-align: center;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; /* Trois colonnes : une grande colonne centrale et deux colonnes adjacentes plus fines */
+    gap: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+.left-column,
+.right-column {
+    /* Styles pour les colonnes de gauche et de droite (ajustez selon vos besoins) */
+    background-color: rgba(255, 255, 255, 0.2); /* Fond blanc avec une transparence de 50% */
+    padding: 10px;
+    border-radius: 30px;
+}
+
+.main-column {
+    /* Styles pour la colonne centrale (grille de jeu) */
+    background-color: #f0f0f0;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(17, 1fr);
+    grid-template-rows: repeat(17, 1fr);
+    width: 80vw; /* Utilisation de 80% de la largeur de la vue */
+    max-width: 800px; /* Ajout d'une largeur maximale */
+    height: 80vh; /* Utilisation de 80% de la hauteur de la vue */
+    max-height: 800px; /* Ajout d'une hauteur maximale */
+    border: 2px solid #000;
+    margin: auto; /* Ajout pour centrer la grille */
+    align-self: flex-start;
+}
+
+
+/* Style pour les colonnes paires (B à P) */
+.cell.border-column {
+    background-color: black;
+}
+
+/* Style pour les lignes paires */
+.cell.border-row {
+    background-color: black;
+}
+
+.cell:not(.border-column):not(.border-row) {
+    width: 80px;
+    height: 50px;
+}
+
+
+
+.cell {
+    border: 1px solid #000;
+    position: relative;
+}
+
+.player1, .player2 {
+    width: 100%;
+    height: 100%;
+    background-color: #ff0000; /* Red for player 1 */
+}
+
+.barrier {
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    opacity: 0.5;
+    position: absolute;
+}
+
+
+.possible-move {
+    background-color: lightgreen;
+}
+
+
+
+
+.small-image{
+    width: 200px;
+    height: 200px;
+    max-width: 100%; /* La largeur maximale de l'image est égale à la largeur du conteneur */
+    height: auto; /* La hauteur s'ajustera automatiquement pour conserver les proportions */
+    display: block; /* Pour éviter un léger espace en bas de l'image */
+    margin: 0 auto; /* Centre l'image horizontalement dans son conteneur */
+}
+
+
+.orange-box {
+    background-color: orange;
+    padding: 0px;
+    display: inline-block; /* Permet à la boîte de s'ajuster à la largeur du contenu */
+    margin: auto; /* Centre la boîte horizontalement */
+    text-align: center;
+    border-radius: 5px;
+}
+
+
+
+.wall {
+    background-color: orange; /* Couleur bleue pour les murs */
+}
+
+
+
+#readyButton {
+    background-color: #ffcc00;
+    color: black;
+    padding: 20px 40px;
+    font-size: 50px;
+    font-family:'Burbank','arial';
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s ease;
+}
+
+#readyButton:hover {
+    background-color: #cc9900;
+}
+
+
+.visible {
+}
+
+
+.hidden {
+    background-color: rgba(0, 0, 255, 0.5);
+    /*background-image: url('../files/Brouillard.png');*/
+
+}
+
+
+.timer {
+    font-family: 'Roboto', sans-serif;
+    font-size: 25px;
+    text-align: center;
+    margin: 10px auto;
+    color: #ffffff;
+    background-color: #282c34; /* Couleur de fond noire */
+    padding: 5px;
+    border-radius: 8px;
+    border: 2px solid #000000; /* Bordure bleue */
+    width: 60px;
+}
+
+/* Style spécifique pour le minuteur du joueur 1 */
+#player1Timer {
+    border: 2px solid #000; /* Bordure orange pour le joueur 1 */
+}
+
+/* Style spécifique pour le minuteur du joueur 2 */
+#player2Timer {
+    border: 2px solid #000; /* Bordure bleue pour le joueur 2 */
+}
+
+/* Style pour les chiffres du minuteur */
+.timer {
+    font-family: 'Burbank','arial';
+    font-size: 30px;
+    background-color: #000000; /* Fond noir */
+    color: #ffffff; /* Texte blanc */
+    padding: 5px;
+    border-radius: 5px;
+}
+/* Ajoutez le style pour les cellules possibles lors du premier tour */
+.first-row {
+    background-color: green;
+}
+
+#wallsRemainingPlayer1,
+#wallsRemainingPlayer2 {
+    font-family: 'Burbank', 'Arial', sans-serif;
+    font-size: 30px;
+    color: #000; /* Couleur du texte */
+    background-color: #ffffff; /* Couleur de fond */
+    padding: 5px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-align: center;
+    margin-right: auto; /* Ajustement de la marge droite à auto pour centrer horizontalement */
+    margin-left: auto; /* Ajustement de la marge gauche à auto pour centrer horizontalement */
+    border-radius: 5px;
+    width: 280px; /* Ajustez la largeur selon vos besoins */
+}
+
+/* Style pour les boutons de validation avec image de coche verte transparente */
+#validateButtonPlayer1,
+#validateButtonPlayer2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Fond transparent */
+    color: transparent; /* Texte transparent pour masquer le texte "Valider" */
+    padding: 30px; /* Espacement interne du bouton */
+    border: none; /* Pas de bordure */
+    border-radius: 50%; /* Coins arrondis pour un aspect de cercle */
+    cursor: pointer; /* Curseur de type pointeur au survol */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230F0" width="48px" height="48px"><path d="M0 0h24v24H0z" fill="none"/><path d="M9 16.17L4.83 12l-1.42 1.41L9 18 21 6l-1.41-1.41L9 16.17z"/></svg>');
+    background-size: contain; /* Ajuster la taille de l'image pour remplir le bouton */
+    background-repeat: no-repeat; /* Pas de répétition de l'image */
+    margin-left: 100px;
+}
+
+#cancelButtonPlayer1,
+#cancelButtonPlayer2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* Fond transparent */
+    color: transparent; /* Texte transparent pour masquer le texte "Annuler" */
+    padding: 30px; /* Espacement interne du bouton */
+    border: none; /* Pas de bordure */
+    border-radius: 50%; /* Coins arrondis pour un aspect de cercle */
+    cursor: pointer; /* Curseur de type pointeur au survol */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23F00" width="48px" height="48px"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>');
+    background-size: contain; /* Ajuster la taille de l'image pour remplir le bouton */
+    background-repeat: no-repeat; /* Pas de répétition de l'image */
+    margin-right: 60px;
+}
+
+#validateButtonPlayer1:hover,
+#validateButtonPlayer2:hover {
+    /* Vous pouvez ajouter un style de survol si nécessaire */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px; /* Marge supérieure pour séparer les boutons du reste du contenu */
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh; /* Ajustez la hauteur selon vos besoins */
+}

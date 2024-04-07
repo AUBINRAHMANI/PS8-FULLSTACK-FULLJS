@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
+    <title>Centre de notifications</title>
+
+    <script src="notificationCenter.js" type="module"></script>
+
+    <link href="notificationCenter.css" rel="stylesheet">
+    <link href="../commonCSS/common.css" rel="stylesheet">
+
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script src="../menu/burgermenu.js" type="module"></script>
+    <script src="../menu/burgermenu_open_close_button.js" type="module"></script>
+    <script src="../chat/chat.js" type="module"></script>
+
+
+    <script src="../sockets/socket.io.js"></script>
+</head>
+
+<header>
+    <burger-menu-open-close></burger-menu-open-close>
+    <div class="top-page">
+        <div class="top-corner-content" id="header-center-div"></div>
+        <div class="page-title"><h1>Centre de notifications</h1></div>
+        <div class="top-corner-content" id="username"></div>
+    </div>
+</header>
+
+<body>
+<div id="bottom-content">
+    <burger-menu></burger-menu>
+    <main class="flex-column">
+        <div id="notifications-container"></div>
+    </main>
+    <chat-global></chat-global>
+</div>
+</body>
+</html>

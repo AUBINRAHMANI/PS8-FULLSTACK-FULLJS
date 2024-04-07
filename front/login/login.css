@@ -1,0 +1,82 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 20px 20px;
+}
+
+#button-container, form {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+    margin-top: 50px;
+    flex-grow: 1;
+    max-width: 600px;
+}
+
+#button-container form * {
+    height: 4em;
+    width: 100%;
+}
+
+#button-container > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#button-container > div > * {
+    height: 4em;
+    width: 42%;
+}
+
+.home-button {
+    margin: 0;
+}
+
+p {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-size: 1em;
+}
+
+
+header > *:first-child {
+    display: none;
+    background: white;
+}
+
+header > .top-page > .top-corner-content {
+    background: white;
+    display: none;
+}
+
+header > .top-page > .page-title {
+    height: var(--header-height);
+}
+
+header > .top-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+@media (width <= 730px) {
+    header > .top-page > .page-title {
+        width: 50%;
+        min-width: 250px;
+    }
+}
+
+
+@media (orientation: landscape) and (height < 480px) {
+    #button-container, form {
+        margin-top: 25px;
+    }
+}
+

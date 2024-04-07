@@ -1,0 +1,48 @@
+:root {
+    --image-width: 80px;
+}
+
+.achievement-img {
+    width: var(--image-width);
+    aspect-ratio: 1/1;
+}
+
+.achievement-notfound {
+    filter: opacity(0.5);
+}
+
+.achievement-info {
+    width: var(--image-width);
+    aspect-ratio: 1/1;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+p.achievement-info {
+}
+
+#achievements {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+#achievements > div {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    #achievements > div {
+        padding-left: 70px;
+    }
+}
+
+@media (width <= 480px) and (orientation: portrait) {
+    #achievements > div {
+        padding-left: 30px;
+    }
+}

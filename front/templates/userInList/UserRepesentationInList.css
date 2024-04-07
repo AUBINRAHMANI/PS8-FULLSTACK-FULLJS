@@ -1,0 +1,25 @@
+.user-profile {
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 10px;
+    width: auto;
+    height: auto;
+    background-color: var(--dark-accentuation-color);
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.user-profile > * {
+    margin: 5px;
+}
+
+.profile-picture {
+    height: 32px;
+    aspect-ratio: 1/1;
+}
+
+.user-profile:hover {
+    background-color: var(--very-dark-accentuation-color);
+}
