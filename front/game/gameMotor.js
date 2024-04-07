@@ -163,7 +163,7 @@ function displaySingleWall(wall) {
         // Pour les murs verticaux, colorier aussi la cellule en dessous
         // Ici, on suppose que l'index donné est celui du haut du mur vertical
         if (wall.wallType === 'column') {
-            const cellBelowIndex = cellIndex + 17;
+            const cellBelowIndex = cellIndex + 34; // Ajoutez 17 si vous comptez par "ligne" pour décaler vers le bas
             if (cellBelowIndex < cells.length) {
                 const cellBelow = cells[cellBelowIndex];
                 cellBelow.classList.add('wall');
@@ -174,9 +174,9 @@ function displaySingleWall(wall) {
         // Pour les murs horizontaux, colorier aussi la cellule à droite
         // Ici, on suppose que l'index donné est celui de la gauche du mur horizontal
         if (wall.wallType === 'row') {
-            const cellRightIndex = cellIndex + 1;
-            if ((cellRightIndex + 1) % 17 !== 0) { // Vérifier que le mur n'est pas sur le bord droit du plateau
-                const cellRight = cells[cellRightIndex + 1]; // On saute un indice pour le mur horizontal
+            const cellRightIndex = cellIndex + 2;
+            if ((cellRightIndex % 17) !== 0) { // Vérifier que le mur n'est pas sur le bord droit du plateau
+                const cellRight = cells[cellRightIndex]; // S'assurer que l'index est correct
                 cellRight.classList.add('wall');
                 cellRight.style.backgroundColor = 'orange';
             }
@@ -268,6 +268,7 @@ function startTimer(timerId) {
 
 function startPlayerTimer() {
     if (currentPlayer === 'player1') {
+        clearInterval(player1Timer)
         player1Timer = startTimer('player1Timer');
         document.getElementById('player2Timer').innerText = formatTime(40000); 
     } else {
