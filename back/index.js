@@ -44,6 +44,7 @@ import connectedPlayer from "./socket/PermanentSocketPlayers.js";
 import ConnectedPlayers from "./socket/ConnectedPlayers.js";
 import chatManager from "./socket/chatManager.js";
 import GameDb from './database/gamedb.js';
+import Onlinedb from "./database/onlinedb.js";
 
 
 
@@ -125,6 +126,7 @@ const io = new Server(httpServer, {
 
 
 const gameSocket = io.of("/api/games");
+const onlineSocket = io.of("/api/gameOnline");
 const chatSocket = io.of("/api/chat");
 const permanentSocket = io.of("/api/permanent")
 
@@ -169,6 +171,10 @@ gameSocket.use((socket, next) => {
 
 chatSocket.use((socket, next) => {
     authenticate(socket, next);
+});
+
+onlineSocket.use((socket,next)=>{
+    authenticate(socket,next);
 });
 
 
@@ -320,6 +326,51 @@ chatSocket.on('connection', (socket) => {
         console.log("Socket id chat : " + socket.id + " disconnected");
     });
 });
+
+let waitingPlayer = null; // ID du socket du joueur en attente
+
+//1V1 ONLINE
+const socketRoomMap = {};
+onlineSocket.on('connection', (socket) => {
+    console.log('Un joueur s\'est connecté au jeu en ligne.');
+
+    // Matchmaking: Jumeler les joueurs
+    socket.on('joinGame', async () => {
+        const {roomId, state} = await Onlinedb.createOrJoinRoom(socket.id);
+
+        socketRoomMap[socket.id] = roomId;
+
+        if (state === 'waiting') {
+            // Jumeler le joueur actuel avec le joueur en attente
+            socket.join(roomId);
+            socket.emit('waitingForOpponent', 'En attente d\'un adversaire...');
+        } else if (state === 'active') {
+            socket.join(roomId);
+            onlineSocket.in(roomId).emit('gameStart', { roomId: roomId, message: 'La partie commence !' });
+        }
+    });
+
+    socket.on('disconnect', async () => {
+        const roomId = socketRoomMap[socket.id];
+        // Vérifier l'état de la room et prendre des mesures en conséquence
+        if (roomId) {
+            // Obtenez l'état de la room ici et décidez des actions appropriées
+            const room = await Onlinedb.getRoomState(roomId);
+            // Supposons que cette fonction renvoie { state: 'waiting' } ou { state: 'active' }
+
+            if (room.state === 'waiting') {
+                await Onlinedb.deleteRoom(roomId);
+                // Assurez-vous de nettoyer après la suppression
+                delete socketRoomMap[socket.id];
+            } else if (room.state === 'active') {
+                await Onlinedb.endGame(roomId, socket.id);
+                // Informez l'autre joueur, nettoyez la room, etc.
+            }
+        }
+    });
+
+});
+
 
 
 

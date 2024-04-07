@@ -53,8 +53,6 @@ class Gamedb {
             console.error(error);
         }
     }
-
-    // Ajoutez d'autres méthodes si nécessaire...
 }
 
 export default new Gamedb();
