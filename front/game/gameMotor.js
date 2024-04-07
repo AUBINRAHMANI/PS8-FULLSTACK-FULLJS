@@ -93,6 +93,7 @@ document.getElementById('validateButtonPlayer1').addEventListener('click', handl
 document.getElementById('validateButtonPlayer2').addEventListener('click', handleValidateButtonClickPlayer2);
 document.getElementById('cancelButtonPlayer1').addEventListener('click', handleCancelButtonClickPlayer1);
 document.getElementById('cancelButtonPlayer2').addEventListener('click', handleCancelButtonClickPlayer2);
+document.getElementById('quitButton').addEventListener('click', handleQuitButtonClick);
 function emitGameState() {
 
     const gameState = {
@@ -226,8 +227,10 @@ function finalizeWallPlacement(player) {
    if(currentWallPlacement){
        const wallData = { cellIndex: currentWallPlacement.cellIndex, wallType: currentWallPlacement.wallType };
        if (player === 'player1') {
+           player1WallsRemaining--;
            placedWallsPlayer1.push(wallData);
        } else if (player === 'player2') {
+           player2WallsRemaining--;
            placedWallsPlayer2.push(wallData);
        }
        console.log("Finalizewall P1 : "+ placedWallsPlayer2 + "P2 " + placedWallsPlayer2);
@@ -238,6 +241,7 @@ function finalizeWallPlacement(player) {
     // Accède au bouton de validation spécifique au joueur
     const validateButton = document.getElementById(`validateButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
     const cancelButton = document.getElementById(`cancelButton${player.charAt(0).toUpperCase() + player.slice(1)}`);
+    document.getElementById('quitButton').addEventListener('click', handleQuitButtonClick);
 
     validateButton.style.display = 'none';
     cancelButton.style.display = 'none';
@@ -245,6 +249,22 @@ function finalizeWallPlacement(player) {
     togglePlayer();
     emitGameState();
 
+}
+
+function handleQuitButtonClick() {
+    // Première confirmation pour quitter.
+    const saveGame = confirm("Voulez-vous sauvegarder la partie avant de quitter ?");
+    if (saveGame) {
+        // Appeler la fonction pour sauvegarder l'état du jeu.
+        emitGameState();
+        // Ajoutez ici le code nécessaire pour gérer la navigation après la sauvegarde
+        // Peut-être revenir à l'écran d'accueil ou fermer la session de jeu.
+    } else {
+        // Si l'utilisateur choisit de ne pas sauvegarder, alors réinitialisez le jeu.
+        resetGame();
+        // Ajoutez ici le code nécessaire pour gérer la navigation après la réinitialisation
+        // Peut-être revenir à l'écran d'accueil ou fermer la session de jeu.
+    }
 }
 
 function startTimer(timerId) {
@@ -354,11 +374,12 @@ function resetGame() {
     player1WallsRemaining = 10;
     player2WallsRemaining = 10;
     currentPlayer = 'player1';
+    placedWallsPlayer1=[];
+    placedWallsPlayer2=[];
     // Réinitialiser les classes des cellules
     cells.forEach(cell => {
         cell.classList.remove('player1', 'player2','wall');
     });
-    updateUIBasedOnGameState();
     resetPlayerTimer();
 
     const board = document.getElementById('board');
@@ -366,6 +387,7 @@ function resetGame() {
     board.addEventListener('click', handleInitialCellClick);
 
     visibilityChangedCells.clear();
+    emitGameState();
 }
 
 function setPlayerPosition(cellIndex, player) {
