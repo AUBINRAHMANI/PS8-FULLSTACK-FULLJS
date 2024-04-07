@@ -363,6 +363,7 @@ onlineSocket.on('connection', (socket) => {
                 // Assurez-vous de nettoyer après la suppression
                 delete socketRoomMap[socket.id];
             } else if (room.state === 'active') {
+                socket.to(roomId).emit('opponentLeft', 'Votre adversaire a quitté la partie.');
                 await Onlinedb.endGame(roomId, socket.id);
                 // Informez l'autre joueur, nettoyez la room, etc.
             }
