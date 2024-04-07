@@ -913,7 +913,7 @@ function isWallBetweenPositions(startIndex, endIndex) {
 }
 
 function openAntiCheatPage() {
-    const antiCheatUrl = 'anti-cheat-sheet.acceuil';
+    const antiCheatUrl = '../acceuil/anti-cheat-sheet.html';
 
     const width = 850;
     const height = 600;

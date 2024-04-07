@@ -105,3 +105,4 @@ document.getElementById('quitGame').addEventListener('click', () => {
     document.getElementById('gameStatus').textContent = "Vous avez quitté la partie. Recherche d'un adversaire...";
     // Éventuellement, réémettre un 'joinGame' si vous voulez que le joueur cherche immédiatement un autre jeu
 });
+
