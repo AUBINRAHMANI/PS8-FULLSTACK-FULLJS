@@ -347,23 +347,44 @@ onlineSocket.on('connection', (socket) => {
         } else if (state === 'active') {
             socket.join(roomId);
             socket.emit('gameStart', { roomId: roomId, role: playerRole, message: 'La partie commence !' });
-            onlineSocket.in(roomId).emit('opponentJoined', { message: 'Votre adversaire a rejoint. Préparez-vous !' });
+            socket.to(roomId).emit('opponentJoined', { message: 'Votre adversaire a rejoint. Préparez-vous !' });
         }
     });
 
-    socket.on('playerAction', ({ roomId, action }) => {
+    socket.on('playerAction', async ({roomId, action}) => {
         // Valider et traiter l'action ici...
-        const isValidMove = true; // A CHANGER AVEC LA FONCTION VALID !!
+        const gameState = await Onlinedb.getGameState(roomId);
+
+        let isValidMove = true; // a changer
+        // L'objet updatedGameState devrait être préparé ici après la validation
+        let updatedGameState = {...gameState};
+
+        if (action.type === 'move') {
+           // isValidMove = validatePlayerMove(gameState, action);
+            isValidMove = true;
+            if (isValidMove) {
+                // Appliquer le déplacement dans updatedGameState si nécessaire
+            }
+        } else if (action.type === 'placeWall') {
+            isValidMove = true;
+            //isValidMove = validateWallPlacement(gameState, action);
+            if (isValidMove) {
+                // Appliquer le placement du mur dans updatedGameState si nécessaire
+            }
+        }
 
         if (isValidMove) {
-            // Ici, tu mets à jour l'état du jeu basé sur l'action reçue
-            const gameState = {}; // Résultat de la mise à jour de l'état du jeu
-            // Ensuite, tu émets le nouvel état du jeu à tous les joueurs dans la salle
-            onlineSocket.in(roomId).emit('updateGameState', gameState);
-            // Tu changes le tour du joueur
-            switchTurn(roomId);
+            console.log("Mouvement valide !");
+            // Mettre à jour l'état du jeu dans la base de données
+            await Onlinedb.updateGameState(roomId, updatedGameState);
+
+            // Informer tous les clients de la mise à jour
+            onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
+
+            // Déterminer et changer le tour du joueur
+            await switchTurn(roomId);
         } else {
-            // Si le mouvement n'est pas valide, tu envoies un message d'erreur au joueur qui a tenté le mouvement
+            // Si le mouvement n'est pas valide, envoyer un message d'erreur au joueur
             socket.emit('invalidMove', 'Mouvement non valide.');
         }
     });
@@ -423,19 +444,45 @@ onlineSocket.on('connection', (socket) => {
 
 });
 
-async function switchTurn(roomId) {
-    const room = await Onlinedb.getRoomState(roomId);
-    let nextPlayerIndex = (room.currentPlayerIndex + 1) % 2;
-    await Onlinedb.updateRoomState(roomId, {currentPlayerIndex: nextPlayerIndex});
-
-    // Récupérer l'état mis à jour de la salle pour obtenir le rôle du joueur actuel
-    const updatedRoom = await Onlinedb.getRoomState(roomId);
-    const currentPlayerRole = updatedRoom.players[updatedRoom.currentPlayerIndex].role;
-
-    // Notifier les joueurs du changement de tour
-    onlineSocket.in(roomId).emit('turnSwitched', { currentPlayerRole });
+function getPlayerRoleByIndex(players, currentPlayerIndex) {
+    // Si l'index du joueur actuel est 0, alors c'est le rôle 'player1', sinon 'player2'.
+    // Ceci est basé sur la supposition que l'ordre des joueurs dans le tableau est [player1, player2].
+    return currentPlayerIndex === 0 ? 'player1' : 'player2';
 }
 
+async function switchTurn(roomId) {
+    try {
+        const room = await Onlinedb.getRoomState(roomId);
+        if (!room) {
+            throw new Error(`Aucune salle trouvée avec l'ID: ${roomId}`);
+        }
+
+        // Calculer l'index du prochain joueur
+        const nextPlayerIndex = (room.currentPlayerIndex + 1) % room.players.length;
+
+        // Mettre à jour l'index du joueur actuel dans l'état de la salle
+        await Onlinedb.updateRoomState(roomId, { currentPlayerIndex: nextPlayerIndex });
+
+        // Récupérer l'état mis à jour de la salle
+        const updatedRoom = await Onlinedb.getRoomState(roomId);
+
+        // Déterminer le rôle du joueur actuel basé sur l'index mis à jour
+        const currentPlayerRole = getPlayerRoleByIndex(updatedRoom.players, updatedRoom.currentPlayerIndex);
+
+        // Récupérer l'état complet du jeu, y compris les positions des joueurs, les murs, etc.
+        const gameState = await Onlinedb.getGameState(roomId);
+
+        // S'assurer que l'état du jeu inclut le joueur actuel correct
+        gameState.currentPlayer = currentPlayerRole;
+
+        // Envoyer l'état du jeu mis à jour à tous les clients dans la salle
+        onlineSocket.in(roomId).emit('updateGameState', gameState);
+
+        console.log(`Tour changé à ${currentPlayerRole} dans la salle ${roomId}`);
+    } catch (error) {
+        console.error(`Erreur dans switchTurn pour la salle ${roomId}:`, error);
+    }
+}
 
 
 

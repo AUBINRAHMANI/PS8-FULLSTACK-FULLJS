@@ -1,7 +1,7 @@
 const socket = io("/api/gameOnline",{auth: {token: localStorage.getItem("token")}});
 socket.emit('joinGame');
 
-let currentPlayer = 'player1';
+let currentPlayer;
 let player1Timer;
 let player2Timer;
 let playerRole;
@@ -92,14 +92,30 @@ socket.on('gameStart', (data) => {
     roomId = data.roomId;
     document.getElementById('matchmakingStatus').textContent = data.message;
     console.log(data.message);
+    console.log(data.message, "Role:", playerRole);
 
     // Afficher le board du jeu et le bouton Quitter
     document.getElementById('gameBoard').style.display = 'block';
     document.getElementById('quitGame').style.display = 'block';
-    initializeGameBoard();
+    initializeGameBoard(playerRole);
 
 
 });
+
+socket.on('opponentJoined', (data) => {
+    document.getElementById('matchmakingStatus').textContent = data.message;
+    // Maintenant que l'opposant a rejoint, vous pouvez initialiser le tableau de jeu pour le premier joueur
+     // Assurez-vous que playerRole est défini pour le premier joueur
+
+    // Afficher le plateau de jeu et le bouton pour quitter
+    document.getElementById('gameBoard').style.display = 'block';
+    document.getElementById('quitGame').style.display = 'block';
+    console.log(data.message, "Role:", playerRole);
+    initializeGameBoard(playerRole);
+    console.log("Opposant rejoint");
+
+});
+
 socket.on('opponentLeft',(message) => {
     //document.getElementById('gameStatus').textContent = message;
     // Peut-être cacher le plateau de jeu ou afficher un bouton pour retourner au menu principal
@@ -108,27 +124,12 @@ socket.on('opponentLeft',(message) => {
     // Optionnellement, rediriger l'utilisateur ou lui montrer un bouton pour démarrer une nouvelle recherche
 });
 
-socket.on('updateGameState', (updatedGameState) => {
-    // Mettre à jour l'interface utilisateur avec le nouvel état du jeu
-    updateUI(updatedGameState);
-});
-
 socket.on('invalidMove', (message) => {
     alert(message); // Affichez un message d'erreur
 });
 
 socket.on('invalidWallPlacement', (message) => {
     alert(message); // Affichez un message d'erreur
-});
-
-socket.on('turnSwitched', (data) => {
-    if (data.player === playerRole) {
-        // Activer l'interface utilisateur pour le joueur
-        enablePlayerUI();
-    } else {
-        // Désactiver l'interface utilisateur et montrer qu'il doit attendre
-        disablePlayerUI();
-    }
 });
 
 document.getElementById('quitGame').addEventListener('click', () => {
@@ -142,14 +143,16 @@ document.getElementById('quitGame').addEventListener('click', () => {
 
 function enablePlayerUI() {
     // Activer les clics sur la grille du jeu pour ce joueur
-    const cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell:not(.wall)');
     cells.forEach(cell => {
-        cell.addEventListener('click', handleCellClick);
+        if (playerRole === currentPlayer) {
+            cell.addEventListener('click', handleCellClick);
+        }
     });
 
     // Activer les boutons de validation et d'annulation pour le joueur actuel
-    document.getElementById('validateButtonPlayer1').style.display = 'block';
-    document.getElementById('cancelButtonPlayer1').style.display = 'block';
+  //  document.getElementById('validateButtonPlayer1').style.display = 'block'; A ACTIVER QUE QUAND IL CLIQUE ET LORSQUE IL VALIDE AVEC CE BOUTON ALORS CA ENVOIT LE TRUC
+    //document.getElementById('cancelButtonPlayer1').style.display = 'block';
     // Si tu as des boutons séparés pour le joueur 2, ajuste selon ton besoin
     // document.getElementById('validateButtonPlayer2').style.display = 'block';
     // document.getElementById('cancelButtonPlayer2').style.display = 'block';
@@ -161,13 +164,14 @@ function enablePlayerUI() {
 
 function disablePlayerUI() {
     // Désactiver les clics sur la grille du jeu pour ce joueur
-    document.querySelectorAll('.cell').forEach(cell => {
-        cell.style.pointerEvents = 'none'; // Empêcher les clics
+    const cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => {
+        cell.removeEventListener('click', handleCellClick);
     });
 
     // Désactiver les boutons de validation et d'annulation pour le joueur actuel
-    document.getElementById('validateButtonPlayer1').style.display = 'none';
-    document.getElementById('cancelButtonPlayer1').style.display = 'none';
+   // document.getElementById('validateButtonPlayer1').style.display = 'none';
+   // document.getElementById('cancelButtonPlayer1').style.display = 'none';
     // Si tu as des boutons séparés pour le joueur 2, ajuste selon ton besoin
     // document.getElementById('validateButtonPlayer2').style.display = 'none';
     // document.getElementById('cancelButtonPlayer2').style.display = 'none';
@@ -192,16 +196,26 @@ socket.on('updateGameState', (updatedGameState) => {
     // - currentPlayer: "player1" ou "player2"
 
     // Mettre à jour les positions des joueurs sur le plateau
-    updatePlayerPosition(updatedGameState.playerPositions.player1, 'player1');
-    updatePlayerPosition(updatedGameState.playerPositions.player2, 'player2');
+    console.log(updatedGameState);
+    if (updatedGameState.playerPositions && updatedGameState.playerPositions.player1) {
+        updatePlayerPosition(updatedGameState.playerPositions.player1, 'player1');
+    }
+    if (updatedGameState.playerPositions && updatedGameState.playerPositions.player2) {
+        updatePlayerPosition(updatedGameState.playerPositions.player2, 'player2');
+    }
+
 
     // Mettre à jour les murs sur le plateau
     updatedGameState.walls.forEach(wall => {
         placeWall(wall);
     });
 
+    currentPlayer = updatedGameState.currentPlayer;
+
     // Mettre à jour l'interface utilisateur pour refléter qui est le joueur actuel
-    if (updatedGameState.currentPlayer === playerRole) {
+    console.log("Player current : " + currentPlayer);
+    console.log("Player role : " + playerRole);
+    if (currentPlayer === playerRole) {
         enablePlayerUI(); // C'est le tour de ce joueur
     } else {
         disablePlayerUI(); // C'est le tour de l'adversaire
