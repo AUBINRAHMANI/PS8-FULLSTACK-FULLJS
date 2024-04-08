@@ -23,13 +23,18 @@ class Onlinedb {
             let room = await this.rooms.findOne({ state: 'waiting' });
             if (room) {
                 // Rejoindre la salle existante
-                await this.rooms.updateOne({ _id: room._id }, { $set: { state: 'active', player2: playerId } });
-                return { roomId: room._id, state: 'active' };
+                await this.rooms.updateOne(
+                    { _id: room._id },
+                    { $set: { state: 'active', players: [room.player1, playerId], currentPlayerIndex: 0 } }
+                );
+                return { roomId: room._id, state: 'active', playerRole: 'player2' };
             } else {
                 // Créer une nouvelle salle
                 const roomId = uuidv4();
-                await this.rooms.insertOne({ _id: roomId, player1: playerId, state: 'waiting' });
-                return { roomId, state: 'waiting' };
+                await this.rooms.insertOne(
+                    { _id: roomId, players: [playerId], state: 'waiting', currentPlayerIndex: 0 }
+                );
+                return { roomId, state: 'waiting', playerRole: 'player1' };
             }
         } catch (error) {
             console.error(error);
@@ -69,6 +74,38 @@ class Onlinedb {
         }
     }
 
+    async moveToNextPlayer(roomId) {
+        await this.verifyConnection();
+        try {
+            const room = await this.rooms.findOne({ _id: roomId });
+            let nextPlayerIndex = (room.currentPlayerIndex + 1) % room.players.length;
+            await this.rooms.updateOne(
+                { _id: roomId },
+                { $set: { currentPlayerIndex: nextPlayerIndex } }
+            );
+            console.log(`Moved to next player in room ${roomId}.`);
+        } catch (error) {
+            console.error("Error moving to next player:", error);
+        }
+    }
+
+    async updateRoomState(roomId, updateFields) {
+        await this.verifyConnection();
+        try {
+            // Mise à jour de l'état de la salle avec les nouveaux champs fournis
+            await this.rooms.updateOne({ _id: roomId }, { $set: updateFields });
+            console.log(`Room ${roomId} updated with fields: ${JSON.stringify(updateFields)}`);
+        } catch (error) {
+            console.error("Error updating room state:", error);
+        }
+    }
+
+    async updateGameState(roomId){
+
+    }
+
 }
+
+
 
 export default new Onlinedb();

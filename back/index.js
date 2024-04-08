@@ -336,7 +336,7 @@ onlineSocket.on('connection', (socket) => {
 
     // Matchmaking: Jumeler les joueurs
     socket.on('joinGame', async () => {
-        const {roomId, state} = await Onlinedb.createOrJoinRoom(socket.id);
+        const {roomId, state,playerRole} = await Onlinedb.createOrJoinRoom(socket.id);
 
         socketRoomMap[socket.id] = roomId;
 
@@ -346,7 +346,25 @@ onlineSocket.on('connection', (socket) => {
             socket.emit('waitingForOpponent', 'En attente d\'un adversaire...');
         } else if (state === 'active') {
             socket.join(roomId);
-            onlineSocket.in(roomId).emit('gameStart', { roomId: roomId, message: 'La partie commence !' });
+            socket.emit('gameStart', { roomId: roomId, role: playerRole, message: 'La partie commence !' });
+            onlineSocket.in(roomId).emit('opponentJoined', { message: 'Votre adversaire a rejoint. Préparez-vous !' });
+        }
+    });
+
+    socket.on('playerAction', ({ roomId, action }) => {
+        // Valider et traiter l'action ici...
+        const isValidMove = true; // A CHANGER AVEC LA FONCTION VALID !!
+
+        if (isValidMove) {
+            // Ici, tu mets à jour l'état du jeu basé sur l'action reçue
+            const gameState = {}; // Résultat de la mise à jour de l'état du jeu
+            // Ensuite, tu émets le nouvel état du jeu à tous les joueurs dans la salle
+            onlineSocket.in(roomId).emit('updateGameState', gameState);
+            // Tu changes le tour du joueur
+            switchTurn(roomId);
+        } else {
+            // Si le mouvement n'est pas valide, tu envoies un message d'erreur au joueur qui a tenté le mouvement
+            socket.emit('invalidMove', 'Mouvement non valide.');
         }
     });
 
@@ -377,6 +395,7 @@ onlineSocket.on('connection', (socket) => {
         if (validMove) {
             // Mettre à jour l'état du jeu
             const updatedGameState = updateGameState(data);
+            switchTurn(roomId);
             // Envoyer la mise à jour à tous les joueurs dans la room
             onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
         } else {
@@ -403,6 +422,20 @@ onlineSocket.on('connection', (socket) => {
     });
 
 });
+
+async function switchTurn(roomId) {
+    const room = await Onlinedb.getRoomState(roomId);
+    let nextPlayerIndex = (room.currentPlayerIndex + 1) % 2;
+    await Onlinedb.updateRoomState(roomId, {currentPlayerIndex: nextPlayerIndex});
+
+    // Récupérer l'état mis à jour de la salle pour obtenir le rôle du joueur actuel
+    const updatedRoom = await Onlinedb.getRoomState(roomId);
+    const currentPlayerRole = updatedRoom.players[updatedRoom.currentPlayerIndex].role;
+
+    // Notifier les joueurs du changement de tour
+    onlineSocket.in(roomId).emit('turnSwitched', { currentPlayerRole });
+}
+
 
 
 
