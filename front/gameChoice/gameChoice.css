@@ -77,7 +77,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 200px; /* Largeur augmentée */
+    width: 400px; /* Largeur augmentée */
     height: auto; /* Hauteur ajustée automatiquement */
 }
 
