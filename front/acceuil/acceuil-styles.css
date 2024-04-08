@@ -21,6 +21,10 @@ body {
     background-repeat: no-repeat; /* Évite la répétition de l'image */
 }
 
+head{
+    display: flex;
+}
+
 
 .container {
     text-align: center;

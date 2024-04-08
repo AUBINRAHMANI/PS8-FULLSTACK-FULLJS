@@ -1,39 +1,67 @@
-/* table */
-
-table {
-    border-collapse: collapse;
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
-th {
-    padding: 15px 8vw;
-    border: 1px solid black;
-    background-color: var(--dark-accentuation-color);
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
 }
 
+body {
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+    background-position: center; /* Centre l'image horizontalement et verticalement */
+    background-repeat: no-repeat; /* Évite la répétition de l'image */
+}
 
-td {
-    padding: 10px 4vw;
-    border: 1px solid black;
+.container {
     text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.page-title h1{
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 5rem;
+    margin: 0;
+    padding: 0rem;
+    color:white;
+}
+.page-title{
+    width: fit-content; /* Ajuste la largeur de la div à son contenu */
+    margin: 0 auto; /* Centre horizontalement la div */
+    text-align: center; /* Centre le contenu à l'intérieur de la div */}
+
+/* Table Styling */
+#ranking-table {
+    width: 85%;
+    border-collapse: collapse;
+    border: 2px solid white;
+    background-color: #fff;
 }
 
-@media (width <= 480px) and (orientation: portrait) {
-    th {
-        padding: 20px 1vw;
-    }
-
-
-    table {
-        width: 74vw;
-    }
+#ranking-table th, #ranking-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
 }
 
-@media (height <= 480px) and (orientation: landscape) {
-    main {
-        padding-top: 30px;
-    }
+#ranking-table th {
+    background-color: #4a90e2;
+    color: white;
+}
 
-    th {
-        padding: 20px 1vw;
-    }
+#ranking-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#ranking-table tbody tr:hover {
+    background-color: #ddd;
 }

@@ -1,8 +1,38 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+}
+
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+body {
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+    background-position: center; /* Centre l'image horizontalement et verticalement */
+    background-repeat: no-repeat; /* Évite la répétition de l'image */
+}
+
 main {
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 20px 20px;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 #button-container, form {
@@ -63,6 +93,54 @@ header > .top-page {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+
+/* Ajoutez cette règle CSS pour changer les coins des éléments du formulaire */
+#signup, #button-container form * {
+    border-radius: 50px; /* Vous pouvez ajuster le rayon selon vos préférences */
+    font-family:'Burbank','arial';
+    font-size: 15px;
+}
+#login-button a{
+    font-size: 43px;
+}
+#signup a{
+    font-size: 27px;
+}
+
+#signup{
+    background-color: rgb(255, 106, 0);
+    color: white;
+}
+#signup:hover{
+    background-color: rgb(196, 83, 2);
+}
+
+#login-button{
+    background-color: #00c1c7;
+    color: white;
+    font-size: 10px;
+}
+#login-button:hover{
+    background-color: #02afb5;
+}
+#page-title h1{
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 5rem;
+    margin: 0;
+    padding: 0rem;
+    color:white;
+}
+
+#login-username::placeholder,#login-password::placeholder   {
+    color: rgb(97, 97, 97);
+}
+
+p{
+    font-family:'Burbank','arial';
+    font-size: 25px;
 }
 
 

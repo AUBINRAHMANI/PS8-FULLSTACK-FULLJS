@@ -107,10 +107,7 @@ class Burgermenu extends HTMLElement {
     }
 
     connectedCallback() {
-        // this.shadowRoot.getElementById("logout").addEventListener("click", () => {
-        //     localStorage.clear();
-        // });
-
+        
         let chat = this.shadowRoot.getElementById("chat");
         chat.style.cursor = "pointer";
         chat.addEventListener("click", () => {
@@ -121,17 +118,5 @@ class Burgermenu extends HTMLElement {
 
 }
 
-// this.shadowRoot.addEventListener("deviceready", onDeviceReady, false);
-// function onDeviceReady() {
-//     console.log("device ready");
-//     let accueil = this.shadowRoot.getElementById("accueil");
-//     let notifications = this.shadowRoot.getElementById("notifications");
-//     accueil.addEventListener("click", () => {
-//         screen.orientation.unlock();
-//     });
-//     notifications.addEventListener("click", () => {
-//         screen.orientation.unlock();
-//     });
-// }
 
 window.customElements.define('burger-menu', Burgermenu);

@@ -8,46 +8,51 @@
     <title>S'inscrire</title>
 
     <script src="signup.js" type="module"></script>
-
-    <link href="../commonCSS/common.css" rel="stylesheet">
     <link href="signup.css" rel="stylesheet">
 
     <script src="../util/guards/guardLoginSignUp.js" type="module"></script>
 </head>
 <body>
 
-<header>
-    <burger-menu-open-close></burger-menu-open-close>
-    <div class="top-page">
-        <div class="top-corner-content" id="header-center-div"></div>
-        <div class="page-title"><h1>S'inscrire</h1></div>
-        <div class="top-corner-content" id="username"></div>
-    </div>
-</header>
-
-<main>
-    <div id="button-container">
-        <form id="signup-form">
-            <input class="text-input" id="signup-email" name="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]+$"
-                   placeholder="Email"
-                   required
-                   type="email">
-            <input class="text-input" id="signup-username" maxlength="16" name="username"
-                   placeholder="Nom d'utilisateur"
-                   required
-                   type="text">
-            <input class="text-input" id="signup-password" name="password" placeholder="Mot de passe" required
-                   type="password">
-            <button class="home-button" id="signup-button">S'inscrire</button>
-        </form>
-
-        <div class="text half-home-button bottom">
-            <p>Vous possédez un compte ?</p>
-            <button class="signup half-home-button" id="login"><a>Connectez-vous !</a></button>
+<div class="container">
+    <header>
+        <burger-menu-open-close></burger-menu-open-close>
+        <div class="top-page">
+            <div class="top-corner-content" id="header-center-div"></div>
+            <div class="page-title"><h1>S'inscrire</h1></div>
+            <div class="top-corner-content" id="username"></div>
         </div>
-    </div>
+    </header>
 
-</main>
+    <main>
+        <div id="button-container">
+            <form id="signup-form">
+                <input class="text-input" id="signup-email" name="email" pattern="[^\s@]+@[^\s@]+\.[^\s@]+$"
+                    placeholder="Email"
+                    required
+                    type="email">
+                <input class="text-input" id="signup-username" maxlength="16" name="username"
+                    placeholder="Nom d'utilisateur"
+                    required
+                    type="text">
+                <input class="text-input" id="signup-password" name="password" placeholder="Mot de passe" required
+                    type="password">
+                <button class="home-button" id="signup-button"><a>S'inscrire</a></button>
+            </form>
 
+            <div class="text half-home-button bottom">
+                <p>Vous possédez un compte ?</p>
+                <button class="signup half-home-button" id="login"><a>Connectez-vous !</a></button>
+            </div>
+        </div>
+
+    </main>
+
+
+</div>
+
+
+
+<iframe src="../html/template.html" style="display: none;"></iframe>
 </body>
 </html>
