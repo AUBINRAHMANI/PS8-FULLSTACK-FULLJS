@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="1VBot.css">
+    <link rel="stylesheet" href="../quitGame/quitButton.css">
+    <title>Quortnite</title>
+</head>
+<body>
+
+<div class="menu"></div>
+
+<!-- Espace pour le titre -->
+<div class="title-container">
+    <h1 class="title">Quortnite</h1>
+</div>
+
+<!-- Trois colonnes : une grande colonne centrale et deux colonnes adjacentes plus fines -->
+<div class="main-container">
+    <div class="left-column">
+        <img src="../data/images/Huzog.png" alt="character" class="small-image">
+        <div class="orange-box">
+            <h3 class="sub-title">Huzog</h3>
+        </div>
+        <div id="wallsRemainingPlayer1" class="walls-remaining">Remaining walls: 10</div>
+        <div class="timer" id="player1Timer">00:40</div>
+        <div class="button-container">
+            <button id="validateButtonPlayer1" style="display: none;">Valider</button>
+            <button id="cancelButtonPlayer1" style="display: none;">Annuler</button>
+        </div>
+
+
+
+    </div>
+
+    <div class="main-column">
+        <!-- Contenu de la colonne centrale (grille de jeu) -->
+        <div id="board" class="board"></div>
+    </div>
+
+    <div class="right-column">
+        <img src="../data/images/Wassim.png" alt="character" class="small-image">
+        <div class="orange-box">
+            <h3 class="sub-title">Bot</h3>
+        </div>
+        <div id="wallsRemainingPlayer2" class="walls-remaining">Remaining walls: 10</div>
+        <div class="timer" id="player2Timer">00:40</div>
+        <div class="button-container">
+            <button id="validateButtonPlayer2" style="display: none;">Valider</button>
+            <button id="cancelButtonPlayer2" style="display: none;">Annuler</button>
+        </div>
+
+        <div class="quitButton"> <button id="quitButton">Quitter</button> </div>
+
+
+
+
+    </div>
+</div>
+
+<table id="quortniteGrid"></table>
+
+<script src="../sockets/socket.io.js"></script>
+<script src="1VBot.js"></script>
+<script src="../quitGame/quitGame.js"></script>
+
+</body>
+</html>

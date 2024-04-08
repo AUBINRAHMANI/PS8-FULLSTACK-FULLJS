@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="gameChoice.css">
+
+
+    <script src="../sockets/socket.io.js"></script>
+
+    <link href="../commonCSS/common.css" rel="stylesheet">
+    <script src="../util/guards/guard.js" type="module"></script>
+    <script src="../util/updateUsernameDiv.js" type="module"></script>
+    <script src="../menu/burgermenu.js" type="module"></script>
+    <script src="../menu/burgermenu_open_close_button.js" type="module"></script>
+    <script src="../chat/chat.js" type="module"></script>
+
+    <script src="home.js" type="module"></script>
+    <link href="home.css" rel="stylesheet">
+
+
+
+
+</head>
+<body>
+
+<header>
+    <burger-menu-open-close></burger-menu-open-close>
+</header>
+
+<!--<header>
+    <burger-menu-open-close></burger-menu-open-close>
+    <div class="top-page">
+        <div class="top-corner-content" id="header-center-div"></div>
+        <div class="top-corner-content" id="username"></div>
+    </div>
+</header>-->
+
+
+<div id="bottom-content">
+    <burger-menu></burger-menu>
+    <main>
+
+        <div class="container">
+
+
+
+                <button class="btn" id="play">
+                    <span>JOUER EN LOCAL </span>
+                    <script>
+                        document.getElementById('play').addEventListener('click', function() {
+                            window.location.href = '../game/game.html';
+                        });
+                    </script>
+                </button>
+
+                <button class="btn" id ="1V1">
+                    <span>1V1 ONLINE</span>
+                    <script>
+                        document.getElementById('1V1').addEventListener('click', function() {
+                            window.location.href = '../1V1_ONLINE/1v1_online.html';
+                        });
+                    </script>
+                </button>
+
+
+
+            <button class="btn" id ="BOT">
+                <span>JOUER CONTRE BOT</span>
+                <script>
+                    document.getElementById('BOT').addEventListener('click', function() {
+                        window.location.href = '../1VBot/1VBot.html';
+                    });
+                </script>
+            </button>
+
+
+        </div>
+    </main>
+    <chat-global></chat-global>
+</div>
+
+
+</body>
+</html>

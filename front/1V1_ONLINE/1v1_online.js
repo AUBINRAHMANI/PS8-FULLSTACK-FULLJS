@@ -25,8 +25,34 @@ let wallPlayer1 = [];
 let wallPlayer2 = [];
 let visibilityChangedCells = new Set();
 const boardSize = 9;
-function initializeGameBoard(playerRole) {
-    const cells = [];
+
+
+function createGameBoard() {
+    const boardElement = document.getElementById('board');
+    for (let row = 0; row < boardSize; row++) {
+        for (let col = 0; col < boardSize; col++) {
+            const cellElement = document.createElement('div');
+            cellElement.classList.add('cell');
+            cellElement.dataset.row = row;
+            cellElement.dataset.col = col;
+            boardElement.appendChild(cellElement);
+            cellElement.addEventListener('click', handleCellClick);
+        }
+    }
+}
+socket.on('waitingForOpponent', (message) => {
+    // Afficher un message d'attente pour l'utilisateur
+    document.getElementById('matchmakingStatus').textContent = message;
+    console.log(message);
+});
+
+socket.on('gameStart', (data) => {
+    document.getElementById('matchmakingStatus').textContent = data.message;
+    console.log(data.message);
+
+    // Afficher le board du jeu et le bouton Quitter
+    document.getElementById('gameBoard').style.display = 'block';
+    document.getElementById('quitGame').style.display = 'block';
     const board = document.getElementById('board');
     // Create the board cells
     for (let i = 0; i < 289; i++) {
@@ -53,18 +79,7 @@ function initializeGameBoard(playerRole) {
         cell.addEventListener('click', () => handleCellClick(i));
     }
 
-  // Supposons que vous avez une manière de référencer toutes les cellules du plateau
 
-    // Déterminer les premières lignes pour le joueur et son adversaire
-    const firstRow = playerRole === 'player1' ? 0 : 16;
-    const oppositeFirstRow = playerRole === 'player1' ? 16 : 0;
-
-    // Mettre en évidence la première ligne du joueur
-    const firstRowCells = cells.filter((_, index) => Math.floor(index / 17) === firstRow);
-    firstRowCells.forEach(firstRowCell => {
-        firstRowCell.classList.add('first-row');
-        // Initialiser les cellules de la première ligne en vert ou toute autre logique spécifique
-        updateCellAppearance(firstRowCell, 1);
     });
 
     // Mettre en évidence la première ligne de l'adversaire
@@ -131,6 +146,7 @@ socket.on('invalidMove', (message) => {
 socket.on('invalidWallPlacement', (message) => {
     alert(message); // Affichez un message d'erreur
 });
+
 
 document.getElementById('quitGame').addEventListener('click', () => {
     socket.emit('disconnect');
@@ -260,3 +276,4 @@ function wallPositionToCellId(wall) {
     // Implémenter la logique de conversion basée sur ton implémentation spécifique du plateau et le type de mur
     return `wall-${wall.x}-${wall.y}-${wall.type}`;
 }
+
