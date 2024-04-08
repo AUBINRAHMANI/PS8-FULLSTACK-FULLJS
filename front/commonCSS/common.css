@@ -23,7 +23,6 @@ h1 {
 
 /* buttons */
 button {
-    background-color: var(--dark-accentuation-color);
     margin: 0.5em;
     padding: 1em;
     border: none;
@@ -48,7 +47,6 @@ button:hover {
 
 /* input */
 .text-input {
-    background-color: var(--light-accentuation-grey);
     border: none;
     border-radius: 1em;
     padding: 0.5em;
@@ -90,9 +88,6 @@ button:hover {
     background-color: #FFFFFF;
 }
 
-.with-background {
-    background-color: var(--light-accentuation-color);
-}
 
 .hidden {
     visibility: hidden;
@@ -119,17 +114,3 @@ table {
     border-collapse: collapse;
 }
 
-/* colors */
-
-.grey {
-    background-color: var(--light-accentuation-grey);
-}
-
-.grey:hover {
-    background-color: var(--dark-accentuation-grey);
-}
-
-.not-scrolling {
-    overflow: hidden;
-    height: 100vh;
-}

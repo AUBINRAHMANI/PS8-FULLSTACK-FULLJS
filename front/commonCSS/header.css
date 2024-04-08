@@ -14,7 +14,6 @@ header > .top-page {
 
 header > .top-page > *:not(:first-child) {
     margin: 10px;
-    background-color: var(--light-accentuation-color);
     display: flex;
     align-items: center;
     justify-content: center;
