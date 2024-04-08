@@ -14,7 +14,29 @@
     padding: 0;
 }
 
-/* header see header.css */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrer les éléments horizontalement */
+    padding: 38px;
+}
+
+burger-menu,
+.top-page {
+    margin: 10px 0; /* Ajouter une marge entre les éléments */
+}
+
+/* Vous pouvez ajuster les marges individuellement si nécessaire */
+.burger-menu {
+    margin-bottom: 20px; /* Ajuster la marge inférieure du burger-menu */
+}
+
+.top-page {
+    margin-top: 20px; /* Ajuster la marge supérieure de la top-page */
+}
+
+
+
 
 /* main depends on every page, check each page css */
 h1 {
@@ -57,7 +79,7 @@ button:hover {
 
 #bottom-content {
     display: grid;
-    grid-template-columns: auto 1fr;
+    margin-top: 10vw;
 }
 
 /* classes */
