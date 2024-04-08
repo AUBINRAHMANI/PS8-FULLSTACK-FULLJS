@@ -34,11 +34,14 @@ body {
     padding: 0rem;
     color:white;
 }
+.page-title{
+    width: fit-content; /* Ajuste la largeur de la div à son contenu */
+    margin: 0 auto; /* Centre horizontalement la div */
+    text-align: center; /* Centre le contenu à l'intérieur de la div */}
 
 /* Table Styling */
 #ranking-table {
-    width: 80%;
-    margin: 0 auto;
+    width: 85%;
     border-collapse: collapse;
     border: 2px solid white;
     background-color: #fff;
