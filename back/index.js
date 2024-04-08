@@ -482,6 +482,7 @@ async function switchTurn(roomId) {
     } catch (error) {
         console.error(`Erreur dans switchTurn pour la salle ${roomId}:`, error);
     }
+
 }
 
 
