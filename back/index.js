@@ -346,8 +346,12 @@ onlineSocket.on('connection', (socket) => {
             socket.emit('waitingForOpponent', 'En attente d\'un adversaire...');
         } else if (state === 'active') {
             socket.join(roomId);
-            socket.emit('gameStart', { roomId: roomId, role: playerRole, message: 'La partie commence !' });
-            socket.to(roomId).emit('opponentJoined', { message: 'Votre adversaire a rejoint. Préparez-vous !' });
+            socket.emit('gameStart', { roomId: roomId, role: 'player1', message: 'La partie commence !' });
+            socket.to(roomId).emit('opponentJoined', {
+                message: 'Votre adversaire a rejoint. Préparez-vous !',
+                role: 'player2', // Assurez-vous que cette valeur est correctement définie
+                roomId: roomId
+            });
         }
     });
 

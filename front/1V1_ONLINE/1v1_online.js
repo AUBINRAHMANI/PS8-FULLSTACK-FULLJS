@@ -1,7 +1,8 @@
 const socket = io("/api/gameOnline",{auth: {token: localStorage.getItem("token")}});
 socket.emit('joinGame');
 
-let currentPlayer;
+let currentPlayer = 'player1';
+let lastGameStateUpdate = null;
 let player1Timer;
 let player2Timer;
 let playerRole;
@@ -104,6 +105,9 @@ socket.on('gameStart', (data) => {
 
 socket.on('opponentJoined', (data) => {
     document.getElementById('matchmakingStatus').textContent = data.message;
+    playerRole = data.role;
+    roomId = data.roomId;
+    console.log("Joueur opposant : " + playerRole + "roomId + " + roomId);
     // Maintenant que l'opposant a rejoint, vous pouvez initialiser le tableau de jeu pour le premier joueur
      // Assurez-vous que playerRole est défini pour le premier joueur
 
@@ -182,21 +186,36 @@ function disablePlayerUI() {
 }
 
 function handleCellClick(cellIndex) {
-    // Prépare l'action du joueur
-    const action = { type: 'move', cellIndex, player: playerRole };
+    console.log("Current Player : " + currentPlayer + " Player Role = " + playerRole);
+    if (lastGameStateUpdate !== null || currentPlayer !== playerRole) {
+        console.log("Action non autorisée : soit une mise à jour de l'état du jeu est en attente, soit ce n'est pas votre tour.");
+        return;
+    }
 
-    // Envoyer l'action au serveur
+    const action = { type: 'move', cellIndex, player: playerRole };
     socket.emit('playerAction', { roomId, action });
 }
 
 socket.on('updateGameState', (updatedGameState) => {
-    // Supposons que updatedGameState contienne :
-    // - playerPositions: { player1: {x, y}, player2: {x, y} }
-    // - walls: [ {type: "vertical", x, y}, {type: "horizontal", x, y} ]
-    // - currentPlayer: "player1" ou "player2"
+    // Planifier le traitement de la dernière mise à jour reçue
+    lastGameStateUpdate = updatedGameState;
+    setTimeout(processLastGameStateUpdate, 0);
+});
 
-    // Mettre à jour les positions des joueurs sur le plateau
-    console.log(updatedGameState);
+function processLastGameStateUpdate() {
+    if (lastGameStateUpdate) {
+        const updatedGameState = lastGameStateUpdate;
+        lastGameStateUpdate = null;
+
+        // Logique pour mettre à jour l'interface utilisateur avec la dernière mise à jour d'état
+        updateUIBasedOnGameState(updatedGameState);
+    }
+}
+
+function updateUIBasedOnGameState(updatedGameState) {
+    // Votre logique existante pour mettre à jour l'UI basée sur l'état du jeu
+    console.log("Mise à jour de l'état du jeu reçue :", updatedGameState);
+
     if (updatedGameState.playerPositions && updatedGameState.playerPositions.player1) {
         updatePlayerPosition(updatedGameState.playerPositions.player1, 'player1');
     }
@@ -204,23 +223,15 @@ socket.on('updateGameState', (updatedGameState) => {
         updatePlayerPosition(updatedGameState.playerPositions.player2, 'player2');
     }
 
-
-    // Mettre à jour les murs sur le plateau
     updatedGameState.walls.forEach(wall => {
         placeWall(wall);
     });
 
     currentPlayer = updatedGameState.currentPlayer;
-
-    // Mettre à jour l'interface utilisateur pour refléter qui est le joueur actuel
     console.log("Player current : " + currentPlayer);
     console.log("Player role : " + playerRole);
-    if (currentPlayer === playerRole) {
-        enablePlayerUI(); // C'est le tour de ce joueur
-    } else {
-        disablePlayerUI(); // C'est le tour de l'adversaire
-    }
-});
+
+}
 
 function updatePlayerPosition(position, player) {
     // Trouver et mettre à jour la position du joueur sur le plateau
