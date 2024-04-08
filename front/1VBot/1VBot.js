@@ -425,10 +425,10 @@ function getValidMoves(position) {
 }
 
 function togglePlayer(){
-    currentPlayer = (currentPlayer === 'player1') ? 'bot' : 'player1';
+    currentPlayer = (currentPlayer === 'player1') ? 'player2' : 'player1';
     currentAction = 'none'; // Réinitialiser l'action pour le prochain joueur
 
-    if (currentPlayer === 'bot') {
+    if (currentPlayer === 'player2') {
         botMakeMove(); // Laissez le bot faire un mouvement
     } else {
         // Logique du joueur humain
@@ -438,7 +438,7 @@ function togglePlayer(){
 
     resetPlayerTimer();
     updateCellVisibility();
-    openAntiCheatPage();
+    //openAntiCheatPage();
 
     const playerPosition = currentPlayer === 'player1' ? player1Position : player2Position;
     const visibilityChange = currentPlayer === 'player1' ? 2 : 2;
@@ -474,6 +474,7 @@ function moveBotRandomly() {
 }
 
 
+
 function startPlayerTimer() {
     // Gestion du timer seulement pour le joueur humain
     if (currentPlayer === 'player1') {
@@ -481,6 +482,8 @@ function startPlayerTimer() {
         player1Timer = startTimer('player1Timer');
     }
 }
+
+
 
 function updateCellVisibility() {
     cells.forEach((cell, index) => {
