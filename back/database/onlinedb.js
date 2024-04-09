@@ -31,8 +31,8 @@ class Onlinedb {
                             players: [room.players[0], playerId],
                             currentPlayerIndex: 0,
                             playerPositions: {
-                                player1: { x: 0, y: 4 }, // Position initiale hypothétique pour le joueur 1
-                                player2: { x: 8, y: 4 }  // Position initiale hypothétique pour le joueur 2
+                                player1: null, // Position initiale hypothétique pour le joueur 1
+                                player2: null  // Position initiale hypothétique pour le joueur 2
                             },
                             walls: [], // Aucun mur placé initialement
                             currentPlayer: 'player1' // Le joueur 1 commence

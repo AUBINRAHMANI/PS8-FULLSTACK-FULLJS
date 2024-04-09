@@ -363,8 +363,10 @@
             }
 
             // Convertir cellIndex en coordonnées x et y
-            const x = Math.floor(cellIndex / 9); // Si cellIndex est basé sur une grille 9x9
-            const y = cellIndex % 9;
+            const x = Math.floor(cellIndex / 17); // Si cellIndex est basé sur une grille 9x9
+            const y = cellIndex % 17;
+1
+            console.log("x: " +x + "y : "+ y);
 
             // Vérifier si la sélection de position est valide
             let isValidPosition = false;
@@ -372,7 +374,7 @@
 
             if (playerRole === 'player1' && x === 0) {
                 isValidPosition = true;
-            } else if (playerRole === 'player2' && x === 8) { // Assurez-vous que cette condition corresponde à votre dernière ligne
+            } else if (playerRole === 'player2' && x ===16) { // Assurez-vous que cette condition corresponde à votre dernière ligne
                 isValidPosition = true;
             } else {
                 errorMessage = playerRole === 'player1' ?
@@ -390,6 +392,7 @@
                         [playerRole]: { x, y }
                     }
                 });
+                console.log(gameState.playerPositions);
                 onlineSocket.in(roomId).emit('updateGameState', gameState);
                 console.log("Initial gameState suceed : "+ gameState);
                 // Passer au tour suivant en utilisant switchTurn

@@ -26,8 +26,10 @@ let wallPlayer1 = [];
 let wallPlayer2 = [];
 let visibilityChangedCells = new Set();
 const boardSize = 9;
+
+
 function initializeGameBoard(playerRole) {
-    const cells = [];
+    //const cells = [];
     const board = document.getElementById('board');
     // Create the board cells
     for (let i = 0; i < 289; i++) {
@@ -49,6 +51,10 @@ function initializeGameBoard(playerRole) {
 
         board.appendChild(cell);
         cells.push(cell);
+        createPlayerElements();
+        // Ajoutez ces éléments au DOM, dans leurs positions de départ.
+        // Vous devez déterminer où vous voulez les placer initialement.
+        // Par exemple, si vous voulez les placer dans la première et la dernière ligne :
 
         // Add event listener for cell click
         cell.addEventListener('click', () => handleCellClick(i));
@@ -76,10 +82,28 @@ function initializeGameBoard(playerRole) {
         updateCellAppearance(oppositeFirstRowCell, 1);
     });
 }
+
+function createPlayerElements() {
+    const player1Element = document.createElement('div');
+    player1Element.className = 'player player1';
+    const player2Element = document.createElement('div');
+    player2Element.className = 'player player2';
+
+    // Ajouter les éléments à un endroit approprié dans votre DOM.
+    // Par exemple, vous pouvez les ajouter temporairement à une cellule ou les garder hors du plateau jusqu'à ce que les positions initiales soient confirmées.
+    // Si vous les ajoutez à des cellules spécifiques, assurez-vous que ces cellules existent.
+    document.body.appendChild(player1Element);
+    document.body.appendChild(player2Element);
+}
 function updateCellAppearance(cell, visibility) {
     // Mettez à jour l'apparence de la cellule en fonction de la visibilité
     cell.classList.toggle('visible', visibility >= 0);
     cell.classList.toggle('hidden', visibility < 0);
+}
+function clearCellVisualState(cell) {
+    // Supprimez toutes les classes liées à l'état visuel de la cellule
+    cell.classList.remove('first-row');
+    // Ajoutez ici d'autres classes à supprimer si nécessaire
 }
 
 socket.on('waitingForOpponent', (message) => {
@@ -190,8 +214,11 @@ function handleCellClick(cellIndex) {
     if (lastGameStateUpdate === null && currentPlayer === playerRole) {
         // Sélection initiale du joueur
         if ((playerRole === 'player1' && player1Position === null) || (playerRole === 'player2' && player2Position === null)) {
+            //console.log("PlayerRolesssssssss : " + playerRole);
             console.log("Sélection initiale pour", playerRole, "à l'index", cellIndex);
+            resetOppositeFirstRowBackgroundColor();
             socket.emit('selectInitialPosition', { cellIndex, playerRole, roomId });
+
         } else {
             // Mouvement normal après la sélection initiale
             const action = { type: 'move', cellIndex, player: playerRole };
@@ -206,9 +233,21 @@ function handleCellClick(cellIndex) {
 socket.on('updateGameState', (updatedGameState) => {
     // Planifier le traitement de la dernière mise à jour reçue
     lastGameStateUpdate = updatedGameState;
+    console.log("UpdateGameState : "+ updatedGameState);
     setTimeout(processLastGameStateUpdate, 0);
 });
 
+
+function resetOppositeFirstRowBackgroundColor() {
+    // Déterminer la rangée opposée en fonction du joueur actuel
+
+    const oppositeFirstRow = currentPlayer === 'player1' ? 0 : 16;
+
+    // Retrouver toutes les cellules de la première ligne du joueur opposé et réinitialiser leur couleur de fond
+    for (let i = 0; i < 17; i++) {
+        cells[oppositeFirstRow * 17 + i].classList.remove('first-row');
+    }
+}
 function processLastGameStateUpdate() {
     if (lastGameStateUpdate) {
         const updatedGameState = lastGameStateUpdate;
@@ -224,12 +263,14 @@ function updateUIBasedOnGameState(updatedGameState) {
     console.log("Mise à jour de l'état du jeu reçue :", updatedGameState);
 
     if (updatedGameState.playerPositions && updatedGameState.playerPositions.player1) {
+        console.log("On met la position Player 1, x : " + updatedGameState.playerPositions.player1.x + "y : "+ updatedGameState.playerPositions.player1.y );
         updatePlayerPosition(updatedGameState.playerPositions.player1, 'player1');
     }
-    if (updatedGameState.playerPositions && updatedGameState.playerPositions.player2) {
+    if (updatedGameState.playerPositions && updatedGameState.playerPositions.player2){
+        console.log("On met la position Player 1, x : " + updatedGameState.playerPositions.player2.x + + "y : "+ updatedGameState.playerPositions.player2.y );
         updatePlayerPosition(updatedGameState.playerPositions.player2, 'player2');
     }
-
+// Traitez également ici les autres parties de l'état du jeu reçu, comme la position des murs, etc.
     updatedGameState.walls.forEach(wall => {
         placeWall(wall);
     });
@@ -242,14 +283,18 @@ function updateUIBasedOnGameState(updatedGameState) {
 
 function updatePlayerPosition(position, player) {
     // Trouver et mettre à jour la position du joueur sur le plateau
-    const playerElement = document.querySelector(`.${player}`);
-    // Supposons que tu as une fonction pour convertir la position {x, y} en id de cellule ou en index
-    const cellId = positionToCellId(position);
-    const newCell = document.getElementById(cellId);
+    console.log("Player : " + player + ", Position : " + position);
+    const cellId = `cell-${position.x}-${position.y}`;
+    const cell = document.getElementById(cellId);
+    let playerElement = document.querySelector(`.${player}`);
 
-    if (playerElement && newCell) {
-        // Déplacer l'élément du joueur vers la nouvelle cellule
-        newCell.appendChild(playerElement);
+    if (!playerElement) {
+        playerElement = document.createElement('div');
+        playerElement.classList.add(player, 'player');
+        document.body.appendChild(playerElement); // Vous devrez peut-être l'ajouter ailleurs selon votre structure HTML
+    }
+    if (cell && playerElement) {
+        cell.appendChild(playerElement);
     }
 }
 
@@ -270,7 +315,9 @@ function placeWall(wall) {
 // Exemple de fonction pour convertir la position {x, y} en id de cellule
 function positionToCellId(position) {
     // Implémenter la logique de conversion basée sur ton implémentation spécifique du plateau
-    return `cell-${position.x}-${position.y}`;
+   console.log(position.x);
+   console.log(position.y);
+   return `cell-${position.x}-${position.y}`;
 }
 
 // Exemple de fonction pour convertir la position et le type de mur en id de cellule
