@@ -187,13 +187,20 @@ function disablePlayerUI() {
 
 function handleCellClick(cellIndex) {
     console.log("Current Player : " + currentPlayer + " Player Role = " + playerRole);
-    if (lastGameStateUpdate !== null || currentPlayer !== playerRole) {
-        console.log("Action non autorisée : soit une mise à jour de l'état du jeu est en attente, soit ce n'est pas votre tour.");
-        return;
+    if (lastGameStateUpdate === null && currentPlayer === playerRole) {
+        // Sélection initiale du joueur
+        if ((playerRole === 'player1' && player1Position === null) || (playerRole === 'player2' && player2Position === null)) {
+            console.log("Sélection initiale pour", playerRole, "à l'index", cellIndex);
+            socket.emit('selectInitialPosition', { cellIndex, playerRole, roomId });
+        } else {
+            // Mouvement normal après la sélection initiale
+            const action = { type: 'move', cellIndex, player: playerRole };
+            console.log("Mouvement normal pour", playerRole, "à l'index", cellIndex);
+            socket.emit('playerAction', { roomId, action });
+        }
+    } else {
+        console.log("Ce n'est pas votre tour ou mise à jour de l'état du jeu en attente.");
     }
-
-    const action = { type: 'move', cellIndex, player: playerRole };
-    socket.emit('playerAction', { roomId, action });
 }
 
 socket.on('updateGameState', (updatedGameState) => {

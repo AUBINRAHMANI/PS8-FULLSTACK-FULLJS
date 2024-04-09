@@ -149,10 +149,16 @@ body {
     position: relative;
 }
 
-.player1, .player2 {
+.player1 {
     width: 100%;
     height: 100%;
     background-color: #ff0000; /* Red for player 1 */
+}
+
+.player2 {
+    width: 100%;
+    height: 100%;
+    background-color: #0000ff; /* Bleu pour le joueur 2 */
 }
 
 .barrier {
