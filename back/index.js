@@ -363,7 +363,7 @@
             }
 
             // Convertir cellIndex en coordonnées x et y
-            const x = Math.floor(cellIndex / 17); // Si cellIndex est basé sur une grille 9x9
+            const x = Math.floor(cellIndex / 17);
             const y = cellIndex % 17;
 1
             console.log("x: " +x + "y : "+ y);
@@ -404,28 +404,39 @@
         });
 
 
-        socket.on('playerAction', async ({roomId, action}) => {
+            socket.on('playerAction', async ({roomId, action}) => {
+            console.log("playerMove ");
             // Valider et traiter l'action ici...
             const gameState = await Onlinedb.getGameState(roomId);
-
-            let isValidMove = true; // a changer
             // L'objet updatedGameState devrait être préparé ici après la validation
             let updatedGameState = {...gameState};
 
             if (action.type === 'move') {
-               // isValidMove = validatePlayerMove(gameState, action);
-                isValidMove = true;
+                console.log("Un mouvement à été demandé");
+                const { cellIndex, player: playerRole } = action;
+                const newPosition = {
+                    x: cellIndex % 17,
+                    y: Math.floor(cellIndex / 17)
+                };
+                console.log("est ce bien ? :  " + gameState.playerPositions[playerRole]);
+                let isValidMove = await Onlinedb.isMoveValid(gameState.playerPositions[playerRole],newPosition);
+                console.log("isValidMove ? : " + isValidMove);
                 if (isValidMove) {
+                    console.log("Le mouvement est valide ! ");
+                    gameState.playerPositions[playerRole] = newPosition;
+                    await Onlinedb.updateGameState(roomId, updatedGameState);
+                    onlineSocket.to(roomId).emit('updateGameState', updatedGameState);
+                    console.log("HELLLLO valid move");
+                    await switchTurn(roomId);
                     // Appliquer le déplacement dans updatedGameState si nécessaire
                 }
             } else if (action.type === 'placeWall') {
-                isValidMove = true;
                 //isValidMove = validateWallPlacement(gameState, action);
-                if (isValidMove) {
+                //if (isValidMove) {
                     // Appliquer le placement du mur dans updatedGameState si nécessaire
-                }
+                //}
             }
-
+            /*
             if (isValidMove) {
                 console.log("Mouvement valide !");
                 // Mettre à jour l'état du jeu dans la base de données
@@ -440,6 +451,8 @@
                 // Si le mouvement n'est pas valide, envoyer un message d'erreur au joueur
                 socket.emit('invalidMove', 'Mouvement non valide.');
             }
+
+             */
         });
 
         socket.on('disconnect', async () => {

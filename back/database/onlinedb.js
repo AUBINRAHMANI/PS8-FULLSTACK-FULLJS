@@ -16,15 +16,16 @@ class Onlinedb {
         }
     }
 
+
     async createOrJoinRoom(playerId) {
         await this.verifyConnection();
         try {
             // Vérifier s'il existe une salle en attente
-            let room = await this.rooms.findOne({ state: 'waiting' });
+            let room = await this.rooms.findOne({state: 'waiting'});
             if (room) {
                 // Rejoindre la salle existante et initialiser l'état du jeu
                 await this.rooms.updateOne(
-                    { _id: room._id },
+                    {_id: room._id},
                     {
                         $set: {
                             state: 'active',
@@ -41,7 +42,7 @@ class Onlinedb {
                 );
                 console.log("Bite room " + room);
                 console.log("Undefined ? " + room._id);
-                return { roomId: room._id, state: 'active', playerRole: 'player2' };
+                return {roomId: room._id, state: 'active', playerRole: 'player2'};
             } else {
                 // Créer une nouvelle salle sans état du jeu initial
                 // L'état du jeu sera initialisé lorsque le deuxième joueur rejoindra
@@ -56,11 +57,29 @@ class Onlinedb {
                     }
                 );
                 console.log("Bite2 room " + room);
-                return { roomId, state: 'waiting', playerRole: 'player1' };
+                return {roomId, state: 'waiting', playerRole: 'player1'};
             }
         } catch (error) {
             console.error(error);
         }
+    }
+
+
+    async isMoveValid(currentPosition, newPosition) {
+        if (!currentPosition || !newPosition) {
+            console.log("Pas de position : " + newPosition + currentPosition);
+            return false;
+        }
+
+        // Vérifier si les propriétés x et y des positions sont définies
+        if (!currentPosition.x || !currentPosition.y || !newPosition.x || !newPosition.y) {
+            console.log(currentPosition.x + currentPosition.y + newPosition.x + newPosition.y);
+            console.log("coordonnées manquantes ");
+            return false;
+        }
+        const dx = Math.abs(currentPosition.x - newPosition.x);
+        const dy = Math.abs(currentPosition.y - newPosition.y);
+        return (dx === 1 && dy === 0) || (dx === 0 && dy === 1);
     }
     async getRoomState(roomId) {
         await this.verifyConnection();

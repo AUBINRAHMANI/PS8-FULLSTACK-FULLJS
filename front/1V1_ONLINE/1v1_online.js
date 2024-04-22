@@ -210,6 +210,9 @@ function disablePlayerUI() {
     document.getElementById('gameBoard').classList.remove('playerTurn');
 }
 
+let isInitialPlayer1 =true;
+let isInitialPlayer2 = true;
+
 function handleCellClick(cellIndex) {
     console.log("Current Player : " + currentPlayer + " Player Role = " + playerRole);
     if (lastGameStateUpdate === null && currentPlayer === playerRole) {
@@ -218,9 +221,17 @@ function handleCellClick(cellIndex) {
             //console.log("PlayerRolesssssssss : " + playerRole);
             console.log("Sélection initiale pour", playerRole, "à l'index", cellIndex);
             resetOppositeFirstRowBackgroundColor();
+            if((playerRole==='player1')){
+                isInitialPlayer1 = false;
+            }
+            if((playerRole==='player2')){
+                isInitialPlayer2 = false;
+            }
             socket.emit('selectInitialPosition', { cellIndex, playerRole, roomId });
 
+
         } else {
+            console.log("Player has already a initial position")
             // Mouvement normal après la sélection initiale
             const action = { type: 'move', cellIndex, player: playerRole };
             console.log("Mouvement normal pour", playerRole, "à l'index", cellIndex);
@@ -236,6 +247,12 @@ socket.on('updateGameState', (updatedGameState) => {
     if (updatedGameState.playerPositions) {
         updatePlayerPosition(updatedGameState.playerPositions.player1, 'player1');
         updatePlayerPosition(updatedGameState.playerPositions.player2, 'player2');
+    }
+    if(playerRole==='player1' && isInitialPlayer1 === false){
+        player1Position = updatedGameState.playerPositions;
+    }
+    else if (playerRole==='player2' && isInitialPlayer2 === false ){
+        player2Position = updatedGameState.playerPositions;
     }
 
     lastGameStateUpdate = updatedGameState;
