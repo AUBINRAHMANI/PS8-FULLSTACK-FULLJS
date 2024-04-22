@@ -105,9 +105,8 @@ body {
     height: 100vh;
     margin: 0;
     background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
-    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
-    background-position: center; /* Centre l'image horizontalement et verticalement */
-    background-repeat: no-repeat; /* Évite la répétition de l'image */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* L'image de fond reste fixe pendant le défilement */
 }
 
 
@@ -211,8 +210,30 @@ h1 {
 }
 
 
-@media (max-width: 600px) {
+@media screen and (max-width: 900px) {
+
+    .container {
+        margin-right: 35%;
+    }
+
+}
+
+@media (max-width: 715px) {
     .menu {
         grid-template-columns: 1fr; /* Une colonne pour les petits écrans */
     }
+    .container{
+        margin-left: 40%;
+    }
+    .btn{
+        margin: 0 auto;
+    }
+    body {
+        width: 3%;
+        background-size: 220%; /* Redimensionne l'image pour qu'elle tienne dans le conteneur */
+    }
+    h1{
+        font-size: 5em;
+    }
+
 }

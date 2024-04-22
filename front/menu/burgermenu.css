@@ -1,5 +1,4 @@
 
-
 #menu-buttons > * > button {
     cursor: pointer;
     border: none;
@@ -136,10 +135,57 @@ nav > div > *:first-child {
 }
 
 
+@media (max-width: 715px) {
+
+    .nav-link img {
+        width: 30px; /* Définissez la largeur souhaitée pour les icônes */
+        height: 30px; /* Définissez la hauteur souhaitée pour les icônes */
+      }
+
+}
+
+
+@media (max-width: 615px) {
+
+    .nav-link img {
+        width: 25px; /* Définissez la largeur souhaitée pour les icônes */
+        height: 25px; /* Définissez la hauteur souhaitée pour les icônes */
+        margin-right: -10px; /* Réduit la marge à droite de chaque lien */
+
+      }
+
+}
+
+
+@media (max-width: 515px) {
+
+    .nav-link img {
+        width: 20px; /* Définissez la largeur souhaitée pour les icônes */
+        height: 20px; /* Définissez la hauteur souhaitée pour les icônes */
+        margin-right: -20px; /* Réduit la marge à droite de chaque lien */
+        margin-left: -20px; /* Réduit la marge à droite de chaque lien */
+        padding: 0 auto;
+
+      }
+
+    .nav-bar{
+        height: 3%;
+
+    }
+
+
+}
 
 
 
-@media (orientation: portrait) and (max-width: 480px) {
+
+
+
+
+
+
+
+/*@media (orientation: portrait) and (max-width: 480px) {
     #menu-buttons {
         width: calc(100% - var(--icon-width) - 2 * var(--icon-padding));
     }
@@ -168,7 +214,7 @@ nav > div > *:first-child {
         flex-wrap: wrap;
     }
 
-}
+}*/
 
 /*
 !* Réinitialisation de base pour certains styles par défaut *!

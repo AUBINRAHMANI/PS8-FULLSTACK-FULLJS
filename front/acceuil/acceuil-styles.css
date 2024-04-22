@@ -125,9 +125,21 @@ h1 {
 }
 
 
-@media (max-width: 600px) {
+/*@media (max-width: 600px) {
+
+}*/
+
+
+@media screen and (max-width: 900px) {
+
+    .container {
+        margin-right: 35%;
+    }
+
+}
+
+@media (max-width: 715px) {
     .menu {
         grid-template-columns: 1fr; /* Une colonne pour les petits écrans */
     }
 }
-
