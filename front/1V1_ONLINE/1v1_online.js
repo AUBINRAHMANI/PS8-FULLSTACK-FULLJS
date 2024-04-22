@@ -35,6 +35,7 @@ function initializeGameBoard(playerRole) {
     for (let i = 0; i < 289; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
+        cell.id = 'cell-' + i;
 
         // Ajouter la classe 'border-column' aux colonnes paires (B à P)
         if (i % 17 >= 1 && i % 17 <= 15 && i % 2 === 1 && Math.floor(i / 17) % 2 === 0) {
@@ -232,6 +233,11 @@ function handleCellClick(cellIndex) {
 
 socket.on('updateGameState', (updatedGameState) => {
     // Planifier le traitement de la dernière mise à jour reçue
+    if (updatedGameState.playerPositions) {
+        updatePlayerPosition(updatedGameState.playerPositions.player1, 'player1');
+        updatePlayerPosition(updatedGameState.playerPositions.player2, 'player2');
+    }
+
     lastGameStateUpdate = updatedGameState;
     console.log("UpdateGameState : "+ updatedGameState);
     setTimeout(processLastGameStateUpdate, 0);
@@ -283,18 +289,28 @@ function updateUIBasedOnGameState(updatedGameState) {
 
 function updatePlayerPosition(position, player) {
     // Trouver et mettre à jour la position du joueur sur le plateau
-    console.log("Player : " + player + ", Position : " + position);
-    const cellId = `cell-${position.x}-${position.y}`;
-    const cell = document.getElementById(cellId);
-    let playerElement = document.querySelector(`.${player}`);
+    if (position && typeof position.x === 'number' && typeof position.y === 'number') {
+        console.log("Player : " + player + ", Position : " + position);
+        const cellIndex = position.y + position.x * 17;
+        const cellId = 'cell-' + cellIndex;
+        const cell = document.getElementById(cellId);
+        let playerElement = document.querySelector(`.${player}`);
 
-    if (!playerElement) {
-        playerElement = document.createElement('div');
-        playerElement.classList.add(player, 'player');
-        document.body.appendChild(playerElement); // Vous devrez peut-être l'ajouter ailleurs selon votre structure HTML
-    }
-    if (cell && playerElement) {
-        cell.appendChild(playerElement);
+        // const cellId = `cell-${position.x}-${position.y}`;
+        // const cell = document.getElementById(cellId);
+        // let playerElement = document.querySelector(`.${player}`);
+
+        if (!playerElement) {
+            playerElement = document.createElement('div');
+            playerElement.classList.add(player, 'player');
+            document.body.appendChild(playerElement); // Vous devrez peut-être l'ajouter ailleurs selon votre structure HTML
+        }
+        if (cell && playerElement) {
+            cell.appendChild(playerElement);
+        }
+        else {
+            console.error('Position invalide fournie à updatePlayerPosition:', position);
+        }
     }
 }
 
