@@ -72,14 +72,18 @@ class Onlinedb {
         }
 
         // Vérifier si les propriétés x et y des positions sont définies
-        if (!currentPosition.x || !currentPosition.y || !newPosition.x || !newPosition.y) {
-            console.log(currentPosition.x + currentPosition.y + newPosition.x + newPosition.y);
+        if (currentPosition.x===null|| currentPosition.y===null || newPosition.x===null|| !newPosition.y===null) {
+            console.log(currentPosition.x + "=x " + currentPosition.y + "=y " + newPosition.x + "=new x " + newPosition.y + "=newY");
             console.log("coordonnées manquantes ");
             return false;
         }
         const dx = Math.abs(currentPosition.x - newPosition.x);
-        const dy = Math.abs(currentPosition.y - newPosition.y);
-        return (dx === 1 && dy === 0) || (dx === 0 && dy === 1);
+        console.log("dx = " + dx);
+        const dy = Math.abs(currentPosition.y - newPosition.y)
+        const result = Math.abs(dx-dy);
+        console.log("dy = " + dy);
+        console.log("Result = " + result);
+        return (dx === 2 && dy === 0) || (dx === 0 && dy === 2) || (result===2);
     }
     async getRoomState(roomId) {
         await this.verifyConnection();

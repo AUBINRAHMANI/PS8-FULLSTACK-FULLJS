@@ -415,8 +415,8 @@
                 console.log("Un mouvement à été demandé");
                 const { cellIndex, player: playerRole } = action;
                 const newPosition = {
-                    x: cellIndex % 17,
-                    y: Math.floor(cellIndex / 17)
+                    x: Math.floor(cellIndex/17),
+                    y: cellIndex % 17
                 };
                 console.log("est ce bien ? :  " + gameState.playerPositions[playerRole]);
                 let isValidMove = await Onlinedb.isMoveValid(gameState.playerPositions[playerRole],newPosition);
@@ -426,7 +426,6 @@
                     gameState.playerPositions[playerRole] = newPosition;
                     await Onlinedb.updateGameState(roomId, updatedGameState);
                     onlineSocket.to(roomId).emit('updateGameState', updatedGameState);
-                    console.log("HELLLLO valid move");
                     await switchTurn(roomId);
                     // Appliquer le déplacement dans updatedGameState si nécessaire
                 }
