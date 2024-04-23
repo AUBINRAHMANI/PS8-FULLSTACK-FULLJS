@@ -157,16 +157,17 @@ nav > div > *:first-child {
 }
 
 
-@media (max-width: 515px) {
+/*@media (max-width: 515px) {
+    
 
     .nav-link img {
-        width: 20px; /* Définissez la largeur souhaitée pour les icônes */
-        height: 20px; /* Définissez la hauteur souhaitée pour les icônes */
-        margin-right: -20px; /* Réduit la marge à droite de chaque lien */
-        margin-left: -20px; /* Réduit la marge à droite de chaque lien */
+        width: 20px; /* Définissez la largeur souhaitée pour les icônes 
+        height: 20px; /* Définissez la hauteur souhaitée pour les icônes 
+        margin-right: -20px; /* Réduit la marge à droite de chaque lien 
+        margin-left: -20px; /* Réduit la marge à droite de chaque lien
         padding: 0 auto;
 
-      }
+    }
 
     .nav-bar{
         height: 3%;
@@ -174,7 +175,7 @@ nav > div > *:first-child {
     }
 
 
-}
+}*/
 
 
 
@@ -182,15 +183,12 @@ nav > div > *:first-child {
 
 
 
-
-
-
-/*@media (orientation: portrait) and (max-width: 480px) {
+@media (orientation: portrait) and (max-width: 480px) {
     #menu-buttons {
-        width: calc(100% - var(--icon-width) - 2 * var(--icon-padding));
+        width: calc(100% - var(--icon-width) - 3 * var(--icon-padding));
     }
 }
-
+/*
 @media (orientation: landscape) and (max-height: 480px) {
     #other, #other-button {
         display: inherit;

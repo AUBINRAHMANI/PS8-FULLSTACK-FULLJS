@@ -1,19 +1,16 @@
-body, html {
-    height: 100%;
+body {
+    height: 100vh;
+    width: 100vw;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #4a90e2;
 }
 
-/*main {
-    display: flex;
-    justify-content: center;
-}*/
 
 #button-container {
     display: flex;
     flex-direction: column;
-    grid-gap: 10px;
+    grid-gap: 1.5vh;
     justify-content: center;
     align-items: center;
     width: 65vw;
@@ -39,76 +36,6 @@ body, html {
     background-color: var(--very-dark-accentuation-color);
 }
 
-/*main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}*/
-
-
-@media (width <= 480px) and (orientation: portrait) {
-    #button-container {
-        width: 80%;
-    }
-
-    #offline-info {
-        display: none;
-        margin-bottom: 10px;
-        font-size: 1.28em;
-        text-align: center;
-    }
-
-    #offline-info {
-        margin-top: 28vh;
-    }
-}
-
-@media (height <= 480px) and (orientation: landscape) {
-    #button-container {
-        width: 80%;
-        height: 100%;
-        grid-gap: 2px;
-
-    }
-
-    #button-container * {
-        height: initial;
-        width: 100%;
-    }
-
-    #offline-info {
-        margin-top: 15vh;
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-body, html {
-    height: 100%;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #4a90e2;
-    
-}
-
-@font-face {
-    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
-    src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
-    /* Ajoutez des déclarations supplémentaires si nécessaire */
-}
-
-
 .container {
     text-align: center;
     position: relative;
@@ -116,13 +43,22 @@ body, html {
     transform: translateY(-50%);
 }
 
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1vw 1vh;
+    
+}
+
 .menu {
     display: grid;
     grid-template-columns: repeat(3, 10fr); /* Trois colonnes */
-    grid-gap: 20px; /* Espace entre les boutons */
-    padding-right: 200px;
-    padding-left: 200px;
+    grid-gap: 2vw; /* Espace entre les boutons */
+    padding-right: 10vw;
+    padding-left: 10vw;
 }
+
 
 .title {
     text-align: center;
@@ -151,27 +87,37 @@ h1 {
 }
 
 .btn {
-    font-family: 'Burbank', 'arial';
-    margin: 30px auto;
-    padding: 20px 40px; /* Agrandi par rapport à l'original */
-    font-size: 2.5em; /* Taille de texte augmentée */
+    display: inline-flex; /* Utilisation de flexbox en ligne */
+    align-items: center; /* Alignement vertical au centre */
+    margin: 3vh 3vw; /* Ajustement de la marge */
+    padding: 2vh 4vw; /* Ajustement de la marge */
+    font-size: 2vw; /* Taille de police relative */
     border: none;
-    border-radius: 10px; /* Bords plus arrondis pour un look plus moderne */
+    border-radius: 2vw;
     cursor: pointer;
     transition: background-color 0.3s;
-    position: relative; /* Position relative pour les icônes absolues */
-    overflow: hidden; /* Pour éviter tout débordement d'icône */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px; /* Largeur augmentée */
-    height: auto; /* Hauteur ajustée automatiquement */
+    position: relative;
+    overflow: hidden;
+    width: auto; /* Taille automatique */
+    height: auto; /* Taille automatique */
+}
+
+.btn img {
+    width: 4vw; /* Taille de l'icône relative */
+    height: auto;
+    margin-right: 2vw; /* Marge à droite de l'icône */
+}
+
+.btn span {
+    margin-left: 2vw; /* Marge à gauche du texte */
+    font-size: 2vw; /* Taille de police relative */
 }
 
 
 
+
 #shop, #rules, #stats, #friends, #settings {
-    width: 220px;
+    width: 22vw;
     color: white;
 }
 
@@ -195,40 +141,48 @@ h1 {
 }
 
 
-.btn img {
-    position: absolute;
-    left: 20px; /* Ajustement pour plus d'espace */
-    width: 40px; /* Icône plus grande */
-    height: auto;
+
+@media (width <= 730px) {
+    header > .top-page > .page-title {
+        width: 50%;
+        min-width: 250px;
+    }
 }
 
-.btn span {
-    display: block;
-    margin-left: 50px; /* Plus d'espace pour le texte */
-}
-
-
-@media screen and (max-width: 900px) {
-
-    .container {
-        margin-right: 35%;
+/* Media query pour les écrans de largeur inférieure à 1101px */
+@media only screen and (max-width: 1100px) {
+    .btn {
+        width: auto;
     }
 
+    .btn img {
+        width: 2; 
+    }
+
+    .btn span {
+        font-size: 2vw; 
+    }
 }
 
-@media (max-width: 715px) {
+
+
+@media (orientation: landscape) and (height < 480px) {
+    #button-container, form {
+        margin-top: 25px;
+    }
+}
+
+
+
+@media (max-width: 1101px) {
     .menu {
-        grid-template-columns: 1fr; /* Une colonne pour les petits écrans */
+        grid-template-columns: 1fr; 
     }
     .container{
-        margin-left: 40%;
+        justify-content: center;
     }
     .btn{
         margin: 0 auto;
-    }
-    body {
-        width: 3%;
-        background-size: 220%; /* Redimensionne l'image pour qu'elle tienne dans le conteneur */
     }
     h1{
         font-size: 5em;
