@@ -196,7 +196,13 @@ body {
     border-radius: 5px;
 }
 
+.temporary-wall {
+    background-color: grey; /* ou toute autre couleur pour l'aperçu */
+}
 
+.temp-wall {
+    background-color: grey; /* Ou tout autre style pour indiquer qu'il s'agit d'un aperçu */
+}
 
 .wall {
     background-color: orange; /* Couleur bleue pour les murs */

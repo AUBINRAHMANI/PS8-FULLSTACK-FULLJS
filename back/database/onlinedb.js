@@ -83,7 +83,29 @@ class Onlinedb {
         const result = Math.abs(dx-dy);
         console.log("dy = " + dy);
         console.log("Result = " + result);
-        return (dx === 2 && dy === 0) || (dx === 0 && dy === 2) || (result===2);
+        return (dx === 2 && dy === 0) || (dx === 0 && dy === 2) ;
+    }
+
+    async validateWallPlacement(gameState, cellIndex, wallType) {
+
+        if (gameState.walls.some(wall => wall.cellIndex === cellIndex && wall.wallType === wallType)) {
+            return false; // Un mur existe déjà à cette position
+        }
+
+        // Si aucun chevauchement n'est détecté, le placement est valide
+        return true;
+    }
+
+    async calculateWallCells(cellIndex, wallType) {
+        // Calcul des cellules que le mur occupe sur la grille, dépendant du type
+        if (wallType === 'column') {
+            // Supposons que le mur de colonne s'étende verticalement à partir de l'indice donné
+            return [cellIndex, cellIndex + 17]; // Assurez-vous que cela correspond à la taille de votre grille
+        } else if (wallType === 'row') {
+            // Supposons que le mur de rangée s'étende horizontalement à partir de l'indice donné
+            return [cellIndex, cellIndex + 1];
+        }
+        return [];
     }
     async getRoomState(roomId) {
         await this.verifyConnection();

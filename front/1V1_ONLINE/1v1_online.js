@@ -7,11 +7,6 @@ let player1Timer;
 let player2Timer;
 let playerRole;
 let roomId;
-let players = {
-    player1: {x :null, y:null, symbol: 'P1'},
-    player2: {x: null, y: null, symbol: 'P2'}
-};
-
 let player1Position = null;
 let player2Position = null;
 let currentAction = 'none';
@@ -241,6 +236,113 @@ function handleCellClick(cellIndex) {
         console.log("Ce n'est pas votre tour ou mise à jour de l'état du jeu en attente.");
     }
 }
+let temporaryWall;
+function handleWallClick(cellIndex,wallType){
+    if (currentPlayer === playerRole) {
+        removeTemporaryWall();  // Nettoyer d'abord le mur temporaire
+        displayTemporaryWall(cellIndex, wallType);
+        temporaryWall = { cellIndex, wallType };
+        showWallButtons();
+    }
+
+}
+
+function validateWallPlacement() {
+
+    if (!temporaryWall) {
+        console.log("Aucun mur temporaire à valider.");
+        return;
+    }
+    console.log("TEMPORARY INDEX CELLULE : " + temporaryWall.cellIndex);
+
+    const action = {
+        type: 'placeWall',
+        wall: {
+            cellIndex: temporaryWall.cellIndex,
+            wallType: temporaryWall.wallType,
+            player: currentPlayer,
+        }
+    };
+
+    socket.emit('playerAction', {
+        roomId: roomId,
+        action: action
+    });
+
+
+    removeTemporaryWall();
+    temporaryWall = null;
+    hideWallButtons();
+
+}
+
+
+
+
+function cancelWallPlacement(){
+    removeTemporaryWall();
+    temporaryWall = null;
+    hideWallButtons();
+}
+
+
+function showWallButtons(playerRole) {
+    const validateBtn = document.getElementById(`validateButtonPlayer${currentPlayer === 'player1' ? '1' : '2'}`);
+    const cancelBtn = document.getElementById(`cancelButtonPlayer${currentPlayer === 'player1' ? '1' : '2'}`);
+
+    validateBtn.style.display = 'inline';
+    cancelBtn.style.display = 'inline';
+
+}
+
+function hideWallButtons(){
+    const validateBtn = document.getElementById(`validateButtonPlayer${currentPlayer === 'player1' ? '1' : '2'}`);
+    const cancelBtn = document.getElementById(`cancelButtonPlayer${currentPlayer === 'player1' ? '1' : '2'}`);
+
+    validateBtn.style.display = 'none';
+    cancelBtn.style.display = 'none';
+}
+
+function displayTemporaryWall(cellIndex, wallType){
+    const cell = cells[cellIndex];
+    const adjacentCellIndex = wallType === 'column' ? cellIndex + 34 : cellIndex + 2;
+
+    if (cell && !cell.classList.contains('wall')) {
+        cell.classList.add('temporary-wall'); // Ajouter une classe spécifique pour l'aperçu
+        cell.style.backgroundColor = 'grey'; // Couleur temporaire pour l'aperçu
+
+        // Appliquer le style à la cellule adjacente pour les murs qui prennent deux cellules
+        const adjacentCell = cells[adjacentCellIndex];
+        if (adjacentCell && !adjacentCell.classList.contains('wall')) {
+            adjacentCell.classList.add('temporary-wall');
+            adjacentCell.style.backgroundColor = 'grey';
+
+        }
+    }
+
+    // Gestion de l'annulation du placement du mur temporaire
+    document.getElementById(`cancelButtonPlayer${currentPlayer === 'player1' ? '1' : '2'}`).addEventListener('click', function() {
+        removeTemporaryWall(cellIndex, wallType);
+    });
+}
+
+function removeTemporaryWall(cellIndex, wallType) {
+    // Récupérer la cellule correspondante dans le tableau
+    // Retirer tous les murs temporaires du plateau
+    const temporaryWalls = document.querySelectorAll('.temporary-wall');
+    temporaryWalls.forEach(cell => {
+        cell.classList.remove('temporary-wall');
+        cell.style.backgroundColor = ''; // Enlever la couleur
+    });
+
+    // Réinitialiser l'objet de mur temporaire
+    temporaryWall = null;
+}
+
+document.getElementById('validateButtonPlayer1').addEventListener('click', validateWallPlacement);
+document.getElementById('cancelButtonPlayer1').addEventListener('click', cancelWallPlacement);
+document.getElementById('validateButtonPlayer2').addEventListener('click', validateWallPlacement);
+document.getElementById('cancelButtonPlayer2').addEventListener('click', cancelWallPlacement);
 
 socket.on('updateGameState', (updatedGameState) => {
     // Planifier le traitement de la dernière mise à jour reçue
@@ -253,6 +355,12 @@ socket.on('updateGameState', (updatedGameState) => {
     }
     else if (playerRole==='player2' && isInitialPlayer2 === false ){
         player2Position = updatedGameState.playerPositions;
+    }
+
+    if (updatedGameState.walls) {
+        updatedGameState.walls.forEach(wall => {
+            placeWall(wall.cellIndex, wall.wallType);
+        });
     }
 
     lastGameStateUpdate = updatedGameState;
@@ -333,15 +441,32 @@ function updatePlayerPosition(position, player) {
 
 function placeWall(wall) {
     // Trouver et placer un mur sur le plateau
-    const wallElement = document.createElement('div');
-    wallElement.className = 'wall';
-    // Supposons que tu as une fonction pour convertir la position {x, y} et le type de mur en id de cellule ou en index
-    const cellId = wallPositionToCellId(wall);
-    const wallCell = document.getElementById(cellId);
-
+    const wallCell = document.getElementById(`cell-${wall.cellIndex}`);
     if (wallCell) {
-        // Ajouter l'élément du mur à la cellule correspondante
-        wallCell.appendChild(wallElement);
+        // Si la cellule existe, on ajoute la classe 'wall'
+        wallCell.classList.add('wall');
+        wallCell.style.backgroundColor = 'orange'; // Choisir une couleur qui signifie un mur permanent
+
+        // Vous pouvez gérer l'aspect des murs adjacents ici si nécessaire
+        if (wall.wallType === 'column') {
+            // Gérer le mur vertical en affectan32également la cellule en dessous
+            let adjCellIndex = wall.cellIndex + 34; // Modifier si votre grille ne correspond pas
+            let adjCell = document.getElementById(`cell-${adjCellIndex}`);
+            if (adjCell) {
+                adjCell.classList.add('wall');
+                adjCell.style.backgroundColor = 'orange';
+            }
+        } else {
+            // Gérer le mur horizontal en affectant également la cellule à droite
+            let adjCellIndex = wall.cellIndex + 2;
+            let adjCell = document.getElementById(`cell-${adjCellIndex}`);
+            if (adjCell) {
+                adjCell.classList.add('wall');
+                adjCell.style.backgroundColor = 'orange';
+            }
+        }
+    } else {
+        console.error('Cannot place wall, cell not found:', `cell-${wall.cellIndex}`);
     }
 }
 
@@ -355,6 +480,20 @@ function positionToCellId(position) {
 
 // Exemple de fonction pour convertir la position et le type de mur en id de cellule
 function wallPositionToCellId(wall) {
-    // Implémenter la logique de conversion basée sur ton implémentation spécifique du plateau et le type de mur
-    return `wall-${wall.x}-${wall.y}-${wall.type}`;
+    console.log("Wall x : " + wall.x, "Wall y : "+ wall.y);
+
+    // Déterminer l'indice de départ en fonction du type de mur
+    let startIndex;
+    if (wall.wallType === 'column') {
+        // Pour les murs verticaux, prendre la cellule en haut à gauche de la "colonne" du mur
+        startIndex = (wall.x * 2 + 1) * 17 + wall.y * 2;
+    } else {
+        // Pour les murs horizontaux, prendre la cellule en haut à gauche de la "rangée" du mur
+        startIndex = wall.x * 2 * 17 + (wall.y * 2 + 1);
+    }
+
+    // Convertir l'indice de départ en id de cellule
+    const cellId = `cell-${startIndex}`;
+    console.log("Cell ID for wall:", cellId);
+    return cellId;
 }

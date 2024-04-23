@@ -430,28 +430,20 @@
                     // Appliquer le déplacement dans updatedGameState si nécessaire
                 }
             } else if (action.type === 'placeWall') {
-                //isValidMove = validateWallPlacement(gameState, action);
-                //if (isValidMove) {
-                    // Appliquer le placement du mur dans updatedGameState si nécessaire
-                //}
+                console.log("Placement d'un mur demandé");
+                const {cellIndex, wallType, player} = action.wall;
+                let isWallPlacementValid = Onlinedb.validateWallPlacement(gameState, cellIndex, wallType, player);
+                console.log("isWallPlacementValid ? : " + isWallPlacementValid);
+                if (isWallPlacementValid) {
+                    console.log("Le placement du mur est valide !");
+                    updatedGameState.walls.push({cellIndex, wallType});
+                    await Onlinedb.updateGameState(roomId, updatedGameState);
+                    onlineSocket.to(roomId).emit('updateGameState', updatedGameState);
+                    await switchTurn(roomId);
+                } else {
+                    onlineSocket.to(roomId).emit('invalidWallPlacement', "Placement de mur invalide.");
+                }
             }
-            /*
-            if (isValidMove) {
-                console.log("Mouvement valide !");
-                // Mettre à jour l'état du jeu dans la base de données
-                await Onlinedb.updateGameState(roomId, updatedGameState);
-
-                // Informer tous les clients de la mise à jour
-                onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
-
-                // Déterminer et changer le tour du joueur
-                await switchTurn(roomId);
-            } else {
-                // Si le mouvement n'est pas valide, envoyer un message d'erreur au joueur
-                socket.emit('invalidMove', 'Mouvement non valide.');
-            }
-
-             */
         });
 
         socket.on('disconnect', async () => {
@@ -473,24 +465,6 @@
                 }
             }
         });
-
-        socket.on('playerMove', (data) => {
-            const roomId = socketRoomMap[socket.id];
-            // Valider le déplacement et mettre à jour l'état du jeu
-            const validMove = validatePlayerMove(data); // Cette fonction doit être définie
-            if (validMove) {
-                // Mettre à jour l'état du jeu
-                const updatedGameState = updateGameState(data);
-                switchTurn(roomId);
-                // Envoyer la mise à jour à tous les joueurs dans la room
-                onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
-            } else {
-                // Envoyer un message d'erreur au joueur qui a effectué le mouvement
-                socket.emit('invalidMove', 'Déplacement invalide.');
-            }
-
-        });
-
 
         socket.on('playerPlaceWall', (data) => {
             const roomId = socketRoomMap[socket.id];
