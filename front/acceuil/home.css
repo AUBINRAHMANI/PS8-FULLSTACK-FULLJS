@@ -1,7 +1,14 @@
-main {
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+}
+
+/*main {
     display: flex;
     justify-content: center;
-}
+}*/
 
 #button-container {
     display: flex;
@@ -32,11 +39,11 @@ main {
     background-color: var(--very-dark-accentuation-color);
 }
 
-main {
+/*main {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+}*/
 
 
 @media (width <= 480px) and (orientation: portrait) {
@@ -92,6 +99,7 @@ body, html {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #4a90e2;
+    
 }
 
 @font-face {
@@ -99,16 +107,6 @@ body, html {
     src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
     /* Ajoutez des déclarations supplémentaires si nécessaire */
 }
-
-body {
-    justify-content: center;
-    height: 100vh;
-    margin: 0;
-    background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
-    background-repeat: no-repeat;
-    background-attachment: fixed; /* L'image de fond reste fixe pendant le défilement */
-}
-
 
 
 .container {
