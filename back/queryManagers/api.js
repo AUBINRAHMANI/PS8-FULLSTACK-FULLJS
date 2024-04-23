@@ -19,7 +19,7 @@ import {
     SIGNUP_API,
     STATS_API,
     USERS_API
-} from "../../front/util/path.js";
+} from "../../cordova/www/util/path.js";
 
 
 

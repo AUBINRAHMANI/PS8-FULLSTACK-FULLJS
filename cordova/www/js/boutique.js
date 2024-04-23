@@ -51,7 +51,7 @@ function importerImage(){
      // Stocker l'URL dans le stockage local pour la récupérer dans gameMotor.html
      localStorage.setItem("imageUrl", imageUrl);
      // Rediriger vers la page B.html
-     window.location.href = "../html/game.html?imported=true";
+     window.location.href = "../../cordova/www/html/game.html?imported=true";
      
 };
 
