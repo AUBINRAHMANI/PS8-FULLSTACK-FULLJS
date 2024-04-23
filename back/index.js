@@ -26,7 +26,7 @@ import * as http from 'http';
 // const client = new MongoClient(uri);
 //
 //
- const host = '0.0.0.0';
+ const host = 'localhost';
  const port = 8000;
 
 
