@@ -1,0 +1,110 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+    
+}
+
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../files/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+body {
+    justify-content: center;
+    height: 230vh; /*Utilisez l'unité vh pour occuper 100% de la hauteur de la fenêtre */
+    margin: 0;
+    background-image: url('../files/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+    background-position: center; /* Centre l'image horizontalement et verticalement */
+    padding-bottom: 50px; /* Ajouter un espace en bas pour éviter que le contenu ne se superpose avec le pied de page */
+
+}
+
+
+
+.title {
+    position: relative;
+    top: 10%;
+    transform: translateY(-45%);
+
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 5rem;
+    margin: 0;
+    padding: 0rem;
+    color: white;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    padding: 0 20px; /* Ajouter un peu d'espace sur les côtés pour une meilleure apparence */
+
+}
+
+.content1 {
+    flex: 1;
+    max-width: 50%;
+    margin-right: 20px;
+}
+
+.content2 {
+    flex: 1;
+    max-width: 50%;
+    margin-left: 20px;
+}
+
+h2 {
+    color: white;
+    font-family: 'Burbank', Arial, sans-serif;
+    font-size: 35px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+p, 
+p1 {
+    font-size: 20px; /* Taille de police du texte */
+    line-height: 1.5; /* Hauteur de ligne */
+}
+
+p1 {
+    margin-right: 20px;
+}
+
+.image {
+    flex: 1;
+    margin: 0 auto;
+    max-width: 50%;
+    text-align: center;
+}
+
+/* Styles pour les liens */
+a {
+    color: #ffffff; /* Couleur des liens */
+    text-decoration: none; /* Suppression du soulignement */
+}
+
+a:hover {
+    color: #ffcc00; /* Couleur au survol */
+}
+
+/* Pour que les éléments soient placés verticalement sur des écrans étroits */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+    .content1,
+    .content2,
+    .image {
+        width: 100%;
+        max-width: none;
+        margin: 0; /* Réinitialisation des marges pour les éléments empilés verticalement */
+    }
+}
