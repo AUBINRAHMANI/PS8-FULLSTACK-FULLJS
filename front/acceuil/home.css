@@ -48,15 +48,15 @@ main {
     align-items: center;
     justify-content: center;
     margin: 0 1vw 1vh;
-    
+    overflow-x: auto; /* Ajout de défilement horizontal */
+
 }
 
 .menu {
-    display: grid;
-    grid-template-columns: repeat(3, 10fr); /* Trois colonnes */
-    grid-gap: 2vw; /* Espace entre les boutons */
-    padding-right: 10vw;
-    padding-left: 10vw;
+    display: grid; /* Utilisation de flexbox */
+    justify-content: center; /* Centrage horizontal des éléments */
+    flex-wrap: nowrap; /* Empêche le passage à la ligne des éléments */
+    margin: 0 auto; /* Centre les éléments */
 }
 
 
@@ -171,8 +171,6 @@ h1 {
         margin-top: 25px;
     }
 }
-
-
 
 @media (max-width: 1101px) {
     .menu {

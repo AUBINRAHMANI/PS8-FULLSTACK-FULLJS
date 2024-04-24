@@ -23,7 +23,6 @@ body, html {
 }
 
 
-
 @font-face {
     font-family: 'Burbank'; /* Choisissez un nom pour votre police */
     src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
