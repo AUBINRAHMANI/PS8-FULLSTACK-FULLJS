@@ -78,10 +78,21 @@ li {
         display: flex;
         flex-direction: column;
     }
+
+    h1 {
+        font-size: 1em;
+    }
 }
 
+<<<<<<< HEAD
 @media (width <= 680px) {
     .page-title{
         font-size: 6vw;
+=======
+
+@media  (orientation: portrait) {
+    h1 {
+        font-size: 1em;
+>>>>>>> 6419a2cf17227aed065a47beeed34f4515f93fc1
     }
 }

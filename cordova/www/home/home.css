@@ -39,7 +39,7 @@ main {
 }
 
 
-@media (width <= 480px) and (orientation: portrait) {
+@media  (orientation: portrait) {
     #button-container {
         width: 80%;
     }
