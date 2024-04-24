@@ -79,3 +79,9 @@ li {
         flex-direction: column;
     }
 }
+
+@media (width <= 680px) {
+    .page-title{
+        font-size: 6vw;
+    }
+}
