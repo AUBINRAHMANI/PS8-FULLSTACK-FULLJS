@@ -57,7 +57,7 @@ button {
     }
 }
 
-@media (width <= 560px) and (orientation: portrait) {
+@media  (orientation: portrait) {
     #search-result > div > p {
         font-size: 1em;
     }

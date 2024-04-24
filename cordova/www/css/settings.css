@@ -120,7 +120,7 @@ input:checked + .slider:before {
 }
 
 
-@media (width <= 580px) and (orientation: portrait) {
+@media (orientation: portrait) {
     h1 {
         font-size: 1em;
     }
