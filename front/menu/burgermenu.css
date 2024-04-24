@@ -52,7 +52,7 @@ nav > div {
 }
 
 nav > div img {
-    width: 5vw; /* Utilisation de vw pour la largeur de l'icône */
+    width: 3.5vw; /* Utilisation de vw pour la largeur de l'icône */
 }
 
 nav > div > * {
