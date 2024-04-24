@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quortnite - Accueil</title>
 
-    <link rel="stylesheet" href="acceuil-styles.css">
-
 
     <script src="../sockets/socket.io.js"></script>
 
@@ -26,146 +24,88 @@
 </head>
 <body>
 
-<header>
-    <burger-menu></burger-menu>
-</header>
-
-<!--<header>
-    <burger-menu-open-close></burger-menu-open-close>
-    <div class="top-page">
-        <div class="top-corner-content" id="header-center-div"></div>
-        <div class="top-corner-content" id="username"></div>
-    </div>
-</header>-->
+    <header>
+        <burger-menu></burger-menu>
+    </header>
 
 
-<div id="bottom-content">
-    <main>
-        <h2 id="offline-info">Vous êtes hors ligne !</h2>
+    <div id="bottom-content">
+        <main>
+            <h2 id="offline-info">Vous êtes hors ligne !</h2>
 
-        <div class="container">
+            <div class="container">
 
-            <h1>QUORTNITE</h1>
-            <div class="menu">
-                <button class="btn" id="shop">
-                    <img src="../data/images/boutique.png" alt="Icone Boutique">
-                    <span>BOUTIQUE</span>
-                    <script>
-                        document.getElementById('shop').addEventListener('click', function() {
-                            window.location.href = '../html/boutique.html';
-                        });
-                    </script>
-                </button>
+                <h1>QUORTNITE</h1>
+                <div class="menu">
+                    <button class="btn" id="shop">
+                        <img src="../data/images/boutique.png" alt="Icone Boutique">
+                        <span>BOUTIQUE</span>
+                        <script>
+                            document.getElementById('shop').addEventListener('click', function() {
+                                window.location.href = '../html/boutique.html';
+                            });
+                        </script>
+                    </button>
 
-                <button class="btn" id="play">
-                    <span>JOUER</span>
-                    <script>
-                        document.getElementById('play').addEventListener('click', function() {
-                            window.location.href = '../gameChoice/gameChoice.html';
-                        });
-                    </script>
-                </button>
+                    <button class="btn" id="play">
+                        <img src="../data/images/boutique.png" alt="Icone Play">
+                        <span>JOUER</span>
+                        <script>
+                            document.getElementById('play').addEventListener('click', function() {
+                                window.location.href = '../gameChoice/gameChoice.html';
+                            });
+                        </script>
+                    </button>
 
 
-                <button class="btn" id="rules">
-                    <img src="../data/images/regles.png" alt="Icone Regles">
-                    <span>RÈGLES</span>
-                    <script>
-                        document.getElementById('rules').addEventListener('click', function() {
-                            window.location.href = '../html/regles.html';
-                        });
-                    </script>
-                </button>
+                    <button class="btn" id="rules">
+                        <img src="../data/images/regles.png" alt="Icone Regles">
+                        <span>RÈGLES</span>
+                        <script>
+                            document.getElementById('rules').addEventListener('click', function() {
+                                window.location.href = '../html/regles.html';
+                            });
+                        </script>
+                    </button>
 
-                <button class="btn" id="stats">
-                    <img src="../data/images/stats.png" alt="Icone Stats">
-                    <span>STATS</span>
-                    <script>
-                        document.getElementById('stats').addEventListener('click', function() {
-                            window.location.href = '../ranking/index.html';
-                        });
-                    </script>
-                </button>
+                    <button class="btn" id="stats">
+                        <img src="../data/images/stats.png" alt="Icone Stats">
+                        <span>STATS</span>
+                        <script>
+                            document.getElementById('stats').addEventListener('click', function() {
+                                window.location.href = '../ranking/index.html';
+                            });
+                        </script>
+                    </button>
 
-                <button class="btn" id="friends">
-                    <img src="../data/images/amis.png" alt="Icone Amis">
-                    <span>FRIENDS</span>
-                    <script>
-                        document.getElementById('friends').addEventListener('click', function() {
-                            window.location.href = '../friends/index.html';
-                        });
-                    </script>
+                    <button class="btn" id="friends">
+                        <img src="../data/images/amis.png" alt="Icone Amis">
+                        <span>FRIENDS</span>
+                        <script>
+                            document.getElementById('friends').addEventListener('click', function() {
+                                window.location.href = '../friends/index.html';
+                            });
+                        </script>
 
-                </button>
+                    </button>
 
-                <button class="btn" id="settings">
-                    <img src="../data/images/reglages.png" alt="Icone Reglages">
-                    <span>RÉGLAGES</span>
-                    <script>
-                        document.getElementById('settings').addEventListener('click', function() {
-                            window.location.href = '../html/settings.html';
-                        });
-                    </script>
-                </button>
+                    <button class="btn" id="settings">
+                        <img src="../data/images/reglages.png" alt="Icone Reglages">
+                        <span>RÉGLAGES</span>
+                        <script>
+                            document.getElementById('settings').addEventListener('click', function() {
+                                window.location.href = '../html/settings.html';
+                            });
+                        </script>
+                    </button>
+                </div>
 
             </div>
-
-        </div>
-    </main>
-    <chat-global></chat-global>
-</div>
-
-<!--<div class="container">
-
-
-    <h1>QUORTNITE</h1>
-
-    <div class="menu">
-
-        <button class="btn" id="shop">
-            <img src="../data/images/boutique.png" alt="Icone Boutique">
-            <span>BOUTIQUE</span>
-        </button>
-
-        <button class="btn" id="play">
-            <span>JOUER</span>
-            <script>
-                document.getElementById('play').addEventListener('click', function() {
-                    window.location.href = '../game/game.html';
-                });
-            </script>
-        </button>
-
-        <button class="btn" id="rules">
-            <img src="../data/images/regles.png" alt="Icone Regles">
-            <span>RÈGLES</span>
-        </button>
-
-        <button class="btn" id="stats">
-            <img src="../data/images/stats.png" alt="Icone Stats">
-            <span>STATS</span>
-        </button>
-
-        <button class="btn" id="friends">
-            <img src="../data/images/amis.png" alt="Icone Amis">
-            <span>FRIENDS</span>
-
-        </button>
-
-        <button class="btn" id="settings">
-            <img src="../data/images/reglages.png" alt="Icone Reglages">
-            <span>RÉGLAGES</span>
-        </button>
-
+        </main>
+        <chat-global></chat-global>
     </div>
 
-</div>-->
-
-<iframe src="../html/template.html" style="display: none;"></iframe>
-
-
-
-
+    <iframe src="../html/template.html" style="display: none;"></iframe>
 
 </body>
 </html>

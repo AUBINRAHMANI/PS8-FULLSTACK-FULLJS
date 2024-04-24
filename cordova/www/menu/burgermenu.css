@@ -1,13 +1,11 @@
-
-
 #menu-buttons > * > button {
     cursor: pointer;
     border: none;
     border-radius: 1000px;
-    font-size: 1.7em;
+    font-size: 1.7vw; /* Utilisation de vw pour la taille de la police */
     width: 100%;
-    height: 50px;
-    padding: 10px;
+    height: 4vh; /* Utilisation de vh pour la hauteur */
+    padding: 1vh 2vw; /* Utilisation de vw et vh pour le rembourrage */
     background-color: var(--dark-accentuation-color);
 }
 
@@ -20,7 +18,6 @@ nav {
     background-color: white;
 }
 
-
 .nav-bar {
     background-color: white;
     display: flex;
@@ -32,6 +29,8 @@ nav {
     top: 0;
     left: 0;
     z-index: 10;
+    height: 8vh; /* Nouvelle taille de la barre de navigation en utilisant vh */
+    transition: height 0.3s ease; /* Ajout d'une transition pour une animation douce */
 }
 
 .nav-bar .nav-link {
@@ -40,7 +39,7 @@ nav {
     justify-content: center;
     text-decoration: none;
     color: inherit;
-    padding: 0 10px;
+    padding: 0 2vw; /* Utilisation de vw pour le rembourrage horizontal */
 }
 
 nav > div {
@@ -48,34 +47,18 @@ nav > div {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-left: 50px;
-    margin-right:50px;
+    margin-left: 3vw; /* Utilisation de vw pour la marge gauche */
+    margin-right: 3vw; /* Utilisation de vw pour la marge droite */
 }
 
-
-
 nav > div img {
-    width: var(--icon-width);
+    width: 3.5vw; /* Utilisation de vw pour la largeur de l'icône */
 }
 
 nav > div > * {
     display: flex;
     padding: var(--icon-padding);
-
-    margin-right: 50px; /*L'espacement entre les icones*/
-
-}
-
-nav > div > a {
-    height: var(--icon-width);
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    text-decoration: none;
-}
-
-nav > div > *:first-child {
-    margin-top: 1px; /* Ajoute une marge en haut de la première icône */
+    margin-right: 3vw; /* Utilisation de vw pour l'espacement entre les icônes */
 }
 
 #menu-icons {
@@ -97,146 +80,40 @@ nav > div > *:first-child {
     background: var(--light-accentuation-grey);
     display: none;
     position: absolute;
-    left: calc(var(--icon-width) + 2 * var(--icon-padding));
+    left: calc(5vw + 2 * var(--icon-padding)); /* Utilisation de vw pour la position gauche */
     padding-top: var(--header-height);
     top: 0;
 }
 
-/* hamburger icon animation */
-.bar {
-    display: block;
-    width: var(--icon-width);
-    height: 5px;
-    margin: 6px auto;
-    background-color: black;
-
-    /* fade in animation on page load */
-    -webkit-transition: all 0.3s ease-in-out;
-    transition: all 0.3s ease-in-out;
+@media (max-width: 715px) {
+    .nav-link img {
+        width: 4vw; /* Utilisation de vw pour la largeur de l'icône */
+        height: 4vw; /* Utilisation de vw pour la hauteur de l'icône */
+    }
 }
 
-.hamburger {
-    cursor: pointer;
+@media (max-width: 615px) {
+    .nav-link img {
+        width: 3.5vw; /* Utilisation de vw pour la largeur de l'icône */
+        height: 3.5vw; /* Utilisation de vw pour la hauteur de l'icône */
+        margin-right: -1vw; /* Utilisation de vw pour la marge droite */
+    }
 }
-
-.hamburger.active .bar:nth-child(1) {
-    transform: translateY(11px) rotate(45deg);
-}
-
-.hamburger.active .bar:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active .bar:nth-child(3) {
-    transform: translateY(-11px) rotate(-45deg);
-}
-
-#other-button, #other {
-    display: none;
-}
-
-
-
-
 
 @media (orientation: portrait) and (max-width: 480px) {
     #menu-buttons {
-        width: calc(100% - var(--icon-width) - 2 * var(--icon-padding));
+        width: calc(100% - 5vw - 3 * var(--icon-padding)); /* Utilisation de vw pour la largeur */
     }
 }
 
-@media (orientation: landscape) and (max-height: 480px) {
-    #other, #other-button {
-        display: inherit;
-    }
-
-    #profile, #profile-button,
-    #friends, #friends-button,
-    #addFriends, #addFriends-button,
-    #ranking, #ranking-button,
-    #logout, #logout-button {
-        display: none;
-    }
-
-    #menu-icons > a, #menu-buttons > a {
-       padding: 15px 22px;
-    }
-
-    .nav-bar {
-        flex-direction: row;
-        justify-content: space-between;
-        flex-wrap: wrap;
-    }
-
-}
-
-/*
-!* Réinitialisation de base pour certains styles par défaut *!
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-
-html, body {
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden; !* Empêche le défilement horizontal si les éléments débordent *!
-}
-
-
-!* Style de base pour la barre de navigation *!
-.nav-bar {
-    background-color: white; !* Couleur de fond blanche *!
-    display: flex; !* Utilise Flexbox pour un alignement horizontal *!
-    flex-direction: row; !* Assure que les éléments s’alignent horizontalement *!
-    align-items: center; !* Centre les éléments verticalement *!
-    justify-content: space-around; !* Répartit les éléments uniformément avec un espace autour *!
-    width: 100%; !* S'étend sur toute la largeur *!
-    position: fixed; !* Fixe la barre de navigation en haut de la page *!
-    top: 0; !* Aucun espace entre le haut de la page et la navbar *!
-    left: 0;
-    z-index: 10; !* S'assure que la navbar est au-dessus des autres éléments *!
-}
-
-!* Style pour les liens de la barre de navigation qui contiennent les icônes *!
-.nav-bar .nav-link {
-    display: flex;  !* Utilise flexbox pour aligner l'icône *!
-    align-items: center; !* Centre l'icône verticalement *!
-    justify-content: center;  !* Centre l'icône horizontalement *!
-    text-decoration: none; !* Enlève le soulignement des liens *!
-    color: inherit; !* Les liens prennent la couleur du texte parent *!
-    padding: 0 10px;
-}
-
-!* Style pour les icônes dans la barre de navigation *!
-.nav-bar .nav-link img {
-    width: 24px; !* Taille des icônes *!
-    height: auto; !* Garde les proportions des icônes *!
-    cursor: pointer; !* Change le curseur pour indiquer que c'est cliquable *!
-}
-
-!* Cache les boutons de texte *!
-#menu-buttons {
-    display: none; !* Cache la deuxième rangée de boutons *!
-}
-
-!* Assurez-vous que le contenu de la page commence après la navbar *!
-body {
-    padding-top: 50px; !* Ajustez cette valeur en fonction de la hauteur de votre navbar *!
-}
-
-!* Style responsive pour les appareils plus petits *!
 @media (max-width: 768px) {
     .nav-bar {
-        flex-direction: row; !* Garde les icônes alignées horizontalement *!
-        justify-content: space-between; !* Répartit les icônes uniformément *!
-        flex-wrap: wrap; !* Permet aux icônes de passer à la ligne en dessous si nécessaire *!
-    }
-
-    .nav-bar .nav-link img {
-        width: 20px; !* Réduit légèrement la taille des icônes pour les petits écrans *!
+        height: 6vh; /* Taille réduite de la barre de navigation pour les écrans moyens */
     }
 }
-*/
+
+@media (max-width: 480px) {
+    .nav-bar {
+        height: 4vh; /* Taille réduite de la barre de navigation pour les écrans plus petits */
+    }
+}

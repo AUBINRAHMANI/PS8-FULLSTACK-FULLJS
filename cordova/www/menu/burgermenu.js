@@ -54,9 +54,6 @@ burgerMenuTemplate.innerHTML = `
         <a class="nav-link" id="chat">
             <img alt="chat" src="${chat}">
         </a>
-        <a class="nav-link" id="other" href="${BASE_URL_PAGE}${OTHER_MENU_URL}" >
-            <img alt="Autres" src="${other}">
-        </a>
   <!--      <a class="nav-link" id="ranking" href="${BASE_URL_PAGE}${RANKING_URL}">
             <img alt="Classement" src="${ranking}">  
         
