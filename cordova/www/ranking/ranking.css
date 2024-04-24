@@ -65,3 +65,10 @@ body {
 #ranking-table tbody tr:hover {
     background-color: #ddd;
 }
+
+
+@media (width <= 580px) and (orientation: portrait) {
+    h1 {
+        font-size: 1em;
+    }
+}

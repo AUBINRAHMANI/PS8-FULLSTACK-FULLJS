@@ -118,3 +118,10 @@ input:checked + .slider:before {
 .slider.round::before{
   border-radius: 50%;
 }
+
+
+@media (width <= 580px) and (orientation: portrait) {
+    h1 {
+        font-size: 1em;
+    }
+}

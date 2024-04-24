@@ -6,7 +6,13 @@ main {
 }
 
 @media (orientation: landscape) and (height <= 480px) {
+    h1 {
+        font-size: 1em;
+    }
+}
 
+
+@media (width <= 580px) and (orientation: portrait) {
     h1 {
         font-size: 1em;
     }

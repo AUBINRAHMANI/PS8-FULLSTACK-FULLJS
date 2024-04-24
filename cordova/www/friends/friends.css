@@ -29,7 +29,7 @@ main {
     margin-bottom: 5px;
 }
 
-@media (width <= 580px) and (orientation: portrait) {
+@media (orientation: portrait) {
     #friends-main {
         margin: 0;
         display: flex;
