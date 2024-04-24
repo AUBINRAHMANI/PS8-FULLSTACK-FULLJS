@@ -96,10 +96,15 @@ header {
         width: 100%;
         margin: 10px 10%;
     }
+
+
 }
 
 @media (width <= 480px) {
     .page-title {
         margin: 0;
+    }
+    h1{
+        font-size: 5em;
     }
 }
