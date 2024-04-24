@@ -440,6 +440,7 @@ function updatePlayerPosition(position, player) {
 }
 
 function placeWall(wall) {
+    console.log("Tentative de placement d'un mur:", wall);
     // Trouver et placer un mur sur le plateau
     const wallCell = document.getElementById(`cell-${wall.cellIndex}`);
     if (wallCell) {
@@ -449,6 +450,7 @@ function placeWall(wall) {
 
         // Vous pouvez gérer l'aspect des murs adjacents ici si nécessaire
         if (wall.wallType === 'column') {
+            console.log(`Placement d'un mur à l'index cell-${wall.cellIndex} (${wall.wallType})`);
             // Gérer le mur vertical en affectan32également la cellule en dessous
             let adjCellIndex = wall.cellIndex + 34; // Modifier si votre grille ne correspond pas
             let adjCell = document.getElementById(`cell-${adjCellIndex}`);
@@ -468,32 +470,4 @@ function placeWall(wall) {
     } else {
         console.error('Cannot place wall, cell not found:', `cell-${wall.cellIndex}`);
     }
-}
-
-// Exemple de fonction pour convertir la position {x, y} en id de cellule
-function positionToCellId(position) {
-    // Implémenter la logique de conversion basée sur ton implémentation spécifique du plateau
-   console.log(position.x);
-   console.log(position.y);
-   return `cell-${position.x}-${position.y}`;
-}
-
-// Exemple de fonction pour convertir la position et le type de mur en id de cellule
-function wallPositionToCellId(wall) {
-    console.log("Wall x : " + wall.x, "Wall y : "+ wall.y);
-
-    // Déterminer l'indice de départ en fonction du type de mur
-    let startIndex;
-    if (wall.wallType === 'column') {
-        // Pour les murs verticaux, prendre la cellule en haut à gauche de la "colonne" du mur
-        startIndex = (wall.x * 2 + 1) * 17 + wall.y * 2;
-    } else {
-        // Pour les murs horizontaux, prendre la cellule en haut à gauche de la "rangée" du mur
-        startIndex = wall.x * 2 * 17 + (wall.y * 2 + 1);
-    }
-
-    // Convertir l'indice de départ en id de cellule
-    const cellId = `cell-${startIndex}`;
-    console.log("Cell ID for wall:", cellId);
-    return cellId;
 }

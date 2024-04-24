@@ -414,20 +414,31 @@
             if (action.type === 'move') {
                 console.log("Un mouvement à été demandé");
                 const { cellIndex, player: playerRole } = action;
+                const currentPositionIndex = gameState.playerPositions[playerRole];
+                const currentIndex = currentPositionIndex.x * 17 + currentPositionIndex.y;
+                console.log(`Position actuelle pour ${playerRole}: index = ${currentIndex}`);
                 const newPosition = {
                     x: Math.floor(cellIndex/17),
                     y: cellIndex % 17
                 };
-                console.log("est ce bien ? :  " + gameState.playerPositions[playerRole]);
+                console.log(`Calcul de l'index à partir des coordonnées: (${currentPositionIndex.x}, ${currentPositionIndex.y}) = ${currentIndex}`);
+
+                console.log(`Nouvelle position proposée pour ${playerRole}: x=${newPosition.x}, y=${newPosition.y}`);
+
+                console.log("Position actuelle : ", gameState.playerPositions[playerRole]);
                 let isValidMove = await Onlinedb.isMoveValid(gameState.playerPositions[playerRole],newPosition);
                 console.log("isValidMove ? : " + isValidMove);
-                if (isValidMove) {
+
+                console.log(`Vérification des murs entre les indices: startIndex=${currentIndex}, endIndex=${cellIndex}`);
+                let isWallBetween = await Onlinedb.isWallBetweenPositions(currentIndex, cellIndex, gameState.walls);
+                console.log(`Y a-t-il des murs entre ces positions? : ${isWallBetween}`);
+
+                if (isValidMove && !isWallBetween) {
                     console.log("Le mouvement est valide ! ");
                     gameState.playerPositions[playerRole] = newPosition;
                     await Onlinedb.updateGameState(roomId, updatedGameState);
                     onlineSocket.to(roomId).emit('updateGameState', updatedGameState);
                     await switchTurn(roomId);
-                    // Appliquer le déplacement dans updatedGameState si nécessaire
                 }
             } else if (action.type === 'placeWall') {
                 console.log("Placement d'un mur demandé");
@@ -464,22 +475,7 @@
                     // Informez l'autre joueur, nettoyez la room, etc.
                 }
             }
-        });
-
-        socket.on('playerPlaceWall', (data) => {
-            const roomId = socketRoomMap[socket.id];
-            // Valider le placement du mur et mettre à jour l'état du jeu
-            const validWallPlacement = validateWallPlacement(data); // Cette fonction doit être définie
-            if (validWallPlacement) {
-                // Mettre à jour l'état du jeu
-                const updatedGameState = updateGameState(data);
-                // Envoyer la mise à jour à tous les joueurs dans la room
-                onlineSocket.in(roomId).emit('updateGameState', updatedGameState);
-            } else {
-                // Envoyer un message d'erreur au joueur qui a tenté de placer le mur
-                socket.emit('invalidWallPlacement', 'Placement de mur invalide.');
-            }
-        });
+        })
 
     });
 

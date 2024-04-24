@@ -87,7 +87,7 @@ class Onlinedb {
     }
 
     async validateWallPlacement(gameState, cellIndex, wallType) {
-
+        console.log(`Validation du placement d'un mur à l'index ${cellIndex} de type ${wallType}`);
         if (gameState.walls.some(wall => wall.cellIndex === cellIndex && wall.wallType === wallType)) {
             return false; // Un mur existe déjà à cette position
         }
@@ -96,17 +96,37 @@ class Onlinedb {
         return true;
     }
 
-    async calculateWallCells(cellIndex, wallType) {
-        // Calcul des cellules que le mur occupe sur la grille, dépendant du type
-        if (wallType === 'column') {
-            // Supposons que le mur de colonne s'étende verticalement à partir de l'indice donné
-            return [cellIndex, cellIndex + 17]; // Assurez-vous que cela correspond à la taille de votre grille
-        } else if (wallType === 'row') {
-            // Supposons que le mur de rangée s'étende horizontalement à partir de l'indice donné
-            return [cellIndex, cellIndex + 1];
+    async isWallBetweenPositions(startIndex, endIndex, walls) {
+        const startRow = Math.floor(startIndex / 17);
+        const startCol = startIndex % 17;
+        const endRow = Math.floor(endIndex / 17);
+        const endCol = endIndex % 17;
+
+        if (startRow === endRow) {
+            for (let col = Math.min(startCol, endCol) + 1; col < Math.max(startCol, endCol); col++) {
+                const wallIndex = startRow * 17 + col;
+                const adjacentWallIndex = wallIndex + 34; // Adjust for 'column' type walls
+                const secondPartIndex = adjacentWallIndex - 1; // Second part of the wall
+                if (walls.some(wall => (wall.cellIndex === wallIndex || wall.cellIndex === adjacentWallIndex || wall.cellIndex === secondPartIndex) && wall.wallType === 'column')) {
+                    return true;
+                }
+            }
         }
-        return [];
+
+        if (startCol === endCol) {
+            for (let row = Math.min(startRow, endRow) + 1; row < Math.max(startRow, endRow); row++) {
+                const wallIndex = row * 17 + startCol;
+                const adjacentWallIndex = wallIndex + 2; // Adjust for 'row' type walls
+                const secondPartIndex = adjacentWallIndex - 34; // Second part of the wall
+                if (walls.some(wall => (wall.cellIndex === wallIndex || wall.cellIndex === adjacentWallIndex || wall.cellIndex === secondPartIndex) && wall.wallType === 'row')) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
+
     async getRoomState(roomId) {
         await this.verifyConnection();
         try {
@@ -165,21 +185,6 @@ class Onlinedb {
             console.log(`Game in room ${roomId} ended. Winner: ${winnerId}`);
         } catch (error) {
             console.error("Error ending game:", error);
-        }
-    }
-
-    async moveToNextPlayer(roomId) {
-        await this.verifyConnection();
-        try {
-            const room = await this.rooms.findOne({ _id: roomId });
-            let nextPlayerIndex = (room.currentPlayerIndex + 1) % room.players.length;
-            await this.rooms.updateOne(
-                { _id: roomId },
-                { $set: { currentPlayerIndex: nextPlayerIndex } }
-            );
-            console.log(`Moved to next player in room ${roomId}.`);
-        } catch (error) {
-            console.error("Error moving to next player:", error);
         }
     }
 
