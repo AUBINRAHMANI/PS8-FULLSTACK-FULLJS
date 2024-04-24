@@ -54,6 +54,10 @@ main {
 
 .menu {
     display: grid; /* Utilisation de flexbox */
+    grid-template-columns: repeat(3, 10fr);
+    grid-gap: 2vw;
+    padding-right:7em;
+    padding-left: 7em;
     justify-content: center; /* Centrage horizontal des éléments */
     flex-wrap: nowrap; /* Empêche le passage à la ligne des éléments */
     margin: 0 auto; /* Centre les éléments */
@@ -87,9 +91,9 @@ h1 {
 }
 
 .btn {
-    display: inline-flex; /* Utilisation de flexbox en ligne */
+    display: flex; /* Utilisation de flexbox en ligne */
     align-items: center; /* Alignement vertical au centre */
-    margin: 3vh 3vw; /* Ajustement de la marge */
+    margin: 2vh auto; /* Ajustement de la marge */
     padding: 2vh 4vw; /* Ajustement de la marge */
     font-size: 2vw; /* Taille de police relative */
     border: none;
