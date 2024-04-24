@@ -86,14 +86,10 @@ class Onlinedb {
         return (dx === 2 && dy === 0) || (dx === 0 && dy === 2) ;
     }
 
-    async validateWallPlacement(gameState, cellIndex, wallType) {
-        console.log(`Validation du placement d'un mur à l'index ${cellIndex} de type ${wallType}`);
-        if (gameState.walls.some(wall => wall.cellIndex === cellIndex && wall.wallType === wallType)) {
-            return false; // Un mur existe déjà à cette position
-        }
+    async validateWallPlacement(gameState, index, wallType) {
+        console.log(`Validation du placement d'un mur à l'index ${index} de type ${wallType}`);
+            return !gameState.walls.some(wall => wall.cellIndex === index);
 
-        // Si aucun chevauchement n'est détecté, le placement est valide
-        return true;
     }
 
     async isWallBetweenPositions(startIndex, endIndex, walls) {

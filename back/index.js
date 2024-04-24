@@ -442,12 +442,22 @@
                 }
             } else if (action.type === 'placeWall') {
                 console.log("Placement d'un mur demandé");
-                const {cellIndex, wallType, player} = action.wall;
-                let isWallPlacementValid = Onlinedb.validateWallPlacement(gameState, cellIndex, wallType, player);
+                const {cellIndices, wallType, player} = action.wall;
+                console.log(cellIndices);
+                let isWallPlacementValid = true;
+
+                // Vérifiez chaque indice de cellule pour la validité
+
+                for (let index of cellIndices) {
+                    isWallPlacementValid = isWallPlacementValid && await Onlinedb.validateWallPlacement(gameState, index, wallType, player);
+                }
+
                 console.log("isWallPlacementValid ? : " + isWallPlacementValid);
                 if (isWallPlacementValid) {
                     console.log("Le placement du mur est valide !");
-                    updatedGameState.walls.push({cellIndex, wallType});
+                    for (let index of cellIndices) {
+                        updatedGameState.walls.push({cellIndex: index, wallType});
+                    }
                     await Onlinedb.updateGameState(roomId, updatedGameState);
                     onlineSocket.to(roomId).emit('updateGameState', updatedGameState);
                     await switchTurn(roomId);

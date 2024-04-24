@@ -56,7 +56,7 @@ function initializeGameBoard(playerRole) {
         cell.addEventListener('click', () => handleCellClick(i));
     }
 
-  // Supposons que vous avez une manière de référencer toutes les cellules du plateau
+    // Supposons que vous avez une manière de référencer toutes les cellules du plateau
 
     // Déterminer les premières lignes pour le joueur et son adversaire
     const firstRow = playerRole === 'player1' ? 0 : 16;
@@ -129,7 +129,7 @@ socket.on('opponentJoined', (data) => {
     roomId = data.roomId;
     console.log("Joueur opposant : " + playerRole + "roomId + " + roomId);
     // Maintenant que l'opposant a rejoint, vous pouvez initialiser le tableau de jeu pour le premier joueur
-     // Assurez-vous que playerRole est défini pour le premier joueur
+    // Assurez-vous que playerRole est défini pour le premier joueur
 
     // Afficher le plateau de jeu et le bouton pour quitter
     document.getElementById('gameBoard').style.display = 'block';
@@ -175,7 +175,7 @@ function enablePlayerUI() {
     });
 
     // Activer les boutons de validation et d'annulation pour le joueur actuel
-  //  document.getElementById('validateButtonPlayer1').style.display = 'block'; A ACTIVER QUE QUAND IL CLIQUE ET LORSQUE IL VALIDE AVEC CE BOUTON ALORS CA ENVOIT LE TRUC
+    //  document.getElementById('validateButtonPlayer1').style.display = 'block'; A ACTIVER QUE QUAND IL CLIQUE ET LORSQUE IL VALIDE AVEC CE BOUTON ALORS CA ENVOIT LE TRUC
     //document.getElementById('cancelButtonPlayer1').style.display = 'block';
     // Si tu as des boutons séparés pour le joueur 2, ajuste selon ton besoin
     // document.getElementById('validateButtonPlayer2').style.display = 'block';
@@ -194,8 +194,8 @@ function disablePlayerUI() {
     });
 
     // Désactiver les boutons de validation et d'annulation pour le joueur actuel
-   // document.getElementById('validateButtonPlayer1').style.display = 'none';
-   // document.getElementById('cancelButtonPlayer1').style.display = 'none';
+    // document.getElementById('validateButtonPlayer1').style.display = 'none';
+    // document.getElementById('cancelButtonPlayer1').style.display = 'none';
     // Si tu as des boutons séparés pour le joueur 2, ajuste selon ton besoin
     // document.getElementById('validateButtonPlayer2').style.display = 'none';
     // document.getElementById('cancelButtonPlayer2').style.display = 'none';
@@ -254,11 +254,12 @@ function validateWallPlacement() {
         return;
     }
     console.log("TEMPORARY INDEX CELLULE : " + temporaryWall.cellIndex);
+    const additionalIndex = temporaryWall.wallType === 'row' ? temporaryWall.cellIndex + 2 : temporaryWall.cellIndex + 34;
 
     const action = {
         type: 'placeWall',
         wall: {
-            cellIndex: temporaryWall.cellIndex,
+            cellIndices: [temporaryWall.cellIndex, additionalIndex],
             wallType: temporaryWall.wallType,
             player: currentPlayer,
         }
@@ -447,26 +448,7 @@ function placeWall(wall) {
         // Si la cellule existe, on ajoute la classe 'wall'
         wallCell.classList.add('wall');
         wallCell.style.backgroundColor = 'orange'; // Choisir une couleur qui signifie un mur permanent
-
-        // Vous pouvez gérer l'aspect des murs adjacents ici si nécessaire
-        if (wall.wallType === 'column') {
-            console.log(`Placement d'un mur à l'index cell-${wall.cellIndex} (${wall.wallType})`);
-            // Gérer le mur vertical en affectan32également la cellule en dessous
-            let adjCellIndex = wall.cellIndex + 34; // Modifier si votre grille ne correspond pas
-            let adjCell = document.getElementById(`cell-${adjCellIndex}`);
-            if (adjCell) {
-                adjCell.classList.add('wall');
-                adjCell.style.backgroundColor = 'orange';
-            }
-        } else {
-            // Gérer le mur horizontal en affectant également la cellule à droite
-            let adjCellIndex = wall.cellIndex + 2;
-            let adjCell = document.getElementById(`cell-${adjCellIndex}`);
-            if (adjCell) {
-                adjCell.classList.add('wall');
-                adjCell.style.backgroundColor = 'orange';
-            }
-        }
+        console.log(`Placement d'un mur à l'index cell-${wall.cellIndex} (${wall.wallType})`);
     } else {
         console.error('Cannot place wall, cell not found:', `cell-${wall.cellIndex}`);
     }
