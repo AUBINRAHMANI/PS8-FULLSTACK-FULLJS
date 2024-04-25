@@ -26,20 +26,14 @@ document.addEventListener("online", onOnline, false);
 
 function onOffline() {
     document.getElementById("offline-info").style.display = "block";
-    document.getElementById("play-ai").style.display = "none";
-    document.getElementById("play-matchmaking").style.display = "none";
-    document.getElementsByTagName("burger-menu-open-close")[0].style.display = "none";
+    document.getElementById("shop").style.display = "block";
+    document.getElementById("friends").style.display = "none";
     document.getElementsByTagName("burger-menu")[0].style.display = "none";
-    document.getElementsByTagName("main")[0].style.width = "100vw";
-    document.getElementsByClassName("top-page")[0].style.width = "100%"
 }
 
 function onOnline() {
     document.getElementById("offline-info").style.display = "none";
-    document.getElementById("play-ai").style.display = "block";
-    document.getElementById("play-matchmaking").style.display = "block";
-    document.getElementsByTagName("burger-menu-open-close")[0].style.display = "flex";
+    document.getElementById("shop").style.display = "block";
+    document.getElementById("friends").style.display = "block";
     document.getElementsByTagName("burger-menu")[0].style.display = "block";
-    document.getElementsByTagName("main")[0].style.width = "auto";
-    document.getElementsByClassName("top-page")[0].style.width = "calc(100% - 79px)";
 }
