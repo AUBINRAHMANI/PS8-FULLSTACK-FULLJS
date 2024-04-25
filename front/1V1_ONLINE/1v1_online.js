@@ -137,11 +137,6 @@ function updatePlayerVisibility(cell, visibility) {
         player.style.visibility = (visibility > 0) ? 'visible' : 'hidden';
     });
 }
-function updateCellAppearance(cell, visibility) {
-    // Mettre à jour l'apparence de la cellule en fonction de la visibilité
-    cell.classList.toggle('visible', visibility > 0);
-    cell.classList.toggle('hidden', visibility <= 0);
-}
 function createPlayerElements() {
     const player1Element = document.createElement('div');
     player1Element.className = 'player player1';
@@ -489,30 +484,38 @@ function updateUIBasedOnGameState(updatedGameState) {
 
 function updatePlayerPosition(position, player) {
     if (position && typeof position.x === 'number' && typeof position.y === 'number') {
-        const newPosition = position.y + position.x * 17;
-        const cell = cells[newPosition];
+        const oldPositionIndex = player === 'player1' ? player1Position : player2Position;
+        const newPositionIndex = position.y + position.x*17;
+        const oldCell = cells[oldPositionIndex];
+        const newCell = cells[newPositionIndex];
         let playerElement = document.querySelector(`.${player}`);
 
+        // Mettre à jour l'ancienne position pour réduire la visibilité
+        if (oldPositionIndex != null) {
+            updateFogOfWar(oldPositionIndex, -1, player);
+        }
+
+        // Ajouter ou déplacer l'élément du joueur à la nouvelle position
         if (!playerElement) {
             playerElement = document.createElement('div');
             playerElement.className = `player ${player}`;
             document.body.appendChild(playerElement);
         }
-        if (cell && playerElement) {
-            if (!cell.contains(playerElement)) {
-                cell.appendChild(playerElement);
+
+        if (newCell && playerElement) {
+            if (!newCell.contains(playerElement)) {
+                newCell.appendChild(playerElement);
             }
-            // Mise à jour immédiate de la visibilité du joueur basée sur la cellule
-            const visibility = parseInt(cell.getAttribute('data-visibility'));
-            updatePlayerVisibility(cell, visibility);
+            updateFogOfWar(newPositionIndex, 1, player); // Augmenter la visibilité autour de la nouvelle position
         } else {
             console.error('Position invalide fournie à updatePlayerPosition:', position);
         }
 
+        // Mettre à jour la position stockée
         if (player === 'player1') {
-            player1Position = newPosition;
+            player1Position = newPositionIndex;
         } else {
-            player2Position = newPosition;
+            player2Position = newPositionIndex;
         }
     }
 }
