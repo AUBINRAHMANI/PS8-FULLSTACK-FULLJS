@@ -109,6 +109,7 @@ function initializeFogOfWar(startIndex) {
 }
 
 function updateFogOfWar(playerPosition, visibilityChange, player) {
+    const visibilityAttribute = `data-visibility-${player}`;
     const adjacentIndices = [
         playerPosition - 2,  // gauche
         playerPosition + 2,  // droite
@@ -120,22 +121,41 @@ function updateFogOfWar(playerPosition, visibilityChange, player) {
     adjacentIndices.forEach(index => {
         if (index >= 0 && index < cells.length) {
             const cell = cells[index];
-            const currentVisibility = parseInt(cell.getAttribute('data-visibility')) || 0;
+            const currentVisibility = parseInt(cell.getAttribute(visibilityAttribute)) || 0;
             const newVisibility = currentVisibility + visibilityChange;
 
-            cell.setAttribute('data-visibility', newVisibility.toString());
-            updateCellAppearance(cell, newVisibility);
-            // Gérer la visibilité des éléments joueur dans la cellule
-            updatePlayerVisibility(cell, newVisibility);
+            cell.setAttribute(visibilityAttribute, newVisibility.toString());
+            if (playerRole === player) {
+                updateCellAppearance(cell, newVisibility);
+            }
+
+            ['player1', 'player2'].forEach(otherPlayer => {
+                updatePlayerVisibility(cell, parseInt(cell.getAttribute(`data-visibility-${otherPlayer}`)), otherPlayer);
+            });
         }
     });
 }
-function updatePlayerVisibility(cell, visibility) {
-    const players = cell.querySelectorAll('.player');
-    players.forEach(player => {
-        // Assurez-vous que la visibilité du joueur est mise à jour seulement si la cellule est visible
-        player.style.visibility = (visibility > 0) ? 'visible' : 'hidden';
-    });
+function updatePlayerVisibility(cell, visibility, player) {
+    const playerElement = cell.querySelector(`.player.${player}`);
+    // Utilisez l'attribut de visibilité du joueur actuel
+    const visibilityAttribute = `data-visibility-${playerRole}`;
+
+    console.log(`Mise à jour visibilité pour le joueur ${player}:`, playerElement);
+
+    if (playerElement) {
+        const cellVisibility = parseInt(cell.getAttribute(visibilityAttribute)) || 0;
+        console.log(`Visibilité de la cellule pour ${playerRole}: ${cellVisibility}`);
+
+        if (player !== playerRole && cellVisibility <= 0) {
+            // Si le joueur dans la cellule n'est pas le joueur actuel et que la cellule est dans le brouillard pour le joueur actuel
+            console.log(`Cacher le joueur ${player} qui est dans le brouillard.`);
+            playerElement.style.visibility = 'hidden';
+        } else {
+            // Si le joueur dans la cellule est le joueur actuel OU la cellule est visible pour le joueur actuel
+            console.log(`Afficher le joueur ${player} qui est visible.`);
+            playerElement.style.visibility = 'visible';
+        }
+    }
 }
 function createPlayerElements() {
     const player1Element = document.createElement('div');
@@ -277,7 +297,7 @@ function handleCellClick(cellIndex) {
     console.log("Current Player : " + currentPlayer + " Player Role = " + playerRole);
     const cell = cells[cellIndex];
     const visibility = parseInt(cell.getAttribute('data-visibility'));
-  //  if (visibility > 0) {
+    //  if (visibility > 0) {
     if (lastGameStateUpdate === null && currentPlayer === playerRole) {
         // Sélection initiale du joueur
         if ((playerRole === 'player1' && player1Position === null) || (playerRole === 'player2' && player2Position === null)) {
