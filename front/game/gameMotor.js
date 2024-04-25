@@ -449,7 +449,6 @@ function updateCellVisibility() {
         const col = index % 17;
         let visibility = (row < 8 && currentPlayer === 'player1') || (row > 8 && currentPlayer === 'player2') ? 1 : (row === 8 ? 0 : -1);
 
-
         // Conserver les classes existantes sur la cellule
         const existingClasses = cell.className;
 
@@ -473,24 +472,23 @@ function updateCellVisibility() {
 }
 function updateFogOfWar(playerPosition, visibilityChange) {
     const adjacentIndices = [
-        playerPosition - 2, // gauche
-        playerPosition + 2, // droite
-        playerPosition - 34, // haut
-        playerPosition + 34, // bas
-        playerPosition,
+        playerPosition - 2,  // gauche (vérifier les bords du plateau)
+        playerPosition + 2,  // droite (vérifier les bords du plateau)
+        playerPosition - 34, // haut (vérifier les bords du plateau)
+        playerPosition + 34, // bas (vérifier les bords du plateau)
+        playerPosition       // position actuelle
     ];
 
     adjacentIndices.forEach(index => {
-        if (cells[index]) {
-            // Ajoutez la visibilité changeante à la valeur existante du brouillard de guerre
-            const currentVisibility = parseInt(cells[index].getAttribute('data-visibility')) || 0;
+        if (index >= 0 && index < cells.length &&
+            ((index % 17 !== 0 && index % 17 !== 16) || (index === playerPosition))) {  // Vérification des bords ajoutée pour les côtés gauche et droit
+            const cell = cells[index];
+            const currentVisibility = parseInt(cell.getAttribute('data-visibility')) || 0;
             const newVisibility = currentVisibility + visibilityChange;
 
-            // Mettez à jour la valeur du brouillard de guerre
-            cells[index].setAttribute('data-visibility', newVisibility);
-
-            // Mettez à jour l'apparence de la cellule en fonction de la nouvelle visibilité
-            updateCellAppearance(cells[index], newVisibility);
+            cell.setAttribute('data-visibility', newVisibility.toString());
+            updateCellAppearance(cell, newVisibility);  // Mise à jour visuelle
+            updatePlayerVisibility(cell, newVisibility);  // Gérer la visibilité des joueurs
         }
     });
 }

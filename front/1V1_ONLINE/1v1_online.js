@@ -31,6 +31,7 @@ function initializeGameBoard(playerRole) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         cell.id = 'cell-' + i;
+        cell.setAttribute('data-visibility', '0');
 
         // Ajouter la classe 'border-column' aux colonnes paires (B à P)
         if (i % 17 >= 1 && i % 17 <= 15 && i % 2 === 1 && Math.floor(i / 17) % 2 === 0) {
@@ -77,8 +78,70 @@ function initializeGameBoard(playerRole) {
         // Vous pouvez choisir d'initialiser différemment les cellules de l'adversaire
         updateCellAppearance(oppositeFirstRowCell, 1);
     });
+
+    setInitialVisibility(playerRole);
 }
 
+function setInitialVisibility(playerRole) {
+    cells.forEach((cell, index) => {
+        const row = Math.floor(index / 17);
+        // Condition pour déterminer si la cellule doit être visible ou cachée
+        if ((playerRole === 'player1' && row < 9) || (playerRole === 'player2' && row >= 9)) {
+            cell.setAttribute('data-visibility', '1');
+            updateCellAppearance(cell, 1); // Rendre la cellule visible
+        } else {
+            cell.setAttribute('data-visibility', '-1');
+            updateCellAppearance(cell, -1); // Rendre la cellule cachée sous le brouillard de guerre
+        }
+    });
+}
+
+function initializeFogOfWar(startIndex) {
+    startIndex = parseInt(startIndex);
+    cells.forEach((cell, index) => {
+        // Ici on va supposer une certaine logique pour la visibilité initiale, par exemple, tout est caché sauf la ligne de départ
+        if (Math.abs(index - startIndex) > 34) {  // Plus d'une ligne de distance
+            cell.classList.add('hidden');
+        } else {
+            cell.classList.add('visible');
+        }
+    });
+}
+
+function updateFogOfWar(playerPosition, visibilityChange, player) {
+    const adjacentIndices = [
+        playerPosition - 2,  // gauche
+        playerPosition + 2,  // droite
+        playerPosition - 34, // haut
+        playerPosition + 34, // bas
+        playerPosition
+    ];
+
+    adjacentIndices.forEach(index => {
+        if (index >= 0 && index < cells.length) {
+            const cell = cells[index];
+            const currentVisibility = parseInt(cell.getAttribute('data-visibility')) || 0;
+            const newVisibility = currentVisibility + visibilityChange;
+
+            cell.setAttribute('data-visibility', newVisibility.toString());
+            updateCellAppearance(cell, newVisibility);
+            // Gérer la visibilité des éléments joueur dans la cellule
+            updatePlayerVisibility(cell, newVisibility);
+        }
+    });
+}
+function updatePlayerVisibility(cell, visibility) {
+    const players = cell.querySelectorAll('.player');
+    players.forEach(player => {
+        // Assurez-vous que la visibilité du joueur est mise à jour seulement si la cellule est visible
+        player.style.visibility = (visibility > 0) ? 'visible' : 'hidden';
+    });
+}
+function updateCellAppearance(cell, visibility) {
+    // Mettre à jour l'apparence de la cellule en fonction de la visibilité
+    cell.classList.toggle('visible', visibility > 0);
+    cell.classList.toggle('hidden', visibility <= 0);
+}
 function createPlayerElements() {
     const player1Element = document.createElement('div');
     player1Element.className = 'player player1';
@@ -91,10 +154,16 @@ function createPlayerElements() {
     document.body.appendChild(player1Element);
     document.body.appendChild(player2Element);
 }
+
 function updateCellAppearance(cell, visibility) {
     // Mettez à jour l'apparence de la cellule en fonction de la visibilité
-    cell.classList.toggle('visible', visibility >= 0);
-    cell.classList.toggle('hidden', visibility < 0);
+    if (cell) {
+        cell.classList.toggle('visible', visibility >= 0);
+        cell.classList.toggle('hidden', visibility < 0);
+    } else {
+        console.error('Tentative de mise à jour d\'une cellule qui n\'existe pas');
+    }
+
 }
 function clearCellVisualState(cell) {
     // Supprimez toutes les classes liées à l'état visuel de la cellule
@@ -209,7 +278,11 @@ let isInitialPlayer1 =true;
 let isInitialPlayer2 = true;
 
 function handleCellClick(cellIndex) {
+
     console.log("Current Player : " + currentPlayer + " Player Role = " + playerRole);
+    const cell = cells[cellIndex];
+    const visibility = parseInt(cell.getAttribute('data-visibility'));
+  //  if (visibility > 0) {
     if (lastGameStateUpdate === null && currentPlayer === playerRole) {
         // Sélection initiale du joueur
         if ((playerRole === 'player1' && player1Position === null) || (playerRole === 'player2' && player2Position === null)) {
@@ -235,6 +308,7 @@ function handleCellClick(cellIndex) {
     } else {
         console.log("Ce n'est pas votre tour ou mise à jour de l'état du jeu en attente.");
     }
+    //}
 }
 let temporaryWall;
 function handleWallClick(cellIndex,wallType){
@@ -414,28 +488,31 @@ function updateUIBasedOnGameState(updatedGameState) {
 }
 
 function updatePlayerPosition(position, player) {
-    // Trouver et mettre à jour la position du joueur sur le plateau
     if (position && typeof position.x === 'number' && typeof position.y === 'number') {
-        console.log("Player : " + player + ", Position : " + position);
-        const cellIndex = position.y + position.x * 17;
-        const cellId = 'cell-' + cellIndex;
-        const cell = document.getElementById(cellId);
+        const newPosition = position.y + position.x * 17;
+        const cell = cells[newPosition];
         let playerElement = document.querySelector(`.${player}`);
-
-        // const cellId = `cell-${position.x}-${position.y}`;
-        // const cell = document.getElementById(cellId);
-        // let playerElement = document.querySelector(`.${player}`);
 
         if (!playerElement) {
             playerElement = document.createElement('div');
-            playerElement.classList.add(player, 'player');
-            document.body.appendChild(playerElement); // Vous devrez peut-être l'ajouter ailleurs selon votre structure HTML
+            playerElement.className = `player ${player}`;
+            document.body.appendChild(playerElement);
         }
         if (cell && playerElement) {
-            cell.appendChild(playerElement);
-        }
-        else {
+            if (!cell.contains(playerElement)) {
+                cell.appendChild(playerElement);
+            }
+            // Mise à jour immédiate de la visibilité du joueur basée sur la cellule
+            const visibility = parseInt(cell.getAttribute('data-visibility'));
+            updatePlayerVisibility(cell, visibility);
+        } else {
             console.error('Position invalide fournie à updatePlayerPosition:', position);
+        }
+
+        if (player === 'player1') {
+            player1Position = newPosition;
+        } else {
+            player2Position = newPosition;
         }
     }
 }
