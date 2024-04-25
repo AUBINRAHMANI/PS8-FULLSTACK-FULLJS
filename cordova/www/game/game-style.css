@@ -15,15 +15,6 @@
 }
 
 
-.big-title {
-    text-align: center;
-    font-family:'Burbank','arial';
-    font-size: 15vw;
-    margin: 0;
-    padding-top: 10vw;
-    color:white;
-}
-
 .title {
     text-align: center;
     font-family:'Burbank','arial';
@@ -169,30 +160,6 @@ body {
 
 
 
-#readyButton {
-    background-color: #ffcc00;
-    color: black;
-    padding: 20px 40px;
-    font-size: 50px;
-    font-family:'Burbank','arial';
-    font-weight: bold;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-    transition: background-color 0.3s ease;
-}
-
-#readyButton:hover {
-    background-color: #cc9900;
-}
-
-
-.visible {
-}
-
-
 .hidden {
     background-color: rgba(0, 0, 255, 0.5);
     /*background-image: url('../files/Brouillard.png');*/
@@ -304,6 +271,35 @@ body {
     justify-content: center;
     align-items: center;
     height: 80vh; /* Ajustez la hauteur selon vos besoins */
+}
+
+#adversaireTour p {
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 9vw;
+    margin: 0;
+    padding-top: 10vw;
+    color:white;
+}
+
+
+#adversaireTour button {
+    background-color: #ffcc00;
+    color: black;
+    padding: 20px 40px;
+    font-size: 4.5vw;
+    font-family:'Burbank','arial';
+    font-weight: bold;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    transition: background-color 0.3s ease;
+}
+
+#adversaireTour button:hover {
+    background-color: #cc9900;
 }
 
 

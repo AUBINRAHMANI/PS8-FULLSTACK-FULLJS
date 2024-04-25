@@ -329,6 +329,9 @@ function handleInitialCellClick(event) {
 
     const cellIndex = cells.indexOf(event.target);
     if (cellIndex !== -1) {
+        console.log(cells);
+        console.log(currentPlayer);
+
         const row = Math.floor(cellIndex / 17);
         let visibility = (row < 7 &&  currentPlayer === 'player1') || (row > 8 && currentPlayer === 'player2') ? 1 : (row === 8 ? 0 : -1);
 
@@ -347,8 +350,27 @@ function handleInitialCellClick(event) {
         }
         cells[cellIndex].setAttribute('data-visibility', visibility);
 
-        updateCellAppearance(cells[cellIndex], visibility);
+    // Cacher le pion de l'adversaire s'il est visible
+    const opponentPlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
+    const opponentPosition = currentPlayer === 'player1' ? player2Position : player1Position;
+    if (opponentPosition !== null) {
+        const opponentCellIndex = cells.indexOf(opponentPosition);
+    }
+    if(currentPlayer === 'player2')
+    {
+        cells[2].setAttribute('data-visibility', -1); // Cacher la cellule 2
+        cells[34].setAttribute('data-visibility', -1); // Cacher la cellule 34
+        updateCellAppearance(cells[2], -1);
+        updateCellAppearance(cells[34], -1);
 
+    }
+    console.log("Tarik");
+
+
+        
+        updateCellAppearance(cells[opponentCellIndex], visibility);
+        updateCellAppearance(cells[cellIndex], visibility);
+        
     }
 }
 function resetFirstRowBackgroundColor(oppositeFirstRow) {
@@ -913,7 +935,10 @@ function isWallBetweenPositions(startIndex, endIndex) {
 }
 
 function openAntiCheatPage() {
-    const antiCheatUrl = '../acceuil/anti-cheat-sheet.html';
+
+    afficherTourAdversaire();
+
+    /*const antiCheatUrl = '../acceuil/anti-cheat-sheet.html';
 
     const width = 850;
     const height = 600;
@@ -924,7 +949,18 @@ function openAntiCheatPage() {
 
     if (antiCheatWindow) {
         antiCheatWindow.focus();
-    }
+    }*/
+}
+
+
+function cacherTourAdversaire() {
+    document.getElementById('adversaireTour').style.display = 'none';
+    document.querySelector('.main-column').style.display = 'block'; // Afficher la colonne centrale
+}
+
+function afficherTourAdversaire() {
+    document.getElementById('adversaireTour').style.display = 'block';
+    document.querySelector('.main-column').style.display = 'none'; // Cacher la colonne centrale
 }
 
 
