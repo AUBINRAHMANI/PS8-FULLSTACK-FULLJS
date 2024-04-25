@@ -347,8 +347,21 @@ function handleInitialCellClick(event) {
         }
         cells[cellIndex].setAttribute('data-visibility', visibility);
 
-        updateCellAppearance(cells[cellIndex], visibility);
 
+
+
+
+
+            
+    // Cacher le pion de l'adversaire s'il est visible
+    const opponentPlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
+    const opponentPosition = currentPlayer === 'player1' ? player2Position : player1Position;
+    if (opponentPosition !== null) {
+        const opponentCellIndex = cells.indexOf(opponentPosition);
+        updateCellAppearance(cells[opponentCellIndex], visibility);
+    }
+        updateCellAppearance(cells[cellIndex], visibility);
+        
     }
 }
 function resetFirstRowBackgroundColor(oppositeFirstRow) {
