@@ -305,3 +305,162 @@ body {
     align-items: center;
     height: 80vh; /* Ajustez la hauteur selon vos besoins */
 }
+
+
+
+
+
+
+/* Media query pour les écrans de moins de 768px de largeur */
+@media only screen and (max-width: 768px) {
+
+    .grid-cell {
+        width: 20px; /* Ajustez selon les besoins */
+        height: 20px; /* Ajustez selon les besoins */
+        border: 1px solid black;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    /* Modifier le conteneur principal pour organiser les éléments verticalement */
+    .main-container {
+        grid-template-columns: 1fr; /* Une seule colonne */
+        gap: 10px; /* Réduction de l'espace entre les éléments */
+        padding: 10px; /* Ajuster le padding */
+    }
+
+    /* Masquer les colonnes latérales pour les petits écrans */
+    /*.left-column,*/
+    /*.right-column {*/
+    /*    display: none;*/
+    /*}*/
+
+    /* Afficher les images et les informations du joueur au-dessus et en dessous du plateau de jeu */
+    .main-column {
+        margin-top:50px;
+        order: 2; /* La colonne principale vient en second */
+    }
+
+    .title-container,
+    .menu {
+        order: 1; /* Le titre et le menu viennent en premier */
+        padding: 10px 0; /* Ajuster le padding vertical */
+    }
+
+    /* Placer le contenu des colonnes de gauche et de droite au-dessus et en dessous du plateau de jeu */
+    .left-column,
+    .right-column {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+
+    .left-column {
+        padding-bottom: 50px;
+    }
+
+    .left-column {
+        top: 40px; /* Colonne de gauche en haut */
+    }
+
+    .right-column {
+        bottom: 0; /* Colonne de droite en bas */
+    }
+
+    /* Adapter la grille de jeu pour la rendre plus petite et centrée */
+    /*.board {*/
+    /*    width: 100vw; !* Utiliser la totalité de la largeur de l'écran *!*/
+    /*    height: auto; !* Hauteur automatique *!*/
+    /*    max-width: none; !* Enlever la largeur maximale *!*/
+    /*    max-height: none; !* Enlever la hauteur maximale *!*/
+    /*    grid-template-columns: repeat(17, 1fr); !* Ajuster le nombre de colonnes si nécessaire pour les petits écrans *!*/
+    /*    grid-template-rows: repeat(17, auto); !* La hauteur des lignes devient automatique *!*/
+    /*}*/
+
+    .board {
+        display: grid;
+        grid-template-columns: repeat(17, 1fr);
+        grid-template-rows: repeat(17, 1fr);
+        width: 80vw; /* Utilisation de 80% de la largeur de la vue */
+        max-width: 600px; /* Ajout d'une largeur maximale */
+        height: 50vh; /* Utilisation de 80% de la hauteur de la vue */
+        max-height: 600px; /* Ajout d'une hauteur maximale */
+        border: 2px solid #000;
+        margin: auto; /* Ajout pour centrer la grille */
+        align-self: flex-start;
+    }
+
+
+    .cell:not(.border-column):not(.border-row) {
+        width: 30px;
+        height: 30px;
+    }
+
+
+
+    /* Adapter les tailles des images */
+    .small-image {
+        width: 50px; /* Réduire la taille de l'image */
+        height: 50px; /* Réduire la taille de l'image */
+        display: none;
+    }
+
+
+    /* Réduire la taille des textes */
+    .title,
+    .sub-title,
+    .walls-remaining,
+    .timer
+    .quitButton{
+        font-size: 1rem; /* Adapter la taille de la police */
+    }
+
+
+    #walls-remaining,
+    #quitButton {
+        font-size: 0.5rem; /* Adapter la taille de la police */
+    }
+
+
+    #quitButton {
+        display: none;
+    }
+
+
+    #wallsRemainingPlayer1,
+    #wallsRemainingPlayer2 {
+        font-size: 15px;
+        padding: 5px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        margin-right: auto; /* Ajustement de la marge droite à auto pour centrer horizontalement */
+        margin-left: auto; /* Ajustement de la marge gauche à auto pour centrer horizontalement */
+        width: 120px; /* Ajustez la largeur selon vos besoins */
+    }
+
+
+
+    /* Réduire la taille des boutons */
+    #readyButton,
+    .button-container button {
+        font-size: 1rem; /* Adapter la taille de la police */
+        padding: 5px 5px; /* Réduire le padding */
+    }
+
+
+
+    .timer {
+        font-family: 'Burbank';
+        font-size: 15px;
+        margin: 10px auto;
+        padding: 5px;
+        width: 60px;
+    }
+
+
+
+
+
+}

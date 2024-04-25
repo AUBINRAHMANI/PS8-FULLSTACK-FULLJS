@@ -15,19 +15,15 @@
 
 
 <div id="matchmakingStatus">Recherche d'un adversaire...</div>
-<button id="quitGame">Quitter la Partie</button>
-<script>
-    document.getElementById('quitGame').addEventListener('click', function() {
-        window.location.href = '../acceuil/acceuil.html';
-    });
-</script>
+
+
 <div id="gameBoard" style="display:none;">
     <div class="menu"></div>
 
     <!-- Espace pour le titre -->
-    <div class="title-container">
-        <h1 class="title">Quortnite</h1>
-    </div>
+<!--    <div class="title-container">-->
+<!--        <h1 class="title">Quortnite</h1>-->
+<!--    </div>-->
     <!-- Contenu du Board du Jeu ici -->
     <!-- Exemple simple d'un board -->
     <!-- Trois colonnes : une grande colonne centrale et deux colonnes adjacentes plus fines -->
@@ -63,6 +59,13 @@
             </div>
 
             <div class="quitButton"> <button id="quitButton">Quitter</button> </div>
+            <button id="quitGame">Quitter la Partie</button>
+            <script>
+                document.getElementById('quitGame').addEventListener('click', function() {
+                    window.location.href = '../acceuil/acceuil.html';
+                });
+
+            </script>
 
         </div>
     </div>
