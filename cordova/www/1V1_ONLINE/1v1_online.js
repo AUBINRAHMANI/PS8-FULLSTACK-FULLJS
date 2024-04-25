@@ -85,14 +85,27 @@ function initializeGameBoard(playerRole) {
 function setInitialVisibility(playerRole) {
     cells.forEach((cell, index) => {
         const row = Math.floor(index / 17);
-        // Condition pour déterminer si la cellule doit être visible ou cachée
-        if ((playerRole === 'player1' && row < 9) || (playerRole === 'player2' && row >= 9)) {
-            cell.setAttribute('data-visibility', '1');
-            updateCellAppearance(cell, 1); // Rendre la cellule visible
-        } else {
-            cell.setAttribute('data-visibility', '-1');
-            updateCellAppearance(cell, -1); // Rendre la cellule cachée sous le brouillard de guerre
+
+        if (row < 8) { // Les cellules du joueur 1 sont visibles pour lui-même
+            cell.setAttribute('data-visibility-player1', '1');
+        } else if (row > 8) { // Les cellules du joueur 2 sont visibles pour lui-même
+            cell.setAttribute('data-visibility-player2', '1');
         }
+
+        // Les cellules de la ligne de bataille sont visibles pour les deux joueurs
+        if (row === 8) {
+            cell.setAttribute('data-visibility-player1', '1');
+            cell.setAttribute('data-visibility-player2', '1');
+        }
+
+        // Par défaut, les cellules sont invisibles pour l'autre joueur
+        if (row < 8) {
+            cell.setAttribute('data-visibility-player2', '-1');
+        } else if (row > 8) {
+            cell.setAttribute('data-visibility-player1', '-1');
+        }
+
+        updateCellAppearance(cell, parseInt(cell.getAttribute(`data-visibility-${playerRole}`)));
     });
 }
 
@@ -137,23 +150,17 @@ function updateFogOfWar(playerPosition, visibilityChange, player) {
 }
 function updatePlayerVisibility(cell, visibility, player) {
     const playerElement = cell.querySelector(`.player.${player}`);
-    // Utilisez l'attribut de visibilité du joueur actuel
-    const visibilityAttribute = `data-visibility-${playerRole}`;
-
-    console.log(`Mise à jour visibilité pour le joueur ${player}:`, playerElement);
-
     if (playerElement) {
-        const cellVisibility = parseInt(cell.getAttribute(visibilityAttribute)) || 0;
-        console.log(`Visibilité de la cellule pour ${playerRole}: ${cellVisibility}`);
+        const playerVisibility = parseInt(cell.getAttribute(`data-visibility-${player}`)) || 0;
+        const otherPlayer = player === 'player1' ? 'player2' : 'player1';
+        const otherPlayerVisibility = parseInt(cell.getAttribute(`data-visibility-${otherPlayer}`)) || 0;
 
-        if (player !== playerRole && cellVisibility <= 0) {
-            // Si le joueur dans la cellule n'est pas le joueur actuel et que la cellule est dans le brouillard pour le joueur actuel
-            console.log(`Cacher le joueur ${player} qui est dans le brouillard.`);
-            playerElement.style.visibility = 'hidden';
-        } else {
-            // Si le joueur dans la cellule est le joueur actuel OU la cellule est visible pour le joueur actuel
-            console.log(`Afficher le joueur ${player} qui est visible.`);
+        if (player === playerRole) {
             playerElement.style.visibility = 'visible';
+        } else if (otherPlayerVisibility > 0) {
+            playerElement.style.visibility = 'visible';
+        } else {
+            playerElement.style.visibility = 'hidden';
         }
     }
 }
