@@ -346,12 +346,6 @@ function handleInitialCellClick(event) {
             alert("Joueur " + (currentPlayer === 'player1' ? '1' : '2') + ", veuillez choisir une case dans la ligne appropriée.");
         }
         cells[cellIndex].setAttribute('data-visibility', visibility);
-
-
-
-
-
-
             
     // Cacher le pion de l'adversaire s'il est visible
     const opponentPlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
@@ -926,7 +920,10 @@ function isWallBetweenPositions(startIndex, endIndex) {
 }
 
 function openAntiCheatPage() {
-    const antiCheatUrl = '../acceuil/anti-cheat-sheet.html';
+
+    afficherTourAdversaire();
+
+    /*const antiCheatUrl = '../acceuil/anti-cheat-sheet.html';
 
     const width = 850;
     const height = 600;
@@ -937,7 +934,18 @@ function openAntiCheatPage() {
 
     if (antiCheatWindow) {
         antiCheatWindow.focus();
-    }
+    }*/
+}
+
+
+function cacherTourAdversaire() {
+    document.getElementById('adversaireTour').style.display = 'none';
+    document.querySelector('.main-column').style.display = 'block'; // Afficher la colonne centrale
+}
+
+function afficherTourAdversaire() {
+    document.getElementById('adversaireTour').style.display = 'block';
+    document.querySelector('.main-column').style.display = 'none'; // Cacher la colonne centrale
 }
 
 
