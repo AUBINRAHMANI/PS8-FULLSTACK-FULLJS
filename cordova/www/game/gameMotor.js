@@ -329,6 +329,9 @@ function handleInitialCellClick(event) {
 
     const cellIndex = cells.indexOf(event.target);
     if (cellIndex !== -1) {
+        console.log(cells);
+        console.log(currentPlayer);
+
         const row = Math.floor(cellIndex / 17);
         let visibility = (row < 7 &&  currentPlayer === 'player1') || (row > 8 && currentPlayer === 'player2') ? 1 : (row === 8 ? 0 : -1);
 
@@ -346,14 +349,26 @@ function handleInitialCellClick(event) {
             alert("Joueur " + (currentPlayer === 'player1' ? '1' : '2') + ", veuillez choisir une case dans la ligne appropriée.");
         }
         cells[cellIndex].setAttribute('data-visibility', visibility);
-            
+
     // Cacher le pion de l'adversaire s'il est visible
     const opponentPlayer = currentPlayer === 'player1' ? 'player2' : 'player1';
     const opponentPosition = currentPlayer === 'player1' ? player2Position : player1Position;
     if (opponentPosition !== null) {
         const opponentCellIndex = cells.indexOf(opponentPosition);
-        updateCellAppearance(cells[opponentCellIndex], visibility);
     }
+    if(currentPlayer === 'player2')
+    {
+        cells[2].setAttribute('data-visibility', -1); // Cacher la cellule 2
+        cells[34].setAttribute('data-visibility', -1); // Cacher la cellule 34
+        updateCellAppearance(cells[2], -1);
+        updateCellAppearance(cells[34], -1);
+
+    }
+    console.log("Tarik");
+
+
+        
+        updateCellAppearance(cells[opponentCellIndex], visibility);
         updateCellAppearance(cells[cellIndex], visibility);
         
     }
