@@ -48,13 +48,13 @@ p,
 p1 {
     font-size: 20px; /* Taille de police du texte */
     line-height: 1.5; /* Hauteur de ligne */
-    font-family: 'fantasy';
+    font-family: 'Burbank';
     margin-top: 10px; /* Réduisez l'espace au-dessus de p1 */
     margin-bottom: 10px; /* Ajoutez de l'espace en dessous de p1 */
 }
 
 .container {
-    display: flex;
+
     flex-wrap: wrap;
     width: 85%; /* Largeur du conteneur principal */
     margin: 0 auto; /* Centrage horizontal */
@@ -99,6 +99,43 @@ a:hover {
         width: 100%;
         margin: 0; /* Réinitialisation des marges pour les éléments empilés verticalement */
     }
+
+
+    .container {
+        flex-direction: column;
+    }
+
+    .image {
+        width: 50%;
+        max-width: none;
+        margin: 0; /* Réinitialisation des marges pour les éléments empilés verticalement */
+    }
+
+
+    .content1 {
+        padding-top: 100px;
+        font-family: 'Burbank', Arial, sans-serif;
+    }
+
+    .p{
+        font-family: 'Burbank', Arial, sans-serif;
+    }
+
+    h1{
+        font-size: 20px;
+    }
+
+    .title{
+        font-size: 2.5rem;
+    }
+
+    .content1 p,
+    .content1 .p1 {
+        font-family: 'Burbank', Arial, sans-serif;
+        font-size: 20px; /
+    line-height: 1.5;
+    }
+
 }
 
 h2,
@@ -113,4 +150,31 @@ p1,
     top: 30%; /* Ajustez la valeur selon vos besoins */
     transform: translateY(-30%);
 }
+
+
+
+
+@media (orientation: portrait) {
+    h1 {
+        font-size: 4vh; /* Ajustez la taille pour les écrans en orientation portrait */
+    }
+
+    h2, h3 {
+        font-size: 3vh; /* Réduire la taille des titres pour l'orientation portrait */
+    }
+
+    p, p1 {
+        font-size: 2vh; /* Réduire la taille du texte pour l'orientation portrait */
+    }
+
+    .image img {
+        width: 80%; /* Réduire la taille de l'image pour l'orientation portrait */
+        margin: 0 auto; /* Centrer l'image horizontalement */
+    }
+
+    .container, .content1, .content2 {
+        padding: 0 5%; /* Ajouter du padding de chaque côté */
+    }
+}
+
 

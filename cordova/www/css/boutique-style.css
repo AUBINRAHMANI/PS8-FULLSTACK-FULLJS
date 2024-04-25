@@ -156,5 +156,6 @@ h1 {
 .product:hover .product-name{
     color: rgba(7, 27, 82, 0.8); /* Changer la couleur du texte en noir lors du survol */
     font-size: 60px;
-
 }
+
+
