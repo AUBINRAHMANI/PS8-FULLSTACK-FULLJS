@@ -1,0 +1,119 @@
+#menu-buttons > * > button {
+    cursor: pointer;
+    border: none;
+    border-radius: 1000px;
+    font-size: 1.7vw; /* Utilisation de vw pour la taille de la police */
+    width: 100%;
+    height: 4vh; /* Utilisation de vh pour la hauteur */
+    padding: 1vh 2vw; /* Utilisation de vw et vh pour le rembourrage */
+    background-color: var(--dark-accentuation-color);
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    height: calc(20vh - var(--header-height));
+    flex-direction: row;
+    align-items: center;
+    background-color: white;
+}
+
+.nav-bar {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 8vh; /* Nouvelle taille de la barre de navigation en utilisant vh */
+    transition: height 0.3s ease; /* Ajout d'une transition pour une animation douce */
+}
+
+.nav-bar .nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 0 2vw; /* Utilisation de vw pour le rembourrage horizontal */
+}
+
+nav > div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3vw; /* Utilisation de vw pour la marge gauche */
+    margin-right: 3vw; /* Utilisation de vw pour la marge droite */
+}
+
+nav > div img {
+    width: 3.5vw; /* Utilisation de vw pour la largeur de l'icône */
+}
+
+nav > div > * {
+    display: flex;
+    padding: var(--icon-padding);
+    margin-right: 3vw; /* Utilisation de vw pour l'espacement entre les icônes */
+}
+
+#menu-icons {
+    height: 100%;
+}
+
+#menu-icons *:first-child,
+#menu-buttons *:first-child {
+    padding-top: 0px;
+}
+
+#menu-icons *:last-child,
+#menu-buttons *:last-child {
+    padding-bottom: 0;
+}
+
+#menu-buttons {
+    height: 100%;
+    background: var(--light-accentuation-grey);
+    display: none;
+    position: absolute;
+    left: calc(5vw + 2 * var(--icon-padding)); /* Utilisation de vw pour la position gauche */
+    padding-top: var(--header-height);
+    top: 0;
+}
+
+@media (max-width: 715px) {
+    .nav-link img {
+        width: 4vw; /* Utilisation de vw pour la largeur de l'icône */
+        height: 4vw; /* Utilisation de vw pour la hauteur de l'icône */
+    }
+}
+
+@media (max-width: 615px) {
+    .nav-link img {
+        width: 3.5vw; /* Utilisation de vw pour la largeur de l'icône */
+        height: 3.5vw; /* Utilisation de vw pour la hauteur de l'icône */
+        margin-right: -1vw; /* Utilisation de vw pour la marge droite */
+    }
+}
+
+@media (orientation: portrait) and (max-width: 480px) {
+    #menu-buttons {
+        width: calc(100% - 5vw - 3 * var(--icon-padding)); /* Utilisation de vw pour la largeur */
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-bar {
+        height: 6vh; /* Taille réduite de la barre de navigation pour les écrans moyens */
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-bar {
+        height: 4vh; /* Taille réduite de la barre de navigation pour les écrans plus petits */
+    }
+}

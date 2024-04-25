@@ -1,0 +1,19 @@
+main {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+    h1 {
+        font-size: 1em;
+    }
+}
+
+
+@media (orientation: portrait) {
+    h1 {
+        font-size: 1em;
+    }
+}

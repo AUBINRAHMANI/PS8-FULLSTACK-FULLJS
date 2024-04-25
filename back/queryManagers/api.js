@@ -1,9 +1,4 @@
 // Main method, exported at the end of the file. It's the one that will be called when a REST request is received.
-
-
-
-
-
 import {BODY, PARAMS, sendResponse, urlNotFound} from "./utilsApi.js";
 import {userLogIn, userSignUp} from "./user/accountApi.js";;
 import {friendsApiDelete, friendsApiGet, friendsApiPost} from "./friends/apiFriends.js";
@@ -19,7 +14,7 @@ import {
     SIGNUP_API,
     STATS_API,
     USERS_API
-} from "../../front/util/path.js";
+} from "../../cordova/www/util/path.js";
 
 
 
@@ -301,10 +296,5 @@ async function manageRequest(request, response) {
 
 connectToDb().catch(console.error);
 */
-
-
-
-
-
 
 

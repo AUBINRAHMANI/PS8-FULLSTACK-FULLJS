@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1v1 Online Matchmaking</title>
+    <link rel="stylesheet" href="1v1_online.css">
+    <script src="../menu/burgermenu.js" type="module"></script>
+    <script src="../menu/burgermenu_open_close_button.js" type="module"></script>
+</head>
+<body>
+
+<header>
+    <burger-menu></burger-menu>
+</header>
+
+
+<div id="matchmakingStatus">Recherche d'un adversaire...</div>
+<button id="quitGame">Quitter la Partie</button>
+<script>
+    document.getElementById('quitGame').addEventListener('click', function() {
+        window.location.href = '../acceuil/acceuil.html';
+    });
+</script>
+<div id="gameBoard" style="display:none;">
+    <div class="menu"></div>
+
+    <!-- Espace pour le titre -->
+    <div class="title-container">
+        <h1 class="title">Quortnite</h1>
+    </div>
+    <!-- Contenu du Board du Jeu ici -->
+    <!-- Exemple simple d'un board -->
+    <!-- Trois colonnes : une grande colonne centrale et deux colonnes adjacentes plus fines -->
+    <div class="main-container">
+        <div class="left-column">
+            <img src="../data/images/Huzog.png" alt="character" class="small-image">
+            <div class="orange-box">
+                <h3 class="sub-title">Huzog</h3>
+            </div>
+            <div id="wallsRemainingPlayer1" class="walls-remaining">Remaining walls: 10</div>
+            <div class="timer" id="player1Timer">00:40</div>
+            <div class="button-container">
+                <button id="validateButtonPlayer1" style="display: none;">Valider</button>
+                <button id="cancelButtonPlayer1" style="display: none;">Annuler</button>
+            </div>
+        </div>
+
+        <div class="main-column">
+            <!-- Contenu de la colonne centrale (grille de jeu) -->
+            <div id="board" class="board"></div>
+        </div>
+
+        <div class="right-column">
+            <img src="../data/images/Wassim.png" alt="character" class="small-image">
+            <div class="orange-box">
+                <h3 class="sub-title">Wassim</h3>
+            </div>
+            <div id="wallsRemainingPlayer2" class="walls-remaining">Remaining walls: 10</div>
+            <div class="timer" id="player2Timer">00:40</div>
+            <div class="button-container">
+                <button id="validateButtonPlayer2" style="display: none;">Valider</button>
+                <button id="cancelButtonPlayer2" style="display: none;">Annuler</button>
+            </div>
+
+            <div class="quitButton"> <button id="quitButton">Quitter</button> </div>
+
+        </div>
+    </div>
+
+    <table id="quortniteGrid"></table>
+
+</div>
+<script src="../sockets/socket.io.js"></script>
+<script src="1v1_online.js"></script>
+
+</body>
+</html>

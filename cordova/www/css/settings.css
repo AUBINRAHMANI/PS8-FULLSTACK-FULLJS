@@ -1,0 +1,128 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #4a90e2;
+}
+
+@font-face {
+  font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+  src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
+  /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+body {
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+  background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+  background-position: center; /* Centre l'image horizontalement et verticalement */
+  background-repeat: no-repeat; /* Évite la répétition de l'image */
+}
+
+.container {
+  text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.sound-text {
+  position: relative;
+  z-index: 1; /* Assure que le texte est au-dessus de l'image de fond */
+  color: white;
+  font-size: 24px; /* Ajustez la taille du texte au besoin */
+}
+
+.toggle-container {
+  display: flex; /* Use flexbox for layout */
+  align-items: center; /* Center align items vertically */
+  justify-content: center; /* Center align items horizontally */
+  margin-top: 20px; /* Adjust top margin as needed */
+}
+
+.toggle-container p {
+  margin-right: 20px; /* Adjust margin between text and toggle */
+  font-family:'Burbank','arial';
+  color: azure;
+  font-size: 35px;
+
+}
+
+h1 {
+  font-family:'Burbank','arial';
+  color: white;
+  margin: 0;
+  font-size: 7em;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  height: 44px;
+}
+
+.switch input { 
+ opacity: 0;
+ width: 0;
+ height: 0;
+}
+.slider {
+ position: absolute;
+ cursor: pointer;
+ top: 0;
+ left: 0;
+ right: 0;
+ bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  /*border-radius: 40%;  Ajoutez un arrondi au bouton de bascule */
+
+
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 36px;
+  width: 36px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  /*border-radius: 50%;*/
+}
+
+input:checked + .slider {
+ background-color: #2196F3;
+}
+input:focus + .slider {
+ box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(40px);
+  -ms-transform: translateX(40px);
+  transform: translateX(40px);
+  left: calc(100% - 80px); /* Faites glisser le bouton de bascule jusqu'au bout du switch */
+}
+
+/* Rounded sliders */
+.slider.round{
+  border-radius: 34px;
+}
+.slider.round::before{
+  border-radius: 50%;
+}
+
+
+@media (orientation: portrait) {
+    h1 {
+        font-size: 2em;
+    }
+}
+

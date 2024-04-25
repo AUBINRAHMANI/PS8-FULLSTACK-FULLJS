@@ -1,0 +1,92 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+}
+
+
+
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+body {
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url('../data/images/BlueBackground.png'); /* Remplacez par le chemin de votre image */
+    background-size: cover; /* Ajuste la taille de l'image pour couvrir l'ensemble de l'élément */
+    background-position: center; /* Centre l'image horizontalement et verticalement */
+    background-repeat: no-repeat; /* Évite la répétition de l'image */
+}
+
+.page-title{
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 3rem;
+    margin: 0;
+    padding: 0rem;
+    color:white;
+}
+
+main {
+    padding: 0 0;
+
+}
+
+main > * {
+    margin-left: 10px;
+    margin-top: 35px;
+    margin-bottom: 35px;
+    text-align: center;
+}
+
+#salutation {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+#success-title {
+    margin-top: 60px;
+}
+
+li {
+    margin-left: 2em;
+}
+
+
+@media (width <= 480px) and (orientation: portrait) {
+    #achievements > div {
+        width: 50%;
+        height: 50%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media (orientation: landscape) and (height <= 480px) {
+
+    #achievements {
+        flex-wrap: wrap;
+    }
+
+    #achievements > div {
+        flex: 1 0 33%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    h1 {
+        font-size: 1em;
+    }
+}
+
+
+@media  (orientation: portrait) {
+    h1 {
+        font-size: 1em;
+    }
+}

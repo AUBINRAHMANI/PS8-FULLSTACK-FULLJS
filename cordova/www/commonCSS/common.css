@@ -1,0 +1,194 @@
+@import "../menu/burgermenu.css";
+@import "header.css";
+@import "../templates/userInList/UserRepesentationInList.css";
+@import "../templates/notificationInList/NotificationRepesentationInList.css";
+@import "../templates/popUp/popUp.css";
+@import "CSSvariables.css";
+@import "../templates/achievement/achievement.css";
+@import "../chat/chat.css";
+
+
+body, html {
+    height: 100vh;
+    width: 100vw;
+    min-width: 10vw; /* Modifier en fonction de vos besoins */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #4a90e2;
+    background-image: url('../data/images/BlueBackground.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+@font-face {
+    font-family: 'Burbank'; /* Choisissez un nom pour votre police */
+    src: url('../data/font/BurbankBigCondensedBlack.otf') format('opentype');
+    /* Ajoutez des déclarations supplémentaires si nécessaire */
+}
+
+body {
+    justify-content: center;
+}
+
+.page-title{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-family:'Burbank','arial';
+    font-size: 8vw;
+    margin: 0;
+    padding: 0rem;
+    color:white;
+}
+
+
+
+* {
+    font-family: 'Burbank',sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    margin-top: 4vw;
+    flex-direction: column;
+    align-items: center; /* Centrer les éléments horizontalement */
+    padding: 5vw;
+}
+
+.burger-menu,
+.top-page {
+    margin: 2vw 0; /* Modifier en fonction de vos besoins */
+}
+
+/* Vous pouvez ajuster les marges individuellement si nécessaire */
+.burger-menu {
+    margin-bottom: 4vw; /* Ajuster la marge inférieure du burger-menu */
+}
+
+.top-page {
+    margin-top: 4vw; /* Ajuster la marge supérieure de la top-page */
+}
+
+
+
+
+/* main depends on every page, check each page css */
+h1 {
+    text-align: center;
+}
+
+/* buttons */
+button {
+    margin: 1vw;
+    padding: 2vw;
+    border: none;
+    border-radius: 1000px;
+    font-size: 2vw;
+    cursor: pointer;
+}
+
+button a {
+    text-align: center;
+
+    width: 100%;
+    height: 100%;
+
+    text-decoration: none;
+    color: black;
+}
+
+button:hover {
+    background-color: var(--very-dark-accentuation-color);
+}
+
+/* input */
+.text-input {
+    border: none;
+    border-radius: 2vw;
+    padding: 1vw;
+    font-size: 1.5vw;
+    text-align: center;
+    width: 90vw;
+}
+
+#bottom-content {
+    display: grid;
+    margin-top: 10vh;
+}
+
+/* classes */
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-column-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-background {
+    background-color: #FFFFFF;
+}
+
+
+.hidden {
+    visibility: hidden;
+}
+
+/* table */
+
+th {
+    background-color: var(--dark-accentuation-color);
+}
+
+td, th {
+    padding: 5vw 10vw;
+    border: 1px solid black;
+}
+
+
+
+table {
+    border-collapse: collapse;
+}
+
+
+@media (min-width: 400px) {
+    body {
+        min-width: 300px; /* Largeur maximale de la page */
+        margin: 0 auto; /* Centrer la page horizontalement */
+    }
+
+    .page-title h1{
+        font-size: 8vw;
+    }
+
+}
+
+@media (width <= 655px) {
+    header > .top-page > .page-title {
+        width: 30%;
+        min-width: 250px;
+    }
+}
+

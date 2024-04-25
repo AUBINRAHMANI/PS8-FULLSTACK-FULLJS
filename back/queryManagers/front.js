@@ -1,4 +1,3 @@
-
 // url will be used to parse the url (captain obvious at your service).
 //const url = require('url');
 import * as url from 'url';
@@ -15,7 +14,7 @@ import {sendResponse} from "./utilsApi.js";
 // We will limit the search of files in the front folder (../../front from here).
 // Note that fs methods consider the current folder to be the one where the app is run, that's why we don't need the "../.." before front.
 
-const baseFrontPath = '/front';
+const baseFrontPath = '/cordova/www';
 
 // If the user requests a directory, a file can be returned by default.
 const defaultFileIfFolder = "index.html";
@@ -84,6 +83,5 @@ function send404(path, response) {
     response.statusCode = 404;
     response.end(`File ${path} not found!`);
 }
-
 
 export {manageRequest as manage};
