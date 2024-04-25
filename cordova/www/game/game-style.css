@@ -329,13 +329,14 @@ body {
     }
 
     /* Masquer les colonnes latérales pour les petits écrans */
-    .left-column,
-    .right-column {
-        display: none;
-    }
+    /*.left-column,*/
+    /*.right-column {*/
+    /*    display: none;*/
+    /*}*/
 
     /* Afficher les images et les informations du joueur au-dessus et en dessous du plateau de jeu */
     .main-column {
+        margin-top:50px;
         order: 2; /* La colonne principale vient en second */
     }
 
@@ -351,10 +352,16 @@ body {
         position: absolute;
         width: 100%;
         left: 0;
+        background-color: rgba(255, 255, 255, 0);
+    }
+
+
+    .left-column {
+        padding-bottom: 50px;
     }
 
     .left-column {
-        top: 0; /* Colonne de gauche en haut */
+        top: 40px; /* Colonne de gauche en haut */
     }
 
     .right-column {
@@ -394,8 +401,9 @@ body {
 
     /* Adapter les tailles des images */
     .small-image {
-        width: 100px; /* Réduire la taille de l'image */
-        height: 100px; /* Réduire la taille de l'image */
+        width: 50px; /* Réduire la taille de l'image */
+        height: 50px; /* Réduire la taille de l'image */
+        display: none;
     }
 
 
@@ -403,17 +411,52 @@ body {
     .title,
     .sub-title,
     .walls-remaining,
-    .timer {
-        font-size: 2rem; /* Adapter la taille de la police */
+    .timer
+    .quitButton{
+        font-size: 1rem; /* Adapter la taille de la police */
     }
+
+
+    #walls-remaining,
+    #quitButton {
+        font-size: 0.5rem; /* Adapter la taille de la police */
+    }
+
+
+    #quitButton {
+        display: none;
+    }
+
+
+    #wallsRemainingPlayer1,
+    #wallsRemainingPlayer2 {
+        font-size: 15px;
+        padding: 5px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        margin-right: auto; /* Ajustement de la marge droite à auto pour centrer horizontalement */
+        margin-left: auto; /* Ajustement de la marge gauche à auto pour centrer horizontalement */
+        width: 120px; /* Ajustez la largeur selon vos besoins */
+    }
+
+
 
     /* Réduire la taille des boutons */
     #readyButton,
     .button-container button {
-        font-size: 1.5rem; /* Adapter la taille de la police */
-        padding: 10px 20px; /* Réduire le padding */
+        font-size: 1rem; /* Adapter la taille de la police */
+        padding: 5px 5px; /* Réduire le padding */
     }
 
+
+
+    .timer {
+        font-family: 'Burbank';
+        font-size: 15px;
+        margin: 10px auto;
+        padding: 5px;
+        width: 60px;
+    }
 
 
 
